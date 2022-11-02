@@ -4,10 +4,11 @@
 #define __MESINKATA_H__
 
 #include "../boolean.h"
-#include "mesinkarakter.h"
+#include "mesin_karakter.h"
 
 #define NMax 50
 #define BLANK ' '
+#define NEWLINE '\n'
 
 typedef struct
 {
@@ -30,6 +31,12 @@ void STARTWORD();
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
+void STARTWORDFILE(char *FileName);
+/* I.S. : currentChar sembarang
+   F.S. : EndWord = true, dan currentChar = MARK;
+          atau EndWord = false, currentWord adalah kata yang sudah diakuisisi dari file,
+          currentChar karakter pertama sesudah karakter terakhir kata */
+
 void ADVWORD();
 /* I.S. : currentChar adalah karakter pertama kata yang akan diakuisisi
    F.S. : currentWord adalah kata terakhir yang sudah diakuisisi,
@@ -44,5 +51,10 @@ void CopyWord();
           currentChar = BLANK atau currentChar = MARK;
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
+
+void WordToString(Word Kata, char *s);
+/* Proses : Menerima kata dalam bentuk Word lalu mengubahnya ke bentuk string
+   I.S. : currentWord terdefinisi
+   F.S. : terbentuk sebuah string s yang berisi char dari currentWord*/
 
 #endif

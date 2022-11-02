@@ -1,133 +1,116 @@
+/* Implementasi array menggunakan konsep array dinamis */
+
+#ifndef __ARRAY_DINAMIK__
+#define __ARRAY_DINAMIK__
+
 #include "../boolean.h"
 
-#ifndef ARRAY_H
-#define ARRAY_H
+#define InitialSize 10
 
-/* Kamus Umum */
-
-#define IdxMax 100
-#define IdxMin 1
-#define IdxUndef -999 /* indeks tak terdefinisi*/
-
-/* Definisi elemen dan koleksi objek */
 typedef int IdxType;
-typedef int ElType;
+typedef char *ElType;
+typedef struct {
+    ElType *A;
+    int Capacity;
+    int Neff;
+} array;
 
-typedef struct
-	{
-		ElType TI [IdxMax-IdxMin+1]; /* memori tempat penyimpan elemen (container) */
-		int Neff; /* banyaknya elemen efektif */
-	} array;
+/**
+ * Konstruktor
+ * I.S. sembarang
+ * F.S. Terbentuk array kosong dengan ukuran InitialSize
+ */
+array Makearray();
 
-/* Indeks yang digunakan [IdxMin..IdxMax] */
-/* Jika T adalah array, cara deklarasi dan akses: */
-/* Deklarasi : T : array */
-/* Maka cara akses:
- * T.Neff untuk mengetahui banyaknya elemen
- * T.TI untuk mengakses seluruh nilai elemen tabel
- * T.TI[i] untuk mengakses elemen ke-i */
-/* Definisi :
- * Tabel kosong: T.Neff = 0
- * Definisi elemen pertama : T.TI[i] dengan i=1
- * Definisi elemen terakhir yang terdefinisi: T.TI[i] dengan i=T.Neff */
+/**
+ * Destruktor
+ * I.S. array terdefinisi
+ * F.S. array->A terdealokasi
+ */
+void Deallocatearray(array *arr);
 
-/* ********** KONSTRUKTOR ********** */
-/* Konstruktor : create tabel kosong */
-void MakeEmpty (array *T);
-/* I.S. sembarang */
-/* F.S. Terbentuk tabel T kosong dengan kapasitas IdxMax-IdxMin+1 */
+/**
+ * Fungsi untuk mengetahui apakah suatu array kosong.
+ * Prekondisi: array terdefinisi
+ */
+boolean IsEmpty(array arr);
 
-/* ********** SELEKTOR ********** */
-/* *** Banyaknya elemen *** */
-int NbElmt (array T);
-/* Mengirimkan banyaknya elemen efektif tabel */
-/* Mengirimkan nol jika tabel kosong */
-/* *** Daya tampung container *** */
-int MaxNbEl (array T);
-/* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
-/* *** Selektor INDEKS *** */
-IdxType GetFirstIdx (array T);
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan indeks elemen pertama */
-IdxType GetLastIdx (array T);
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan indeks elemen terakhir */
-/* *** Menghasilkan sebuah elemen *** */
-ElType GetElmt (array T, IdxType i);
-/* Prekondisi : Tabel tidak kosong, i antara FirstIdx(T)..LastIdx(T) */
-/* Mengirimkan elemen tabel yang ke-i */
+/**
+ * Fungsi untuk mendapatkan banyaknya elemen efektif array, 0 jika tabel kosong.
+ * Prekondisi: array terdefinisi
+ */
+int Length(array arr);
 
-/* *** Selektor SET : Mengubah nilai TABEL dan elemen tabel *** */
-/* Untuk type private/limited private pada bahasa tertentu */
-void SetTab (array Tin, array *Tout);
-/* I.S. Tin terdefinisi, sembarang */
-/* F.S. Tout berisi salinan Tin */
-/* Assignment THsl -> Tin */
-void SetEl (array *T, IdxType i, ElType v);
-/* I.S. T terdefinisi, sembarang */
-/* F.S. Elemen T yang ke-i bernilai v */
-/* Mengeset nilai elemen tabel yang ke-i sehingga bernilai v */
-void SetNeff (array *T, IdxType N);
-/* I.S. T terdefinisi, sembarang */
-/* F.S. Nilai indeks efektif T bernilai N */
-/* Mengeset nilai indeks elemen efektif sehingga bernilai N */
+/**
+ * Mengembalikan elemen array L yang ke-I (indeks lojik).
+ * Prekondisi: array tidak kosong, i di antara 0..Length(array).
+ */
+ElType Get(array arr, IdxType i);
 
-/* ********** Test Indeks yang valid ********** */
-boolean IsIdxValid (array T, IdxType i);
-/* Prekondisi : i sembarang */
-/* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
-/* yaitu antara indeks yang terdefinisi utk container*/
-boolean IsIdxEff (array T, IdxType i);
-/* Prekondisi : i sembarang*/
-/* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
-/* yaitu antara FirstIdx(T)..LastIdx(T) */
+/**
+ * Fungsi untuk mendapatkan kapasitas yang tersedia.
+ * Prekondisi: array terdefinisi
+ */
+int GetCapacity(array arr);
 
-/* ********** TEST KOSONG/PENUH ********** */
-/* *** Test tabel kosong *** */
-boolean IsEmpty (array T);
-/* Mengirimkan true jika tabel T kosong, mengirimkan false jika tidak */
-/* *** Test tabel penuh *** */
-boolean IsFull (array T);
-/* Mengirimkan true jika tabel T penuh, mengirimkan false jika tidak */
+/**
+ * Fungsi untuk menambahkan elemen baru di index ke-i
+ * Prekondisi: array terdefinisi, i di antara 0..Length(array).
+ */
+void InsertAt(array *arr, ElType el, IdxType i);
 
-/* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-void TulisIsi (array T);
-/* Proses : Menuliskan isi tabel dengan traversal */
-/* I.S. T boleh kosong */
-/* F.S. Jika T tidak kosong : indeks dan elemen tabel ditulis berderet ke bawah */
-/* Jika isi tabel [1,2,3] maka akan diprint
-0:1
-1:2
-2:3
-*/
-/* Jika T kosong : Hanya menulis "Tabel kosong" */
+/**
+ * Fungsi untuk menambahkan elemen baru di akhir array.
+ * Prekondisi: array terdefinisi
+ */
+void InsertLast(array *arr, ElType el);
 
-/* ********** OPERATOR ARITMATIKA ********** */
-/* *** Aritmatika tabel : Penjumlahan, pengurangan, perkalian, ... *** */
-array PlusTab (array T1, array T2);
-/* Prekondisi : T1 dan T2 berukuran sama dan tidak kosong */
-/* Mengirimkan T1 + T2 */
-array MinusTab (array T1, array T2);
-/* Prekondisi : T1 dan T2 berukuran sama dan tidak kosong */
-/* Mengirimkan T1 - T2 */
+/**
+ * Fungsi untuk menambahkan elemen baru di awal array.
+ * Prekondisi: array terdefinisi
+ */
+void InsertFirst(array *arr, ElType el);
 
-/* ********** NILAI EKSTREM ********** */
-ElType ValMax (array T);
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan nilai maksimum tabel */
+/**
+ * Fungsi untuk menghapus elemen di index ke-i array
+ * Prekondisi: array terdefinisi, i di antara 0..Length(array).
+ */
+void DeleteAt(array *arr, IdxType i);
 
-ElType ValMin (array T);
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan nilai minimum tabel */
+/**
+ * Fungsi untuk menghapus elemen terakhir array
+ * Prekondisi: array tidak kosong
+ */
+void DeleteLast(array *arr);
 
-/* *** Mengirimkan indeks elemen bernilai ekstrem *** */
-IdxType IdxMaxTab (array T);
-/* Prekondisi : Tabel T tidak kosong */
-/* Mengirimkan indeks i dengan elemen ke-i adalah nilai maksimum pada tabel */
+/**
+ * Fungsi untuk menghapus elemen pertama array
+ * Prekondisi: array tidak kosong
+ */
+void DeleteFirst(array *arr);
 
-IdxType IdxMinTab (array T);
-/* Prekondisi : Tabel tidak kosong */
-/* Mengirimkan indeks i */
-/* dengan elemen ke-i nilai minimum pada tabel */
+/**
+ * Fungsi untuk melakukan print suatu array.
+ * Prekondisi: array terdefinisi
+ */
+void Printarray(array arr);
+
+/**
+ * Fungsi untuk melakukan reverse suatu array.
+ * Prekondisi: array terdefinisi
+ */
+void Reversearray(array *arr);
+
+/**
+ * Fungsi untuk melakukan copy suatu array.
+ * Prekondisi: array terdefinisi
+ */
+array Copyarray(array arr);
+
+/**
+ * Fungsi untuk melakukan search suatu array.
+ * Prekondisi: array terdefinisi
+ */
+IdxType Searcharray(array arr, ElType el);
 
 #endif
