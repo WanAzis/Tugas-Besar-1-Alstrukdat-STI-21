@@ -1,12 +1,9 @@
-#ifndef GAME_H
-#define GAME_H
+#include <stdio.h>
+#include "Game.h"
 
-#include "time.h"
-#include "../ADT/Queue.h"
-
-/* Daftar Game yang Dapat Dimainkan */
-
-void RNG();
+void RNG(){
+    
+}
 /* Game random number generator */
 /* Cara kerja dari game ini adalah player harus menebak
    sebuah angka acak X yang sudah disiapkan oleh sistem.
@@ -14,7 +11,9 @@ void RNG();
    tebakan lebih kecil atau lebih besar terhadap X. Game akan
    selesai jika player dapat menebak angka dengan benar. */
 
-void Diner_Dash();
+void Diner_Dash(){
+
+}
 /* Game mengantar makanan */
 /* Adapun peraturan pada game ini adalah: 
     - Terdapat 2 command yang dapat dilakukan pada game, yaitu COOK dan SERVE.
@@ -35,6 +34,3 @@ void Diner_Dash();
     - Ketika makanan sudah di SERVE, maka makanan dapat diantar kepada pelanggan dan pelanggan 
       dapat meninggalkan antrian. Setelah pelanggan meninggalkan antrian, maka pemain akan menerima uang
     - SERVE hanya dapat digunakan untuk pesanan yang berada di paling depan. */
-
-
-#endif

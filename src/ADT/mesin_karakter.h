@@ -8,7 +8,6 @@
 extern char currentChar;
 extern boolean EOP;
 
-
 void START();
 /* Mesin siap dioperasikan. Pita merupakan stdin yang adalah inputan dari pengguna.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.

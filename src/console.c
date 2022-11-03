@@ -1,25 +1,114 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "ADT/Array.h"
+#include "ADT/Queue.h"
+#include "ADT/mesin_karakter.h"
+#include "ADT/mesin_kata.h"
+#include "Procedure/Fungsi_Kecil.h"
+#include "Procedure/Game.h"
+#include "boolean.h"
 #include "console.h"
+
+array ListGame;
+Queue QueueGame;
+int fitur;
 
 /* Fitur-fitur pada BNMO */
 
-void START(){
+void MENU(){
+  printf("---------------|  MAIN MENU |---------------\n");
+  printf("[1] START\n[2] LOAD\n");
+}
+/* Tampilan awal mesin BNMO yang akan menampilkan pilihan START atau LOAD untuk playar */
 
+void FITURE(){
+  printf("Fitur pada BNMO yang bisa anda pilih :\n");
+  printf("CREATEGAME\n");
+  printf("LISTGAME\n");
+  printf("DELETEGAME\n");
+  printf("QUEUEGAME\n");
+  printf("PLAYGAME\n");
+  printf("SKIPGAME\n");
+  printf("SAVE\n");
+  printf("HELP\n");
+  printf("QUIT\n");
+}
+/* Perintah untuk menampilkan seluruh fitur BNMO yang dapat dipilih oleh user */
+
+void CHOOSEMODE(int *mode){
+  STARTWORD();
+  char *m = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, m);
+  if(m=="START"){
+    *mode=1;
+  } else if (m=="LOAD"){
+    *mode=2;
+  }
+}
+/* Memilih mode awal apakah player memilih START atau LOAD */
+
+void STARTBNMO(){
+  ListGame = Makearray();
+  char *fname = "..\\data\\config.txt";
+  STARTWORDFILE(fname);
+  char CKata[50];
+  WordToString(currentWord, CKata);
+  int loop = CKata[0] - '0';
+  ADVWORD();
+  while(loop--){
+    WordToString(currentWord, CKata);
+    printf("%s\n", CKata);
+    InsertLast(&ListGame, CKata);
+    Printarray(ListGame);
+    ADVWORD();
+  }
+  // Printarray(ListGame);
 }
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
-void LOAD(FILE File_name){
+void LOADBNMO(){
 
 }
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void SAVE(FILE File_name){
+void CHOOSEFITURE(){
+  STARTWORD();
+  char *f = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, f);
+  if (f=="CREATEGAME"){
+    CREATEGAME(&ListGame);
+  } else if (f=="LISTGAME"){
+    LISTGAME(ListGame);
+  } else if (f=="DELETEGAME"){
+    DELETEGAME(&ListGame);
+  } else if (f=="QUEUEGAME"){
+    QUEUEGAME(&QueueGame);
+  } else if (f=="PLAYGAME"){
+    PLAYGAME(&QueueGame);
+  } else if (f=="SKIPGAME"){
+    SKIPGAME(&QueueGame);
+  } else if (f=="SAVE"){
+    SAVE();
+  } else if (f=="HELP"){
+    HELP();
+  } else if (f=="QUIT"){
+    fitur = 0;
+  } else {
+    COMMANDLAIN();
+  }
+}
+/* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
+
+void SAVE(){
 
 }
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
-void CREATEGAME(char Game, array *ListGame){
-
+void CREATEGAME(array *ListGame){
+  // STARTWORD();
+  // char *game;
+  // WordToString(currentWord, game);
+  // (*ListGame).A[];
 }
 /* Membuat sebuah game baru inputan player */
 
@@ -28,7 +117,7 @@ void LISTGAME(array ListGame){
 }
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
-void DELETEGAME(IdxType X, array *ListGame){
+void DELETEGAME(array *ListGame){
 
 }
 /* Menghapus sebuah game yang dimiliki oleh player */
@@ -41,9 +130,9 @@ void DELETEGAME(IdxType X, array *ListGame){
 /*prosedur queuegame*/
 void QUEUEGAME(Queue *q) {
   int noGame = 0;
-  char game;
+  char *game;
   boolean valid = false;
-  validChecker(valid, noGame);
+  // validChecker(valid, noGame);
   /*game diinisialiasi sama elemen ke-noGame dari list Game*/
   enqueue(q, game);
 }
@@ -71,7 +160,7 @@ void PLAYGAME(Queue *q /*harusnya ada list juga*/) {
     int noGame = 0;
     char game;
     boolean valid = false;
-    validChecker(valid, noGame);
+    // validChecker(valid, noGame);
     /*game diinisialiasi sama elemen ke-noGame dari list Game*/
     if (true/*kalo dia game di list ke-noGame nya itu = "RNG" atau "Dinner Dash", (btw true nya biarin aja, cm biar ga error)*/) {
       printf("Loading %s...", q->buffer[IDX_HEAD(*q)]);
@@ -110,20 +199,22 @@ F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 // /* Melewatkan satu atau beberapa game dari Queue Game yang dimiliki player */
 
 /*prosedur skipGame*/
-void SKIPGAME(Queue *q, int n) {
+void SKIPGAME(Queue *q) {
   boolean valid = false;
+  int n;
+  scanf("%i", &n);
   valid = (n<length(*q)); /*inisialisasi valid*/
   /*checker valid/tidak input*/
   if (!valid) {
     printf("Tidak ada permainan lagi dalam daftar game-mu.");
   }
   else /*input valid*/ {
-    char game;
+    char *game;
     /*skip game sebanyak n kali*/
     for (int i = 0; i<n;i++) {
       dequeue(q, &game);
     }
-    playGame(q);
+    PLAYGAME(q);
   }
 }
 /*

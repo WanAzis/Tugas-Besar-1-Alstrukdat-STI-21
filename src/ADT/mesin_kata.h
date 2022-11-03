@@ -16,6 +16,8 @@ typedef struct
    int Length;
 } Word;
 
+//[a,k,u] 3 -> "aku"
+
 /* State Mesin Kata */
 extern boolean EndWord;
 extern Word currentWord;

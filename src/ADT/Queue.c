@@ -67,8 +67,8 @@ void displayQueue(Queue q){
     } else {
         printf("[");
         for (int i = IDX_HEAD(q); i<length(q)-1; i++){
-            printf("%i,", q.buffer[i]);
-        } printf("%i", TAIL(q)); 
+            printf("%s, ", q.buffer[i]);
+        } printf("%s", TAIL(q)); 
         printf("]\n");
     }
 }
