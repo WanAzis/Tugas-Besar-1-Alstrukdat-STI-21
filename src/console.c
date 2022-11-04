@@ -248,16 +248,40 @@ F.S. game di skip, lalu dimainkan
 */
 
 void QUIT(){
-
+  printf("Apakah anda ingin save?\n");
+  STARTWORD();
+  char *s = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, s);
+  if (s == "SAVE") {
+    SAVE();
+    printf("Data berhasil di save\n");
+    printf("Anda keluar dari game BNMO.\n");
+    printf("Bye bye ...\n");
+  }
+  else {
+    printf("Anda keluar dari game BNMO.\n");
+    printf("Bye bye ...\n");
+  }
 }
 /* Player keluar dari mesin BNMO */
 
 void HELP(){
-
+  printf("FITUR-FITUR BNMO:\n");
+  printf("1. START -> merupakan menu awal untuk memulai BNMO dengan pilihan game default.\n");
+  printf("2. LOAD -> merupakan menu awal untuk membaca dan membuka file save yang berisikan history permainan dari player.\n");
+  printf("3. SAVE -> merupakan menu untuk menyimpan data setelah adanya perubahan dari player.\n");
+  printf("4. CREATEGAME -> merupakan menu untuk menambahkan game baru pada daftar game.\n");
+  printf("5. LISTGAME -> merupakan menu untuk menampilkan daftar game yang tersedia untuk player.\n");
+  printf("6. DELETEGAME -> merupakan menu untuk menghapus sebuah game dari daftar game, dengan syarat:\n");
+  printf("game yang dihapus adalah game tambahan dan game yang terdapat pada queue saat itu tidak bisa dihapus.\n");
+  printf("7. QUEUEGAME -> merupakan menu untuk mendaftarkan game kedalam list queue game yang akan dimainkan oleh player.\n");
+  printf("8. PLAYGAME -> merupakan menu untuk memainkan game.\n");
+  printf("9. SKIPGAME -> merupakan menu untuk melewati game yang tidak ingin dimainkan, sebanyak yang diinginkan.\n");
+  printf("10. QUIT -> merupakan menu untuk keluar dari BNMO.\n");
 }
 /* Menampilkan menu fitur-fitur yang dimiliki oleh mesin BNMO serta penjelasannya */
 
 void COMMANDLAIN(){
-
+  printf("Command tidak dikenali, silahkan masukkan command yang valid.\n");
 }
 /* Mengeluarkan pesan kesalahan serta meminta inputan ulang ketika player memberi perintah yang tidak valid */
