@@ -8,6 +8,7 @@
 
 extern array ListGame;
 extern Queue QueueGame;
+extern int fitur, mode;
 
 /* Fitur-fitur pada BNMO */
 
@@ -26,7 +27,7 @@ void STARTBNMO();
 void LOADBNMO();
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void CHOOSEFITURE();
+void CHOOSEFITURE(int *fitur);
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
 void SAVE();

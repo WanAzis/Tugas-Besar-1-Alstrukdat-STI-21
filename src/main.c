@@ -9,12 +9,10 @@
 #include "boolean.h"
 
 int main(){
-    int mode, fitur;
-    do 
-    {
+    while (mode!=1 && mode!=2){
         MENU();
         CHOOSEMODE(&mode);
-    } while(mode!=1 && mode!=2);
+    }
     if (mode==1){
         STARTBNMO();
     } else {LOADBNMO();}
@@ -22,7 +20,7 @@ int main(){
     {
         // System("cls");
         FITURE();
+        CHOOSEFITURE(&fitur);
     }
     QUIT();
-    
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ADT/Array.h"
 #include "ADT/Queue.h"
 #include "ADT/mesin_karakter.h"
@@ -11,7 +12,7 @@
 
 array ListGame;
 Queue QueueGame;
-int fitur;
+int fitur,mode;
 
 /* Fitur-fitur pada BNMO */
 
@@ -39,9 +40,12 @@ void CHOOSEMODE(int *mode){
   STARTWORD();
   char *m = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, m);
-  if(m=="START"){
+  printf("%s", m);
+  char s[]="START";
+  char l[]="LOAD";
+  if(strcmp(m, s)){
     *mode=1;
-  } else if (m=="LOAD"){
+  } else if (strcmp(m, l)){
     *mode=2;
   }
 }
@@ -51,7 +55,7 @@ void STARTBNMO(){
   ListGame = Makearray();
   char *fname = "..\\data\\config.txt";
   STARTWORDFILE(fname);
-  char CKata[50];
+  char *CKata = (char*) malloc (sizeof(char*) * 50);
   WordToString(currentWord, CKata);
   int loop = CKata[0] - '0';
   ADVWORD();
@@ -62,16 +66,31 @@ void STARTBNMO(){
     Printarray(ListGame);
     ADVWORD();
   }
-  // Printarray(ListGame);
+  Printarray(ListGame);
 }
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
 void LOADBNMO(){
-
+  ListGame = Makearray();
+  char CKata[50];
+  STARTWORD();
+  char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, fname);
+  STARTWORDFILE(fname);
+  WordToString(currentWord, CKata);
+  int loop = CKata[0] - '0';
+  ADVWORD();
+  while(loop--){
+    WordToString(currentWord, CKata);
+    printf("%s\n", CKata);
+    InsertLast(&ListGame, CKata);
+    Printarray(ListGame);
+    ADVWORD();
+  }
 }
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void CHOOSEFITURE(){
+void CHOOSEFITURE(int *fitur){
   STARTWORD();
   char *f = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, f);
@@ -92,7 +111,7 @@ void CHOOSEFITURE(){
   } else if (f=="HELP"){
     HELP();
   } else if (f=="QUIT"){
-    fitur = 0;
+    *fitur = 0;
   } else {
     COMMANDLAIN();
   }

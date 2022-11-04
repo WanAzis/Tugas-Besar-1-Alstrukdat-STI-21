@@ -6,9 +6,13 @@ int main(){
     if (IsEmpty(arr)){
         printf("Array masih kosong\n");
     }
-    InsertLast(&arr, "Dinner Dash");
-    InsertLast(&arr, "Game Suka suka");
-    InsertLast(&arr, "Tiga");
+    char *c = (char*) malloc (sizeof(char) * 50);
+    c = "Dinner Dash";
+    InsertLast(&arr, c);
+    c = "Game Suka Suka";
+    InsertLast(&arr, c);
+    c = "Tiga";
+    InsertLast(&arr, c);
     Printarray(arr);
     InsertAt(&arr, "Ini antara dinner dan game suka", 1);
     Printarray(arr);
