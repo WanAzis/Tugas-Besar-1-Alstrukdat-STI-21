@@ -22,7 +22,6 @@ void STARTWORD(){
     } else {
         EndWord=false;
         CopyWord();
-        IgnoreBlanks();
     }
 }
 /* I.S. : currentChar sembarang
@@ -38,7 +37,6 @@ void STARTWORDFILE(char *FileName){
     } else {
         EndWord=false;
         CopyWord();
-        IgnoreBlanks();
     }
 }
 /* I.S. : currentChar sembarang
@@ -47,11 +45,11 @@ void STARTWORDFILE(char *FileName){
           currentChar karakter pertama sesudah karakter terakhir kata */
 
 void ADVWORD(){
+    IgnoreBlanks();
     if (currentChar==MARK){
         EndWord=true;
     } else{
         CopyWord();
-        IgnoreBlanks();
     }
 }
 /* I.S. : currentChar adalah karakter pertama kata yang akan diakuisisi
@@ -95,7 +93,9 @@ void WordToString(Word Kata, char *s){
    F.S. : terbentuk sebuah string s yang berisi char dari currentWord*/
 
 void PrintKata(Word Kata){
-    
+    for (int i = 0; i<Kata.Length; i++){
+        printf("%c", Kata.TabWord[i]);
+    }
 }
 /* Proses : Menuliskan tipe bentukan kata ke layar
    I.S. : Word terdefinisi

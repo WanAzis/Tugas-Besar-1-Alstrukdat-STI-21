@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include "time.h"
-#include "../ADT/Queue.h"
+#include "../ADT/Queue/Queue.h"
 
 /* Daftar Game yang Dapat Dimainkan */
 

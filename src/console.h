@@ -1,10 +1,10 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "ADT/Array.h"
-#include "ADT/mesin_karakter.h"
-#include "ADT/mesin_kata.h"
-#include "ADT/Queue.h"
+#include "ADT/Array/Array.h"
+#include "ADT/MesinKata/mesin_karakter.h"
+#include "ADT/MesinKata/mesin_kata.h"
+#include "ADT/Queue/Queue.h"
 
 extern array ListGame;
 extern Queue QueueGame;

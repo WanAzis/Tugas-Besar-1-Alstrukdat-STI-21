@@ -1,14 +1,16 @@
 /* Implementasi array menggunakan konsep array dinamis */
+/* ElType pada array merupakan type bentukan Word pada mesin kata */
 
 #ifndef __ARRAY_DINAMIK__
 #define __ARRAY_DINAMIK__
 
-#include "../boolean.h"
+#include "../../boolean.h"
+#include "../MesinKata/mesin_kata.h"
 
 #define InitialSize 10
 
 typedef int IdxType;
-typedef char *ElType;
+typedef Word ElType;
 typedef struct {
     ElType *A;
     int Capacity;
@@ -106,11 +108,5 @@ void Reversearray(array *arr);
  * Prekondisi: array terdefinisi
  */
 array Copyarray(array arr);
-
-/**
- * Fungsi untuk melakukan search suatu array.
- * Prekondisi: array terdefinisi
- */
-IdxType Searcharray(array arr, ElType el);
 
 #endif

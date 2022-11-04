@@ -5,12 +5,12 @@
 
 int main(){
     // Driver membaca sebuah kata dari inputan user (stdin)
-    STARTWORD();
-    char CKata[50];
-    WordToString(currentWord, CKata);
-    printf("%s\n", CKata);
-    printf("%i\n", strlen(CKata));
-    
+    // STARTWORD();
+    // PrintKata(currentWord);
+    // char CKata[50];
+    // WordToString(currentWord, CKata);
+    // printf("%s\n", CKata);
+    // printf("%i\n", strlen(CKata));
 
     // Driver membaca sebuah path file dari inputan pengguna
     printf("Masukkan nama file yang ingin di akses: ");
@@ -20,8 +20,7 @@ int main(){
     printf("%s\n", FName);
     STARTWORDFILE(FName);
     while(!EndWord){
-        WordToString(currentWord, CKata);
-        printf("%s\n", CKata);
+        PrintKata(currentWord); printf("\n");
         ADVWORD();
     }
 }

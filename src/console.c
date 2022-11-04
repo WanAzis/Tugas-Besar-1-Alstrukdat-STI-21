@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ADT/Array.h"
-#include "ADT/Queue.h"
-#include "ADT/mesin_karakter.h"
-#include "ADT/mesin_kata.h"
+#include "ADT/Array/Array.h"
+#include "ADT/Queue/Queue.h"
+#include "ADT/MesinKata/mesin_karakter.h"
+#include "ADT/MesinKata/mesin_kata.h"
 #include "Procedure/Fungsi_Kecil.h"
 #include "Procedure/Game.h"
 #include "boolean.h"

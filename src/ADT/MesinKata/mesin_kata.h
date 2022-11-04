@@ -3,7 +3,7 @@
 #ifndef __MESINKATA_H__
 #define __MESINKATA_H__
 
-#include "../boolean.h"
+#include "../../boolean.h"
 #include "mesin_karakter.h"
 
 #define NMax 50
