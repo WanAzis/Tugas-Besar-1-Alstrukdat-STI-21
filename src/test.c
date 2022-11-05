@@ -3,5 +3,5 @@
 
 int main(){
     // FITURE();
-    STARTBNMO();
+    LOADBNMO();
 }

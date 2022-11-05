@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "queue.h"
+#include "Queue.h"
 
 /* *** Kreator *** */
 void CreateQueue(Queue *q){
@@ -67,8 +67,8 @@ void displayQueue(Queue q){
     } else {
         printf("[");
         for (int i = IDX_HEAD(q); i<length(q)-1; i++){
-            printf("%s, ", q.buffer[i]);
-        } printf("%s", TAIL(q)); 
+            PrintKata(q.buffer[i]); printf(",");
+        } PrintKata(TAIL(q));
         printf("]\n");
     }
 }

@@ -5,8 +5,8 @@
 
 int main(){
     // Driver membaca sebuah kata dari inputan user (stdin)
-    // STARTWORD();
-    // PrintKata(currentWord);
+    STARTWORD();
+    PrintKata(currentWord); printf("\n");
     // char CKata[50];
     // WordToString(currentWord, CKata);
     // printf("%s\n", CKata);
@@ -22,6 +22,10 @@ int main(){
     while(!EndWord){
         PrintKata(currentWord); printf("\n");
         ADVWORD();
+    }
+    STARTWORD();
+    if(WordCompareString(currentWord, "coba")){
+        printf("kata sama, yaitu 'coba'\n");
     }
 }
 

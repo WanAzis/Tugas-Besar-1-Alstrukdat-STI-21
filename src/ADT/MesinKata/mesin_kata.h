@@ -59,6 +59,11 @@ void WordToString(Word Kata, char *s);
    I.S. : Word terdefinisi
    F.S. : terbentuk sebuah string s yang berisi char dari currentWord */
 
+boolean WordCompareString(Word Kata, char *s);
+/* Proses : Membandingkan kata dengan string, menghasilkan true jika sama 
+   I.S. : Word terdefinisi, string juga terdefinisi
+   F.S. : menghasilkan true jika kata sama dengan ripresentasinya pada string input */
+
 void PrintKata(Word Kata);
 /* Proses : Menuliskan tipe bentukan kata ke layar
    I.S. : Word terdefinisi

@@ -12,7 +12,7 @@
 
 array ListGame;
 Queue QueueGame;
-int fitur,mode;
+int fitur=1,mode;
 
 /* Fitur-fitur pada BNMO */
 
@@ -38,14 +38,9 @@ void FITURE(){
 
 void CHOOSEMODE(int *mode){
   STARTWORD();
-  char *m = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, m);
-  printf("%s", m);
-  char s[]="START";
-  char l[]="LOAD";
-  if(strcmp(m, s)){
+  if(WordCompareString(currentWord, "START")){
     *mode=1;
-  } else if (strcmp(m, l)){
+  } else if (WordCompareString(currentWord, "LOAD")){
     *mode=2;
   }
 }
@@ -55,36 +50,26 @@ void STARTBNMO(){
   ListGame = Makearray();
   char *fname = "..\\data\\config.txt";
   STARTWORDFILE(fname);
-  char *CKata = (char*) malloc (sizeof(char*) * 50);
-  WordToString(currentWord, CKata);
-  int loop = CKata[0] - '0';
+  int loop = currentWord.TabWord[0] - '0';
   ADVWORD();
   while(loop--){
-    WordToString(currentWord, CKata);
-    printf("%s\n", CKata);
-    InsertLast(&ListGame, CKata);
-    Printarray(ListGame);
+    InsertLast(&ListGame, currentWord);
     ADVWORD();
   }
-  Printarray(ListGame);
 }
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
 void LOADBNMO(){
   ListGame = Makearray();
-  char CKata[50];
+  printf("Masukkan file save yang ingin diakses: ");
   STARTWORD();
   char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, fname);
   STARTWORDFILE(fname);
-  WordToString(currentWord, CKata);
-  int loop = CKata[0] - '0';
+  int loop = currentWord.TabWord[0] - '0';
   ADVWORD();
   while(loop--){
-    WordToString(currentWord, CKata);
-    printf("%s\n", CKata);
-    InsertLast(&ListGame, CKata);
-    Printarray(ListGame);
+    InsertLast(&ListGame, currentWord);
     ADVWORD();
   }
 }
@@ -92,25 +77,23 @@ void LOADBNMO(){
 
 void CHOOSEFITURE(int *fitur){
   STARTWORD();
-  char *f = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, f);
-  if (f=="CREATEGAME"){
+  if (WordCompareString(currentWord,"CREATEGAME")){
     CREATEGAME(&ListGame);
-  } else if (f=="LISTGAME"){
+  } else if (WordCompareString(currentWord,"LISTGAME")){
     LISTGAME(ListGame);
-  } else if (f=="DELETEGAME"){
+  } else if (WordCompareString(currentWord,"DELETEGAME")){
     DELETEGAME(&ListGame);
-  } else if (f=="QUEUEGAME"){
+  } else if (WordCompareString(currentWord,"QUEUEGAME")){
     QUEUEGAME(&QueueGame);
-  } else if (f=="PLAYGAME"){
+  } else if (WordCompareString(currentWord,"PLAYGAME")){
     PLAYGAME(&QueueGame);
-  } else if (f=="SKIPGAME"){
+  } else if (WordCompareString(currentWord,"SKIPGAME")){
     SKIPGAME(&QueueGame);
-  } else if (f=="SAVE"){
+  } else if (WordCompareString(currentWord,"SAVE")){
     SAVE();
-  } else if (f=="HELP"){
+  } else if (WordCompareString(currentWord,"HELP")){
     HELP();
-  } else if (f=="QUIT"){
+  } else if (WordCompareString(currentWord,"QUIT")){
     *fitur = 0;
   } else {
     COMMANDLAIN();
@@ -153,7 +136,7 @@ void QUEUEGAME(Queue *q) {
   boolean valid = false;
   // validChecker(valid, noGame);
   /*game diinisialiasi sama elemen ke-noGame dari list Game*/
-  enqueue(q, game);
+  enqueue(q, currentWord);
 }
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEUE GAME", 
@@ -189,16 +172,16 @@ void PLAYGAME(Queue *q /*harusnya ada list juga*/) {
       printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", q->buffer[IDX_HEAD(*q)]);
     }
   }
-  else /*queue game ada isi nya*/ {
-    /*panggil game pertama dari queue*/
-    if (q->buffer[IDX_HEAD(*q)] == "RNG" || q->buffer[IDX_HEAD(*q)] == "Dinner Dash") {
-      printf("Loading %s...", q->buffer[IDX_HEAD(*q)]);
-      /*eksekusi game, panggil fungsi game nya*/
-    }
-    else /*bilang gabisa dimainin*/ {
-      printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", q->buffer[IDX_HEAD(*q)]);
-    }
-  }
+  // else /*queue game ada isi nya*/ {
+  //   /*panggil game pertama dari queue*/
+  //   if (q->buffer[IDX_HEAD(*q)] == "RNG" || q->buffer[IDX_HEAD(*q)] == "Dinner Dash") {
+  //     printf("Loading %s...", q->buffer[IDX_HEAD(*q)]);
+  //     /*eksekusi game, panggil fungsi game nya*/
+  //   }
+  //   else /*bilang gabisa dimainin*/ {
+  //     printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", q->buffer[IDX_HEAD(*q)]);
+  //   }
+  // }
 }
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "PLAY GAME"
@@ -228,7 +211,7 @@ void SKIPGAME(Queue *q) {
     printf("Tidak ada permainan lagi dalam daftar game-mu.");
   }
   else /*input valid*/ {
-    char *game;
+    Word game;
     /*skip game sebanyak n kali*/
     for (int i = 0; i<n;i++) {
       dequeue(q, &game);

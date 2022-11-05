@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "ADT/Array/Array.h"
 #include "ADT/Queue/Queue.h"
 #include "ADT/MesinKata/mesin_karakter.h"
@@ -18,9 +19,9 @@ int main(){
     } else {LOADBNMO();}
     while (fitur!=0)
     {
-        // System("cls");
+        system("cls");
         FITURE();
         CHOOSEFITURE(&fitur);
     }
-    QUIT();
+    // QUIT();
 }
