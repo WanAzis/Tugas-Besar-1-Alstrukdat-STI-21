@@ -164,6 +164,7 @@ void DELETEGAME(array *ListGame){
 }
 /* Menghapus sebuah game yang dimiliki oleh player */
 
+
 /*prosedur queuegame*/
 void QUEUEGAME(Queue *QueueGame) {
   /*Menampilkan List Game*/
