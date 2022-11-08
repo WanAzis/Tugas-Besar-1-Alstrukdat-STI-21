@@ -61,7 +61,8 @@ void STARTBNMO(){
 
 void LOADBNMO(){
   ListGame = Makearray();
-  printf("Masukkan file save yang ingin diakses: ");
+  printf("Masukkan file save yang ingin diakses: "); // config.txt
+  // concat("../data/", fname) -> "../data/config.txt"
   STARTWORD();
   char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, fname);
@@ -123,26 +124,34 @@ void LISTGAME(array ListGame){
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
 void DELETEGAME(array *ListGame){
-  LISTGAME(*ListGame);
-  printf("Masukkan game yang ingin dihapus : "); STARTWORD();
-  char *gname = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, gname);
-  if ((*ListGame).Neff>5){
-    int idx = 5;
-    boolean found = false;
-    while(idx < Length(*ListGame) && !found){
-      if (WordCompareString((*ListGame).A[idx], gname)){
-        found = true;
-      } else {
-        idx++;
-      }
-    }
-    if (found){
-      DeleteAt(ListGame, idx);
+  LISTGAME(*ListGame); printf("\n");
+  printf("Masukkan nomor game yang ingin dihapus : "); STARTWORD();
+  int nmr = currentWord.TabWord[0] - '0';
+  // char *gname = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  // WordToString(currentWord, gname);
+  if ((*ListGame).Neff>5 && nmr>5){
+    if (nmr<=(*ListGame).Neff){
+      DeleteAt(ListGame, nmr-1);
       printf("Game berhasil dihapus!\n");
-    } else {
-      printf("Game yang dimaksud tidak ditemukan!\n");
     }
+    else {
+      printf("Nomor game tidak valid!\n");
+    }
+    // int idx = 5;
+    // boolean found = false;
+    // while(idx < Length(*ListGame) && !found){
+    //   if (WordCompareString((*ListGame).A[idx], gname)){
+    //     found = true;
+    //   } else {
+    //     idx++;
+    //   }
+    // }
+    // if (found){
+    //   DeleteAt(ListGame, idx);
+    //   printf("Game berhasil dihapus!\n");
+    // } else {
+    //   printf("Game yang dimaksud tidak ditemukan!\n");
+    // }
   } else {
     printf("Game default tidak bisa dihapus!\n");
   }

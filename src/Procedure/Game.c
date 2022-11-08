@@ -2,7 +2,23 @@
 #include "Game.h"
 
 void RNG(){
-    
+  struct tm *Time;
+  time_t Tval;
+  Tval = time(NULL);
+  Time = localtime(&Tval);
+  int X = (Time->tm_hour + Time->tm_min + Time->tm_sec)%100;
+  
+  printf("Game RNG dimulai. Uji keberuntungan anda dengan menebak X. X bilangan 0 s.d 100\n");
+  int tebak; printf("Tebakan: "); scanf("%i", &tebak);
+  while(tebak!=X){
+    if (tebak<X){
+      printf("X Lebih Besar\n");
+    } else {
+      printf("X Lebih Kecil\n");
+    }
+    printf("Tebakan: "); scanf("%i", &tebak);
+  }
+  printf("Selamat, anda benar menebak X yaitu %i\n", X);
 }
 /* Game random number generator */
 /* Cara kerja dari game ini adalah player harus menebak
@@ -12,7 +28,7 @@ void RNG(){
    selesai jika player dapat menebak angka dengan benar. */
 
 void Diner_Dash(){
-
+  
 }
 /* Game mengantar makanan */
 /* Adapun peraturan pada game ini adalah: 

@@ -7,4 +7,6 @@
 void validChecker(boolean valid, int noGame);
 /*ini check valid/engga input doang, simpel kok*/
 
+void ConcatString(char *input1, char *input2, char *output);
+
 #endif

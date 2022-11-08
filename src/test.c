@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include "console.h"
+#include <stdlib.h>
 
 int main(){
     // FITURE();
-    STARTBNMO();
-    LISTGAME(ListGame);
-    CREATEGAME(&ListGame);
-    LISTGAME(ListGame);
-    DELETEGAME(&ListGame);
-    LISTGAME(ListGame);
-
+    STARTWORD();
+    char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
+    WordToString(currentWord, fname);
+    printf("%s", fname);
 }

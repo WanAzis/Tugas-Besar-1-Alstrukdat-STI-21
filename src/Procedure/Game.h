@@ -4,6 +4,11 @@
 #include "time.h"
 #include "../ADT/Queue/Queue.h"
 
+typedef struct {
+        int durasi;
+        int ketahanan;
+        int harga;
+} Food;
 /* Daftar Game yang Dapat Dimainkan */
 
 void RNG();
