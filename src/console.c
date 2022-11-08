@@ -103,6 +103,21 @@ void CHOOSEFITURE(int *fitur){
 
 void SAVE(){
   
+  printf("Masukkan nama file save: ");
+  STARTWORD();
+  char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, fname);
+  FILE *fp = fopen(fname, "w");
+  fprintf(fp, "%d\n", ListGame.Neff);
+  char *ftambah = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  for(int i=0; i<ListGame.Neff-1; i++){
+    WordToString(ListGame.A[i], ftambah);
+    fprintf(fp, "%s\n", ftambah);
+  }
+  WordToString(ListGame.A[ListGame.Neff-1], ftambah);
+  fprintf(fp, "%s;", ftambah);
+  fclose(fp);
+  
 }
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
