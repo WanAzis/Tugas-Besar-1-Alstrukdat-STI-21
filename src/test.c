@@ -3,5 +3,11 @@
 
 int main(){
     // FITURE();
-    LOADBNMO();
+    STARTBNMO();
+    LISTGAME(ListGame);
+    CREATEGAME(&ListGame);
+    LISTGAME(ListGame);
+    DELETEGAME(&ListGame);
+    LISTGAME(ListGame);
+
 }

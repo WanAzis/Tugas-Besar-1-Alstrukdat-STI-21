@@ -102,25 +102,50 @@ void CHOOSEFITURE(int *fitur){
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
 void SAVE(){
-
+  
 }
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
 void CREATEGAME(array *ListGame){
-  // STARTWORD();
-  // char *game;
-  // WordToString(currentWord, game);
-  // (*ListGame).A[];
+  printf("Masukkan game yang ingin ditambahkan : ");
+  STARTWORD();
+  InsertLast(ListGame, currentWord); printf("\n");
+  printf("Game berhasil ditambahkan!\n");
 }
 /* Membuat sebuah game baru inputan player */
 
 void LISTGAME(array ListGame){
-
+  printf("Berikut daftar game yang anda miliki : \n");
+  for (int i = 0; i<ListGame.Neff; i++){
+    printf("%i. ", i+1); PrintKata(ListGame.A[i]); printf("\n");
+  }
 }
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
 void DELETEGAME(array *ListGame){
-
+  LISTGAME(*ListGame);
+  printf("Masukkan game yang ingin dihapus : "); STARTWORD();
+  char *gname = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, gname);
+  if ((*ListGame).Neff>5){
+    int idx = 5;
+    boolean found = false;
+    while(idx < Length(*ListGame) && !found){
+      if (WordCompareString((*ListGame).A[idx], gname)){
+        found = true;
+      } else {
+        idx++;
+      }
+    }
+    if (found){
+      DeleteAt(ListGame, idx);
+      printf("Game berhasil dihapus!\n");
+    } else {
+      printf("Game yang dimaksud tidak ditemukan!\n");
+    }
+  } else {
+    printf("Game default tidak bisa dihapus!\n");
+  }
 }
 /* Menghapus sebuah game yang dimiliki oleh player */
 
