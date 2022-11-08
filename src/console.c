@@ -102,7 +102,6 @@ void CHOOSEFITURE(int *fitur){
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
 void SAVE(){
-  
   printf("Masukkan nama file save: ");
   STARTWORD();
   char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
@@ -116,8 +115,7 @@ void SAVE(){
   }
   WordToString(ListGame.A[ListGame.Neff-1], ftambah);
   fprintf(fp, "%s;", ftambah);
-  fclose(fp);
-  
+  fclose(fp); 
 }
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
