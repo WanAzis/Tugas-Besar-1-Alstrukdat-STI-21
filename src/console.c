@@ -48,6 +48,7 @@ void CHOOSEMODE(int *mode){
 
 void STARTBNMO(){
   ListGame = Makearray();
+  CreateQueue(&QueueGame);
   char *fname = "..\\data\\config.txt";
   STARTWORDFILE(fname);
   int loop = currentWord.TabWord[0] - '0';
@@ -61,6 +62,7 @@ void STARTBNMO(){
 
 void LOADBNMO(){
   ListGame = Makearray();
+  CreateQueue(&QueueGame);
   printf("Masukkan file save yang ingin diakses: ");
   STARTWORD();
   char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
@@ -162,64 +164,59 @@ void DELETEGAME(array *ListGame){
 }
 /* Menghapus sebuah game yang dimiliki oleh player */
 
-// void QUEUEGAME(IdxType X, array ListGame, Queue *QueueGame){
-
-// }
-// /* Mendaftarkan sebuah game yang dimiliki oleh player kedalam Queue Game untuk dimainkan */
-
 /*prosedur queuegame*/
-void QUEUEGAME(Queue *q) {
-  int noGame = 0;
-  char *game;
-  boolean valid = false;
-  // validChecker(valid, noGame);
-  /*game diinisialiasi sama elemen ke-noGame dari list Game*/
-  enqueue(q, currentWord);
+void QUEUEGAME(Queue *QueueGame) {
+  /*Menampilkan List Game*/
+  LISTGAME(ListGame);
+  /*Menampilkan Queue Game yang sudah ada*/
+  printf("Berikut adalah daftar antrian game-mu: \n");
+  for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
+    printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
+  }
+  /*Masukkan input nomor game yang mau dimasukkan kedalam queue*/
+  printf("Nomor Game yang mau ditambahkan ke antrian: ");
+  STARTWORD();
+  int noGame = currentWord.TabWord[0] - '0';
+  if (noGame <= ListGame.Neff && noGame > 0) {
+    enqueue(QueueGame, ListGame.A[noGame-1]);
+  }
+  else /*kasus kalau input salah*/ {
+    printf("No Game yang di input tidak valid!\n");
+  }
 }
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEUE GAME", 
            intinya setiap dipanggil, akan memilih game pada list game, dan akan dimasukkan
            kedalam queue. 
            Catatan: - Memungkinkan untuk ada lebih dari satu game yang sama pada queue.
-                    - Disini hanya memasukkan game, masalah penanganan input valid/tidak 
-                      bukan disini, di file main.
                     - Diasumsikan di file main udah dibuat queue kosong, jadi tinggal isi.
                     - Diasumsikan maksimum queue pada satu kali proses bermain adalah 10
 I.S. input sudah valid, list game + queue game (jika sudah ada) di tampilkan
 F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
 
-// void PLAYGAME(IdxType X, array ListGame){
-
-// }
-// /* Memainkan sebuah game yang dimiliki oleh player */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *q /*harusnya ada list juga*/) {
-  if (isEmpty(*q)) {
-    int noGame = 0;
-    char game;
-    boolean valid = false;
-    // validChecker(valid, noGame);
-    /*game diinisialiasi sama elemen ke-noGame dari list Game*/
-    if (true/*kalo dia game di list ke-noGame nya itu = "RNG" atau "Dinner Dash", (btw true nya biarin aja, cm biar ga error)*/) {
-      printf("Loading %s...", q->buffer[IDX_HEAD(*q)]);
-      /*eksekusi game, panggil fungsi game nya*/
-    }
-    else /*bilang gabisa dimainin*/ {
-      printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", q->buffer[IDX_HEAD(*q)]);
-    }
+void PLAYGAME(Queue *QueueGame /*harusnya ada list juga*/) {
+  printf("Berikut adalah daftar antrian game-mu: \n");
+  for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
+    printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
   }
-  // else /*queue game ada isi nya*/ {
-  //   /*panggil game pertama dari queue*/
-  //   if (q->buffer[IDX_HEAD(*q)] == "RNG" || q->buffer[IDX_HEAD(*q)] == "Dinner Dash") {
-  //     printf("Loading %s...", q->buffer[IDX_HEAD(*q)]);
-  //     /*eksekusi game, panggil fungsi game nya*/
-  //   }
-  //   else /*bilang gabisa dimainin*/ {
-  //     printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", q->buffer[IDX_HEAD(*q)]);
-  //   }
-  // }
+  Word Game;
+  dequeue(QueueGame, &Game);
+  if (WordCompareString(Game, "Dinner DASH")) {
+    printf("Loading...");
+    Diner_Dash();
+  }
+  else if (WordCompareString(Game, "RNG")) {
+    printf("Loading...");
+    RNG();
+  }
+  else /*game selain RNG dan Dinner Dash*/ {
+    char *stringGame = (char*) malloc (sizeof(char) * Game.Length+1);
+    WordToString(Game, stringGame);
+    printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", stringGame);
+  }
 }
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "PLAY GAME"
@@ -233,28 +230,22 @@ list game awal).
 F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 */
 
-// void SKIPGAME(IdxType X, Queue *QueueGame){
-
-// }
-// /* Melewatkan satu atau beberapa game dari Queue Game yang dimiliki player */
-
 /*prosedur skipGame*/
-void SKIPGAME(Queue *q) {
-  boolean valid = false;
-  int n;
-  scanf("%i", &n);
-  valid = (n<length(*q)); /*inisialisasi valid*/
-  /*checker valid/tidak input*/
-  if (!valid) {
-    printf("Tidak ada permainan lagi dalam daftar game-mu.");
+void SKIPGAME(Queue *QueueGame) {
+  printf("Berikut adalah daftar antrian game-mu: \n");
+  for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
+    printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
   }
-  else /*input valid*/ {
-    Word game;
-    /*skip game sebanyak n kali*/
-    for (int i = 0; i<n;i++) {
-      dequeue(q, &game);
-    }
-    PLAYGAME(q);
+  printf("Jumlah Game yang Ingin di Skip: ");
+  STARTWORD();
+  int nSkip = currentWord.TabWord[0] - '0';
+  if (nSkip <= IDX_TAIL(*QueueGame) && nSkip >= 0) {
+    Word Game;
+    for (int i=0; i<nSkip;i++) {dequeue(QueueGame, &Game);}
+    PLAYGAME(QueueGame);
+  }
+  else /*kasus kalau input salah*/ {
+    printf("Tidak ada permainan lagi dalam daftar game-mu");
   }
 }
 /*
