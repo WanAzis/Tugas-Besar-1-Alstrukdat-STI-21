@@ -10,6 +10,8 @@
 #include "boolean.h"
 #include "console.h"
 
+
+/* INI ADALAH CODE BARU YANG DITAMBAHKAN KE MAIN */
 array ListGame;
 Queue QueueGame;
 int fitur=1,mode;
