@@ -15,6 +15,7 @@ Queue QueueGame;
 int fitur=1,mode;
 
 /* Fitur-fitur pada BNMO */
+/* INI MISAL BARU GUE BIKIN LAGI */
 
 void MENU(){
   printf("---------------|  MAIN MENU |---------------\n");
