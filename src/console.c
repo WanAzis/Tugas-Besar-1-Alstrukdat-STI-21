@@ -17,12 +17,15 @@ int fitur=1,mode;
 /* Fitur-fitur pada BNMO */
 /* INI MISAL BARU GUE BIKIN LAGI */
 
+/* PLUS INI MASIH GUE BIKIN BARU */
+
 void MENU(){
   printf("---------------|  MAIN MENU |---------------\n");
   printf("[1] START\n[2] LOAD\n");
 }
 /* Tampilan awal mesin BNMO yang akan menampilkan pilihan START atau LOAD untuk playar */
 
+/* INI JUGA BARU GUE EDIT */
 void FITURE(){
   printf("Fitur pada BNMO yang bisa anda pilih :\n");
   printf("CREATEGAME\n");
