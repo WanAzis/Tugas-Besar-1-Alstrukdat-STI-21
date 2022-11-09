@@ -105,20 +105,38 @@ void SAVE(){
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
 void CREATEGAME(array *ListGame){
-  // STARTWORD();
-  // char *game;
-  // WordToString(currentWord, game);
-  // (*ListGame).A[];
+/*STARTWORD();
+char *game;
+WordToString(currentWord, game);
+(*ListGame).A[];/*
 }
 /* Membuat sebuah game baru inputan player */
 
 void LISTGAME(array ListGame){
-
+int i = 0;
+    printf("Berikut adalah daftar game yang tersedia");
+    
+    /* Menampilkan list game dari nomor 1 indeks ke-0 */
+    for (i; i < ListGame.Neff; i++){
+        printf("%d. %s\n", i + 1, ListGame.A[i]);
+    }
 }
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
 void DELETEGAME(array *ListGame){
+ int game,i;
 
+ printf("Masukkan nomor game yang akan dihapus: ");
+ STARTWORD();
+ 
+ if ((game>=1) && (game<=5)){
+  printf("Game gagal dihapus\n");
+ }
+ else if (game>5){
+  i = game-1;
+  DeleteAt(ListGame, i);
+  printf("Game berhasil dihapus\n");
+  }
 }
 /* Menghapus sebuah game yang dimiliki oleh player */
 
