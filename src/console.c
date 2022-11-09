@@ -18,6 +18,10 @@ int fitur=1,mode;
 
 /* Fitur-fitur pada BNMO */
 
+/* INI BARU GUE TAMBAHIN TAPI BLOM ADA DI MAIN */
+
+/* INI KOMENAN LAIN LAGI YANG BARU GUE BIKIN */
+
 void MENU(){
   printf("---------------|  MAIN MENU |---------------\n");
   printf("[1] START\n[2] LOAD\n");
