@@ -105,37 +105,53 @@ void SAVE(){
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
 void CREATEGAME(array *ListGame){
-/*STARTWORD();
-char *game;
-WordToString(currentWord, game);
-(*ListGame).A[];/*
+  int i = 0;
+  boolean ada = false;
+
+  printf("Masukkan nama game yang akan ditambahkan: "); 
+  STARTWORD();
+  char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, g);
+  for (i; i < (*ListGame).Neff; i++){
+    if ((*ListGame).A[i] == g){
+       ada = true;
+      }
+    }
+    if (ada){
+        InsertLast(ListGame, g);
+        printf("Game berhasil ditambahkan");
+    } else {
+        printf("Game sudah terdaftar");
+}
 }
 /* Membuat sebuah game baru inputan player */
 
 void LISTGAME(array ListGame){
-int i = 0;
-    printf("Berikut adalah daftar game yang tersedia");
-    
-    /* Menampilkan list game dari nomor 1 indeks ke-0 */
+int i=0;
+STARTWORD();
+char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
+WordToString(currentWord, g);
+  printf("Berikut adalah daftar game yang tersedia");
     for (i; i < ListGame.Neff; i++){
-        printf("%d. %s\n", i + 1, ListGame.A[i]);
+  printf("%d. %s\n", i + 1, ListGame.A[i]);
     }
 }
+
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
 void DELETEGAME(array *ListGame){
- int game,i;
-
+ int i=0;
  printf("Masukkan nomor game yang akan dihapus: ");
  STARTWORD();
- 
- if ((game>=1) && (game<=5)){
-  printf("Game gagal dihapus\n");
- }
- else if (game>5){
-  i = game-1;
-  DeleteAt(ListGame, i);
-  printf("Game berhasil dihapus\n");
+ char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
+ WordToString(currentWord, g);
+  if ((g>=1) && (g<=5)){
+   printf("Game gagal dihapus\n");
+  }
+  else if (g>5){
+    i = g-1;
+    DeleteAt(ListGame, i);
+    printf("Game berhasil dihapus\n");
   }
 }
 /* Menghapus sebuah game yang dimiliki oleh player */
