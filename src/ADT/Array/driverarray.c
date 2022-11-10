@@ -1,16 +1,15 @@
 #include <stdio.h>
-#include "Array.c"
+#include "Array.h"
 
 int main(){
     array arr = Makearray();
     if (IsEmpty(arr)){
         printf("Array masih kosong\n");
     }
-    InsertLast(&arr, "Dinner Dash");
-    InsertLast(&arr, "Game Suka suka");
-    InsertLast(&arr, "Tiga");
-    Printarray(arr);
-    InsertAt(&arr, "Ini antara dinner dan game suka", 1);
+    for (int i = 0; i<5; i++){
+        STARTWORD();
+        InsertLast(&arr, currentWord);
+    }
     Printarray(arr);
     DeleteAt(&arr, 1);
     Printarray(arr);

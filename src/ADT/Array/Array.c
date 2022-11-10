@@ -137,8 +137,8 @@ void Printarray(array arr)
     } else {
     printf("[");
     for (int i = 0;i<arr.Neff-1;i++) {
-        printf("%s, ", arr.A[i]);
-    } printf("%s",arr.A[arr.Neff-1]);
+        PrintKata(arr.A[i]);printf(",");
+    } PrintKata(arr.A[arr.Neff-1]);
     printf("]\n");
     }
 }
@@ -180,19 +180,4 @@ array Copyarray(array arr)
         arr2.A[i] = arr.A[i];
     } arr2.Neff = arr.Neff;
     return arr2;
-}
-
-/**
- * Fungsi untuk melakukan search suatu array.
- * Prekondisi: arr terdefinisi
- */
-IdxType Searcharray(array arr, ElType el)
-{
-    int i = 0;
-    while (arr.A[i] != el && i<Length(arr)) {
-        i++;
-    } 
-    if (i==Length(arr)){
-        return -1;
-    } else {return i;}
 }

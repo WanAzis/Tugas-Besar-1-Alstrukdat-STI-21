@@ -22,7 +22,6 @@ void STARTWORD(){
     } else {
         EndWord=false;
         CopyWord();
-        IgnoreBlanks();
     }
 }
 /* I.S. : currentChar sembarang
@@ -38,7 +37,6 @@ void STARTWORDFILE(char *FileName){
     } else {
         EndWord=false;
         CopyWord();
-        IgnoreBlanks();
     }
 }
 /* I.S. : currentChar sembarang
@@ -47,11 +45,11 @@ void STARTWORDFILE(char *FileName){
           currentChar karakter pertama sesudah karakter terakhir kata */
 
 void ADVWORD(){
+    IgnoreBlanks();
     if (currentChar==MARK){
         EndWord=true;
     } else{
         CopyWord();
-        IgnoreBlanks();
     }
 }
 /* I.S. : currentChar adalah karakter pertama kata yang akan diakuisisi
@@ -93,3 +91,28 @@ void WordToString(Word Kata, char *s){
 /* Proses : Menerima kata dalam bentuk Word lalu mengubahnya ke bentuk string
    I.S. : currentWord terdefinisi
    F.S. : terbentuk sebuah string s yang berisi char dari currentWord*/
+
+boolean WordCompareString(Word Kata, char *s){
+    boolean found = true;
+    int i = 0;
+    while (i<Kata.Length && found){
+        if (Kata.TabWord[i]!=s[i]){
+            found = false;
+        }
+        else {
+            i++;
+        }
+    } return found;
+}
+/* Proses : Membandingkan kata dengan string, menghasilkan true jika sama 
+   I.S. : Word terdefinisi, string juga terdefinisi
+   F.S. : menghasilkan true jika kata sama dengan ripresentasinya pada string input */
+
+void PrintKata(Word Kata){
+    for (int i = 0; i<Kata.Length; i++){
+        printf("%c", Kata.TabWord[i]);
+    }
+}
+/* Proses : Menuliskan tipe bentukan kata ke layar
+   I.S. : Word terdefinisi
+   F.S. : kata yang disimpan dalam Word Kata tertulis di layar */

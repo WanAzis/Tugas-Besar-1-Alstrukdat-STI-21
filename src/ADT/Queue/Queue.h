@@ -4,13 +4,14 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "../boolean.h"
+#include "../../boolean.h"
+#include "../MesinKata/mesin_kata.h"
 
 #define IDX_UNDEF -1
 #define CAPACITY 100
 
 /* Definisi elemen dan address */
-typedef char *ElType;
+typedef Word ElType;
 typedef struct {
 	ElType buffer[CAPACITY]; 
 	int idxHead;

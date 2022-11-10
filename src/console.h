@@ -1,13 +1,14 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "ADT/Array.h"
-#include "ADT/mesin_karakter.h"
-#include "ADT/mesin_kata.h"
-#include "ADT/Queue.h"
+#include "ADT/Array/Array.h"
+#include "ADT/MesinKata/mesin_karakter.h"
+#include "ADT/MesinKata/mesin_kata.h"
+#include "ADT/Queue/Queue.h"
 
 extern array ListGame;
 extern Queue QueueGame;
+extern int fitur, mode;
 
 /* Fitur-fitur pada BNMO */
 
@@ -26,7 +27,7 @@ void STARTBNMO();
 void LOADBNMO();
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void CHOOSEFITURE();
+void CHOOSEFITURE(int *fitur);
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
 void SAVE();

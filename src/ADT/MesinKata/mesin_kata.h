@@ -3,7 +3,7 @@
 #ifndef __MESINKATA_H__
 #define __MESINKATA_H__
 
-#include "../boolean.h"
+#include "../../boolean.h"
 #include "mesin_karakter.h"
 
 #define NMax 50
@@ -56,7 +56,17 @@ void CopyWord();
 
 void WordToString(Word Kata, char *s);
 /* Proses : Menerima kata dalam bentuk Word lalu mengubahnya ke bentuk string
-   I.S. : currentWord terdefinisi
-   F.S. : terbentuk sebuah string s yang berisi char dari currentWord*/
+   I.S. : Word terdefinisi
+   F.S. : terbentuk sebuah string s yang berisi char dari currentWord */
+
+boolean WordCompareString(Word Kata, char *s);
+/* Proses : Membandingkan kata dengan string, menghasilkan true jika sama 
+   I.S. : Word terdefinisi, string juga terdefinisi
+   F.S. : menghasilkan true jika kata sama dengan ripresentasinya pada string input */
+
+void PrintKata(Word Kata);
+/* Proses : Menuliskan tipe bentukan kata ke layar
+   I.S. : Word terdefinisi
+   F.S. : kata yang disimpan dalam Word Kata tertulis di layar */
 
 #endif

@@ -1,19 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ADT/Array.h"
-#include "ADT/Queue.h"
-#include "ADT/mesin_karakter.h"
-#include "ADT/mesin_kata.h"
+#include <string.h>
+#include "ADT/Array/Array.h"
+#include "ADT/Queue/Queue.h"
+#include "ADT/MesinKata/mesin_karakter.h"
+#include "ADT/MesinKata/mesin_kata.h"
 #include "Procedure/Fungsi_Kecil.h"
 #include "Procedure/Game.h"
 #include "boolean.h"
 #include "console.h"
 
+
+/* INI ADALAH CODE BARU YANG DITAMBAHKAN KE MAIN */
+/* INI KOMENAN BARU YANG BARU BANGET DITAMBAHIN */
 array ListGame;
 Queue QueueGame;
-int fitur;
+int fitur=1,mode;
 
 /* Fitur-fitur pada BNMO */
+/* INI KOMENAN BARU YANG BELOM ADA DI MAIN TAPI UDH GUE BIKIN DI BRANCH GUE */
 
 void MENU(){
   printf("---------------|  MAIN MENU |---------------\n");
@@ -76,7 +81,7 @@ void LOADBNMO(){
 }
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void CHOOSEFITURE(){
+void CHOOSEFITURE(int *fitur){
   STARTWORD();
   if (WordCompareString(currentWord,"CREATEGAME")){
     CREATEGAME(&ListGame);
@@ -136,7 +141,6 @@ void CREATEGAME(array *ListGame){
     } else {
         printf("Game sudah terdaftar");
 }
-}
 /* Membuat sebuah game baru inputan player */
 
 void LISTGAME(array ListGame){
@@ -167,7 +171,7 @@ void DELETEGAME(array *ListGame){
 /* Menghapus sebuah game yang dimiliki oleh player */
 
 /*prosedur queuegame*/
-void QUEUEGAME(Queue *q) {
+void QUEUEGAME(Queue *QueueGame) {
   /*Menampilkan List Game*/
   LISTGAME(ListGame);
   /*Menampilkan Queue Game yang sudah ada*/
@@ -199,7 +203,7 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *q /*harusnya ada list juga*/) {
+void PLAYGAME(Queue *QueueGame /*harusnya ada list juga*/) {
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
@@ -233,8 +237,7 @@ F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 */
 
 /*prosedur skipGame*/
-void SKIPGAME(Queue *q) {
-  void SKIPGAME(Queue *QueueGame) {
+void SKIPGAME(Queue *QueueGame) {
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");

@@ -4,12 +4,13 @@
 int main(){
     Queue q;
     CreateQueue(&q);
-    enqueue(&q, "satu");
-    enqueue(&q, "dua");
-    enqueue(&q, "tiga");
+    for (int i = 0; i<3; i++){
+        STARTWORD();
+        enqueue(&q, currentWord);
+    }
     displayQueue(q);
-    char *CElement;
+    Word CElement;
     dequeue(&q, &CElement);
-    printf("%s\n", CElement);
+    PrintKata(CElement);printf("\n");
     displayQueue(q);
 }
