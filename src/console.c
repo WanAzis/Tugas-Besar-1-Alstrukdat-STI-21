@@ -37,11 +37,9 @@ void FITURE(){
 
 void CHOOSEMODE(int *mode){
   STARTWORD();
-  char *m = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, m);
-  if(m=="START"){
+  if(WordCompareString(currentWord, "START")){
     *mode=1;
-  } else if (m=="LOAD"){
+  } else if (WordCompareString(currentWord, "LOAD")){
     *mode=2;
   }
 }
@@ -49,50 +47,55 @@ void CHOOSEMODE(int *mode){
 
 void STARTBNMO(){
   ListGame = Makearray();
+  CreateQueue(&QueueGame);
   char *fname = "..\\data\\config.txt";
   STARTWORDFILE(fname);
-  char CKata[50];
-  WordToString(currentWord, CKata);
-  int loop = CKata[0] - '0';
+  int loop = currentWord.TabWord[0] - '0';
   ADVWORD();
   while(loop--){
-    WordToString(currentWord, CKata);
-    printf("%s\n", CKata);
-    InsertLast(&ListGame, CKata);
-    Printarray(ListGame);
+    InsertLast(&ListGame, currentWord);
     ADVWORD();
   }
-  // Printarray(ListGame);
 }
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
 void LOADBNMO(){
-
+  ListGame = Makearray();
+  CreateQueue(&QueueGame);
+  printf("Masukkan file save yang ingin diakses: ");
+  STARTWORD();
+  char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, fname);
+  STARTWORDFILE(fname);
+  int loop = currentWord.TabWord[0] - '0';
+  ADVWORD();
+  while(loop--){
+    InsertLast(&ListGame, currentWord);
+    ADVWORD();
+  }
 }
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
 void CHOOSEFITURE(){
   STARTWORD();
-  char *f = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, f);
-  if (f=="CREATEGAME"){
+  if (WordCompareString(currentWord,"CREATEGAME")){
     CREATEGAME(&ListGame);
-  } else if (f=="LISTGAME"){
+  } else if (WordCompareString(currentWord,"LISTGAME")){
     LISTGAME(ListGame);
-  } else if (f=="DELETEGAME"){
+  } else if (WordCompareString(currentWord,"DELETEGAME")){
     DELETEGAME(&ListGame);
-  } else if (f=="QUEUEGAME"){
+  } else if (WordCompareString(currentWord,"QUEUEGAME")){
     QUEUEGAME(&QueueGame);
-  } else if (f=="PLAYGAME"){
+  } else if (WordCompareString(currentWord,"PLAYGAME")){
     PLAYGAME(&QueueGame);
-  } else if (f=="SKIPGAME"){
+  } else if (WordCompareString(currentWord,"SKIPGAME")){
     SKIPGAME(&QueueGame);
-  } else if (f=="SAVE"){
+  } else if (WordCompareString(currentWord,"SAVE")){
     SAVE();
-  } else if (f=="HELP"){
+  } else if (WordCompareString(currentWord,"HELP")){
     HELP();
-  } else if (f=="QUIT"){
-    fitur = 0;
+  } else if (WordCompareString(currentWord,"QUIT")){
+    *fitur = 0;
   } else {
     COMMANDLAIN();
   }
@@ -100,7 +103,20 @@ void CHOOSEFITURE(){
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
 void SAVE(){
-
+  printf("Masukkan nama file save: ");
+  STARTWORD();
+  char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, fname);
+  FILE *fp = fopen(fname, "w");
+  fprintf(fp, "%d\n", ListGame.Neff);
+  char *ftulis = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  for(int i=0; i<ListGame.Neff-1; i++){
+    WordToString(ListGame.A[i], ftulis);
+    fprintf(fp, "%s\n", ftulis);
+  }
+  WordToString(ListGame.A[ListGame.Neff-1], ftulis);
+  fprintf(fp, "%s;", ftulis);
+  fclose(fp);
 }
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
@@ -108,16 +124,13 @@ void CREATEGAME(array *ListGame){
   int i = 0;
   boolean ada = false;
 
-  printf("Masukkan nama game yang akan ditambahkan: "); 
-  STARTWORD();
-  char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, g);
+  printf("Masukkan nama game yang akan ditambahkan: "); STARTWORD();
   for (i; i < (*ListGame).Neff; i++){
-    if ((*ListGame).A[i] == g){
+    if ((*ListGame).A[i] == currentWord){
        ada = true;
       }
     }
-    if (ada){
+    if (!ada){
         InsertLast(ListGame, g);
         printf("Game berhasil ditambahkan");
     } else {
@@ -127,92 +140,84 @@ void CREATEGAME(array *ListGame){
 /* Membuat sebuah game baru inputan player */
 
 void LISTGAME(array ListGame){
-int i=0;
-STARTWORD();
-char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
-WordToString(currentWord, g);
-  printf("Berikut adalah daftar game yang tersedia");
-    for (i; i < ListGame.Neff; i++){
-  printf("%d. %s\n", i + 1, ListGame.A[i]);
-    }
+  printf("Berikut daftar game yang anda miliki : \n");
+  for (int i = 0; i<ListGame.Neff; i++){
+    printf("%i. ", i+1); PrintKata(ListGame.A[i]); printf("\n");
+  }
 }
 
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
 void DELETEGAME(array *ListGame){
- int i=0;
- printf("Masukkan nomor game yang akan dihapus: ");
- STARTWORD();
- char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
- WordToString(currentWord, g);
-  if ((g>=1) && (g<=5)){
-   printf("Game gagal dihapus\n");
-  }
-  else if (g>5){
-    i = g-1;
-    DeleteAt(ListGame, i);
-    printf("Game berhasil dihapus \n");
+ LISTGAME(*ListGame); printf("\n");
+  printf("Masukkan nomor game yang ingin dihapus : "); STARTWORD();
+  int nmr = currentWord.TabWord[0] - '0';
+  if ((*ListGame).Neff>5 && nmr>5){
+    if (nmr<=(*ListGame).Neff){
+      DeleteAt(ListGame, nmr-1);
+      printf("Game berhasil dihapus!\n");
+    }
+    else {
+      printf("Nomor game tidak valid!\n");
+    }
+  } else {
+    printf("Game default tidak bisa dihapus!\n");
   }
 }
 /* Menghapus sebuah game yang dimiliki oleh player */
 
-// void QUEUEGAME(IdxType X, array ListGame, Queue *QueueGame){
-
-// }
-// /* Mendaftarkan sebuah game yang dimiliki oleh player kedalam Queue Game untuk dimainkan */
-
 /*prosedur queuegame*/
 void QUEUEGAME(Queue *q) {
-  int noGame = 0;
-  char *game;
-  boolean valid = false;
-  // validChecker(valid, noGame);
-  /*game diinisialiasi sama elemen ke-noGame dari list Game*/
-  enqueue(q, game);
+  /*Menampilkan List Game*/
+  LISTGAME(ListGame);
+  /*Menampilkan Queue Game yang sudah ada*/
+  printf("Berikut adalah daftar antrian game-mu: \n");
+  for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
+    printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
+  }
+  /*Masukkan input nomor game yang mau dimasukkan kedalam queue*/
+  printf("Nomor Game yang mau ditambahkan ke antrian: ");
+  STARTWORD();
+  int noGame = currentWord.TabWord[0] - '0';
+  if (noGame <= ListGame.Neff && noGame > 0) {
+    enqueue(QueueGame, ListGame.A[noGame-1]);
+  }
+  else /*kasus kalau input salah*/ {
+    printf("No Game yang di input tidak valid!\n");
+  }
 }
+/*
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEUE GAME", 
            intinya setiap dipanggil, akan memilih game pada list game, dan akan dimasukkan
            kedalam queue. 
            Catatan: - Memungkinkan untuk ada lebih dari satu game yang sama pada queue.
-                    - Disini hanya memasukkan game, masalah penanganan input valid/tidak 
-                      bukan disini, di file main.
                     - Diasumsikan di file main udah dibuat queue kosong, jadi tinggal isi.
                     - Diasumsikan maksimum queue pada satu kali proses bermain adalah 10
 I.S. input sudah valid, list game + queue game (jika sudah ada) di tampilkan
 F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
 
-// void PLAYGAME(IdxType X, array ListGame){
-
-// }
-// /* Memainkan sebuah game yang dimiliki oleh player */
-
 /*prosedur playgame*/
 void PLAYGAME(Queue *q /*harusnya ada list juga*/) {
-  if (isEmpty(*q)) {
-    int noGame = 0;
-    char game;
-    boolean valid = false;
-    // validChecker(valid, noGame);
-    /*game diinisialiasi sama elemen ke-noGame dari list Game*/
-    if (true/*kalo dia game di list ke-noGame nya itu = "RNG" atau "Dinner Dash", (btw true nya biarin aja, cm biar ga error)*/) {
-      printf("Loading %s...", q->buffer[IDX_HEAD(*q)]);
-      /*eksekusi game, panggil fungsi game nya*/
-    }
-    else /*bilang gabisa dimainin*/ {
-      printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", q->buffer[IDX_HEAD(*q)]);
-    }
+  printf("Berikut adalah daftar antrian game-mu: \n");
+  for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
+    printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
   }
-  else /*queue game ada isi nya*/ {
-    /*panggil game pertama dari queue*/
-    if (q->buffer[IDX_HEAD(*q)] == "RNG" || q->buffer[IDX_HEAD(*q)] == "Dinner Dash") {
-      printf("Loading %s...", q->buffer[IDX_HEAD(*q)]);
-      /*eksekusi game, panggil fungsi game nya*/
-    }
-    else /*bilang gabisa dimainin*/ {
-      printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", q->buffer[IDX_HEAD(*q)]);
-    }
+  Word Game;
+  dequeue(QueueGame, &Game);
+  if (WordCompareString(Game, "Dinner DASH")) {
+    printf("Loading...");
+    Diner_Dash();
+  }
+  else if (WordCompareString(Game, "RNG")) {
+    printf("Loading...");
+    RNG();
+  }
+  else /*game selain RNG dan Dinner Dash*/ {
+    char *stringGame = (char*) malloc (sizeof(char) * Game.Length+1);
+    WordToString(Game, stringGame);
+    printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", stringGame);
   }
 }
 /*
@@ -227,28 +232,23 @@ list game awal).
 F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 */
 
-// void SKIPGAME(IdxType X, Queue *QueueGame){
-
-// }
-// /* Melewatkan satu atau beberapa game dari Queue Game yang dimiliki player */
-
 /*prosedur skipGame*/
 void SKIPGAME(Queue *q) {
-  boolean valid = false;
-  int n;
-  scanf("%i", &n);
-  valid = (n<length(*q)); /*inisialisasi valid*/
-  /*checker valid/tidak input*/
-  if (!valid) {
-    printf("Tidak ada permainan lagi dalam daftar game-mu.");
+  void SKIPGAME(Queue *QueueGame) {
+  printf("Berikut adalah daftar antrian game-mu: \n");
+  for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
+    printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
   }
-  else /*input valid*/ {
-    char *game;
-    /*skip game sebanyak n kali*/
-    for (int i = 0; i<n;i++) {
-      dequeue(q, &game);
-    }
-    PLAYGAME(q);
+  printf("Jumlah Game yang Ingin di Skip: ");
+  STARTWORD();
+  int nSkip = currentWord.TabWord[0] - '0';
+  if (nSkip <= IDX_TAIL(*QueueGame) && nSkip >= 0) {
+    Word Game;
+    for (int i=0; i<nSkip;i++) {dequeue(QueueGame, &Game);}
+    PLAYGAME(QueueGame);
+  }
+  else /*kasus kalau input salah*/ {
+    printf("Tidak ada permainan lagi dalam daftar game-mu");
   }
 }
 /*
@@ -263,8 +263,7 @@ F.S. game di skip, lalu dimainkan
 */
 
 void QUIT(){
-  printf("Apakah anda ingin save?\n");
-  STARTWORD();
+  printf("Apakah anda ingin save?\n"); STARTWORD();
   char *s = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, s);
   if (s == "SAVE") {
