@@ -151,7 +151,7 @@ void DELETEGAME(array *ListGame){
   else if (g>5){
     i = g-1;
     DeleteAt(ListGame, i);
-    printf("Game berhasil dihapus\n");
+    printf("Game berhasil dihapus \n");
   }
 }
 /* Menghapus sebuah game yang dimiliki oleh player */
