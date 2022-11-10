@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include "console.h"
+#include <stdlib.h>
 
 int main(){
     // FITURE();
-    STARTBNMO();
-    LISTGAME(ListGame);
-    CREATEGAME(&ListGame);
-    LISTGAME(ListGame);
-    DELETEGAME(&ListGame);
-    LISTGAME(ListGame);
-
+    STARTBNMO(&QueueGame);
+    QUEUEGAME(&QueueGame);
+    QUEUEGAME(&QueueGame);
+    QUEUEGAME(&QueueGame);
+    PLAYGAME(&QueueGame);
 }
