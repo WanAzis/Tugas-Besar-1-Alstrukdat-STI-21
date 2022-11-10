@@ -126,10 +126,20 @@ void SAVE(){
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
 void CREATEGAME(array *ListGame){
-  printf("Masukkan game yang ingin ditambahkan : ");
-  STARTWORD();
-  InsertLast(ListGame, currentWord); printf("\n");
-  printf("Game berhasil ditambahkan!\n");
+  int i = 0;
+  boolean ada = false;
+
+  printf("Masukkan nama game yang akan ditambahkan: "); STARTWORD();
+  for (i; i < (*ListGame).Neff; i++){
+    if ((*ListGame).A[i] == currentWord){
+       ada = true;
+      }
+    }
+    if (!ada){
+        InsertLast(ListGame, g);
+        printf("Game berhasil ditambahkan");
+    } else {
+        printf("Game sudah terdaftar");
 }
 /* Membuat sebuah game baru inputan player */
 
@@ -139,10 +149,11 @@ void LISTGAME(array ListGame){
     printf("%i. ", i+1); PrintKata(ListGame.A[i]); printf("\n");
   }
 }
+
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
 void DELETEGAME(array *ListGame){
-  LISTGAME(*ListGame); printf("\n");
+ LISTGAME(*ListGame); printf("\n");
   printf("Masukkan nomor game yang ingin dihapus : "); STARTWORD();
   int nmr = currentWord.TabWord[0] - '0';
   if ((*ListGame).Neff>5 && nmr>5){
@@ -180,6 +191,7 @@ void QUEUEGAME(Queue *QueueGame) {
   }
 }
 /*
+/*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEUE GAME", 
            intinya setiap dipanggil, akan memilih game pada list game, dan akan dimasukkan
            kedalam queue. 
@@ -189,7 +201,6 @@ Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEU
 I.S. input sudah valid, list game + queue game (jika sudah ada) di tampilkan
 F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
-
 
 /*prosedur playgame*/
 void PLAYGAME(Queue *QueueGame /*harusnya ada list juga*/) {
@@ -255,8 +266,7 @@ F.S. game di skip, lalu dimainkan
 */
 
 void QUIT(){
-  printf("Apakah anda ingin save?\n");
-  STARTWORD();
+  printf("Apakah anda ingin save?\n"); STARTWORD();
   char *s = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, s);
   if (s == "SAVE") {
