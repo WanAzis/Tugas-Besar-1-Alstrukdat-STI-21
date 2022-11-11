@@ -10,14 +10,11 @@
 #include "boolean.h"
 #include "console.h"
 
-/* INI ADALAH CODE BARU YANG DITAMBAHKAN KE MAIN */
-/* INI KOMENAN BARU YANG BARU BANGET DITAMBAHIN */
 array ListGame;
 Queue QueueGame;
 int fitur=1,mode;
 
 /* Fitur-fitur pada BNMO */
-/* INI KOMENAN BARU YANG BELOM ADA DI MAIN TAPI UDH GUE BIKIN DI BRANCH GUE */
 
 void MENU(){
   printf("---------------|  MAIN MENU |---------------\n");
@@ -129,10 +126,8 @@ void CREATEGAME(array *ListGame){
   boolean ada = false;
 
   printf("Masukkan nama game yang akan ditambahkan: "); STARTWORD();
-  char *gameInput = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, gameInput);
   for (i; i < (*ListGame).Neff; i++){
-    if (WordCompareString(ListGame->A[i], gameInput)){
+    if ((*ListGame).A[i] == currentWord){
        ada = true;
       }
     }
@@ -151,6 +146,7 @@ void LISTGAME(array ListGame){
     printf("%i. ", i+1); PrintKata(ListGame.A[i]); printf("\n");
   }
 }
+
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
 void DELETEGAME(array *ListGame){
@@ -192,6 +188,7 @@ void QUEUEGAME(Queue *QueueGame) {
   }
 }
 /*
+/*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEUE GAME", 
            intinya setiap dipanggil, akan memilih game pada list game, dan akan dimasukkan
            kedalam queue. 
@@ -201,7 +198,6 @@ Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEU
 I.S. input sudah valid, list game + queue game (jika sudah ada) di tampilkan
 F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
-
 
 /*prosedur playgame*/
 void PLAYGAME(Queue *QueueGame /*harusnya ada list juga*/) {
@@ -276,8 +272,7 @@ F.S. game di skip, lalu dimainkan
 */
 
 void QUIT(){
-  printf("Apakah anda ingin save?\n");
-  STARTWORD();
+  printf("Apakah anda ingin save?\n"); STARTWORD();
   char *s = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, s);
   if (s == "SAVE") {
