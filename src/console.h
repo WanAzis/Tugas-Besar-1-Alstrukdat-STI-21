@@ -24,7 +24,7 @@ void CHOOSEMODE(int *mode, char *file);
 void STARTBNMO();
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
-void LOADBNMO();
+void LOADBNMO(char *fname);
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
 void CHOOSEFITURE(int *fitur);
@@ -80,7 +80,7 @@ F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 // /* Melewatkan satu atau beberapa game dari Queue Game yang dimiliki player */
 
 /*prosedur skipGame*/
-void SKIPGAME(Queue *q);
+void SKIPGAME(Queue *q, int ctr);
 /*
 Deskripsi: function akan dilakukan ketika queue game sudah ada dan user memberika input
            berupa "SKIP GAME n". Jika n>length queue, maka muncul pesan error, jika n valid,

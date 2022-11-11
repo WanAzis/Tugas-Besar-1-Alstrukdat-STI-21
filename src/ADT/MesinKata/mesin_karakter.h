@@ -34,6 +34,8 @@ void ADV();
           currentChar mungkin = MARK
           Jika  currentChar = MARK maka EOP akan menyala (true) */
 
+void ADV2();
+
 char GetCC();
 /* Mengirimkan currentChar */
 

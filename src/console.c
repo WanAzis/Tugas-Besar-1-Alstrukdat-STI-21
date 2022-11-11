@@ -40,25 +40,11 @@ void FITURE(){
 
 void CHOOSEMODE(int *mode, char *file){
   printf("Silahkan memilih mode START/LOAD: "); STARTWORD2();
-  PrintKata(currentWord);
-  // Word perintah;
-  // for (int i = 0; i<5; i++){
-  //   perintah.TabWord[i]=currentWord.TabWord[i];
-  // } perintah.Length=5;
-
+  PrintKata(currentWord); printf("\n"); // HAPUS
   if(WordCompareString(currentWord, "START") && currentWord.Length==5){
     *mode=1;
   } else if (WordCompareString(currentWord, "LOAD")){
-    ADVWORD2(); PrintKata(currentWord);
-    // int j = 0;
-    // for (int i = 5; i<currentWord.Length; i++){
-    //   file[j] = currentWord.TabWord[i];
-    //   j++;
-    // } for (j; j<Strlen(file); j++){
-    //   if (file[j]!='\0'){
-    //     file[j]='\0';
-    //   }
-    // }
+    ADVWORD2(); PrintKata(currentWord); printf("\n"); //HAPUS
     WordToString(currentWord, file);
     *mode=2;
   } else {
@@ -84,7 +70,7 @@ void STARTBNMO(){
 void LOADBNMO(char *fname){
   ListGame = Makearray();
   CreateQueue(&QueueGame);
-  char file[] = "..\\data\\";
+  char file[25] = "../data/";
   ConcatString(file, fname); printf("file yg diakses : %s\n", file); // HAPUS
   STARTWORDFILE(file);
   if (pita != NULL){
@@ -100,22 +86,44 @@ void LOADBNMO(char *fname){
 }
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void CHOOSEFITURE(int *fitur){
-  printf("Masukkan perintah: "); STARTWORD(); printf("\n");
-  if (WordCompareString(currentWord,"CREATE GAME")){
-    CREATEGAME(&ListGame);
-  } else if (WordCompareString(currentWord,"LIST GAME")){
-    LISTGAME(ListGame);
-  } else if (WordCompareString(currentWord,"DELETE GAME")){
-    DELETEGAME(&ListGame);
-  } else if (WordCompareString(currentWord,"QUEUE GAME")){
-    QUEUEGAME(&QueueGame);
-  } else if (WordCompareString(currentWord,"PLAY GAME")){
-    PLAYGAME(&QueueGame);
+void CHOOSEFITURE(int *fitur, char *file){
+  printf("Masukkan perintah: "); STARTWORD2(); printf("\n");
+  if (WordCompareString(currentWord,"CREATE")){
+    ADV2();
+    if (WordCompareString(currentWord,"GAME")){
+      CREATEGAME(&ListGame);
+    }
+  } else if (WordCompareString(currentWord,"LIST")){
+    ADV2();
+    if (WordCompareString(currentWord,"GAME")){
+      LISTGAME(ListGame);
+    }
+  } else if (WordCompareString(currentWord,"DELETE")){
+    ADV2();
+    if (WordCompareString(currentWord,"GAME")){
+      DELETEGAME(&ListGame);
+    }
+  } else if (WordCompareString(currentWord,"QUEUE")){
+    ADV2();
+    if (WordCompareString(currentWord,"GAME")){
+      QUEUEGAME(&QueueGame);
+    }
+  } else if (WordCompareString(currentWord,"PLAY")){
+    ADV2();
+    if (WordCompareString(currentWord,"GAME")){
+      PLAYGAME(&QueueGame);
+    }
   } else if (WordCompareString(currentWord,"SKIPGAME")){
-    SKIPGAME(&QueueGame);
+    ADV2();
+    int ctr=0;
+    for (int i = 0; i<currentWord.Length; i++){
+      ctr = (ctr * 10) + currentWord.TabWord[i] - '0';
+    }
+    SKIPGAME(&QueueGame, ctr);
   } else if (WordCompareString(currentWord,"SAVE")){
-    SAVE();
+    ADV2(); PrintKata(currentWord); // HAPUS
+    WordToString(currentWord, file);
+    SAVE(file);
   } else if (WordCompareString(currentWord,"HELP")){
     HELP();
   } else if (WordCompareString(currentWord,"QUIT")){
@@ -126,8 +134,8 @@ void CHOOSEFITURE(int *fitur){
 }
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
-void SAVE(){
-  char fname[] = "..\\data\\";
+void SAVE(char *fname){
+  char fname[25] = "..\\data\\";
   printf("Masukkan nama file save: "); STARTWORD();
   char *akhir = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, akhir);
@@ -273,20 +281,18 @@ F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 */
 
 /*prosedur skipGame*/
-void SKIPGAME(Queue *QueueGame) {
+void SKIPGAME(Queue *QueueGame, int ctr) {
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
   }
-  printf("Jumlah Game yang Ingin di Skip: ");
-  STARTWORD();
-  int nSkip = currentWord.TabWord[0] - '0';
-  if (nSkip <= IDX_TAIL(*QueueGame) && nSkip >= 0) {
+  if (ctr <= IDX_TAIL(*QueueGame) && ctr >= 0) {
     Word Game;
-    for (int i=0; i<nSkip;i++) {dequeue(QueueGame, &Game);}
+    for (int i=0; i<ctr;i++) {dequeue(QueueGame, &Game);}
     PLAYGAME(QueueGame);
   }
   else /*kasus kalau input salah*/ {
+    CreateQueue(QueueGame);
     printf("Tidak ada permainan lagi dalam daftar game-mu");
   }
 }
@@ -304,7 +310,8 @@ F.S. game di skip, lalu dimainkan
 void QUIT(){
   printf("Apakah anda ingin save? (Y/N)\n"); STARTWORD();
   if (WordCompareString(currentWord, "Y")){
-    SAVE();
+    printf("")
+    SAVE(fname);
     printf("Data berhasil di save\n");
     printf("Anda keluar dari game BNMO.\n");
     printf("Bye bye ...\n");

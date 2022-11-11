@@ -50,6 +50,14 @@ void ADV(){
           currentChar mungkin = MARK
           Jika  currentChar = MARK maka EOP akan menyala (true) */
 
+void ADV2(){
+    retval = fscanf(pita,"%c",&currentChar);
+    EOP = (currentChar=='\n');
+    // if (EOP){
+    //     fclose(pita);
+    // }
+}
+
 char GetCC(){
     return currentChar;
 }

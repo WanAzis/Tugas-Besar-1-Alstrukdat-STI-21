@@ -90,7 +90,7 @@ void ADVWORD(){
 
 void ADVWORD2(){
     IgnoreBlanks2();
-    if (currentChar==MARK){
+    if (currentChar=='\n'){
         EndWord=true;
     } else{
         CopyWord2();
@@ -126,11 +126,11 @@ void CopyWord(){
 
 void CopyWord2(){
     int i = 0;
-    while (currentChar!=MARK && currentChar!=BLANK){
+    while (currentChar!='\n' && currentChar!=BLANK){
         if (i<NMax){
             currentWord.TabWord[i]=currentChar;
         }
-        ADV(); i++;
+        ADV2(); i++;
     } 
     if (i<NMax) {
         currentWord.Length=i;
