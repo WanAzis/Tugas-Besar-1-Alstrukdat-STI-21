@@ -72,6 +72,8 @@ void STARTENTER(){
     START();
     if (currentChar=='\n'){
         EndWord=true;
+    } else {
+        printf("Tekan <ENTER>\n");
     }
 }
 /* Mesin menerima inputan enter, state program berganti */

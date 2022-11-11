@@ -114,7 +114,7 @@ void CHOOSEFITURE(int *fitur, char *file){
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SKIPGAME")){
     ADVWORD2();
-    if (currentWord.Length!=0){
+    if (currentChar!='\0'){
     int ctr=0;
     for (int i = 0; i<currentWord.Length; i++){
       ctr = (ctr * 10) + currentWord.TabWord[i] - '0';

@@ -52,7 +52,7 @@ void Diner_Dash(){
   }
 
   printf("Selamat Datang di Diner Dash!\n");
-  while (Len(Order)<=7 && serv<=15){
+  while (Len(Order)<=11 && serv<=15){  //GANTI
     printf("\nSaldo : %i\n\n", saldo);
     printUI(Order, Cook, Serve);
 
@@ -91,7 +91,7 @@ void Diner_Dash(){
       if (idx>=IDX_HEAD(Serve) && idx<=IDX_TAIL(Serve)){
         if (ID==Order.buffer[IDX_HEAD(Order)].id){
           printf("Berhasil mengantar M%i\n", ID); serv++;
-          DequeueAt(&Serve, &fd, idx); DequeueAt(&Order, &fd, idx);
+          DequeueAt(&Serve, &fd, idx); DequeueAt(&Order, &fd, 0);
           saldo += fd.harga;
           ONETURN(&Order, &Cook, &Serve);
         }
@@ -157,8 +157,6 @@ void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve){
     if ((*Serve).buffer[i].ketahanan==0){
       printf("Makanan M%i hangus, silahkan masak kembali\n", (*Serve).buffer[i].id);
       DequeueAt(Serve, &fd, i);
-      Enqueue(Cook, fd);
-      i--;
     }
   }
   fd.id=(*Order).buffer[IDX_TAIL(*Order)].id + 1;
@@ -175,7 +173,7 @@ void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){
   printf("Makanan | Durasi memasak | Ketahanan | Harga\n");
   printf("----------------------------------------------\n");
   for (int i = IDX_HEAD(Order); i <= IDX_TAIL(Order) ; i++){
-    if (i < 10){
+    if (i < 9){
       printf("M%d      | %d              | %d         | %d\n", Order.buffer[i].id, Order.buffer[i].durasi, Order.buffer[i].ketahanan, Order.buffer[i].harga);
     } else {
       printf("M%d     | %d              | %d         | %d\n", Order.buffer[i].id, Order.buffer[i].durasi, Order.buffer[i].ketahanan, Order.buffer[i].harga);
@@ -189,7 +187,7 @@ void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){
     printf("        |\n");
   } else{
     for (int i = IDX_HEAD(Cook); i <= IDX_TAIL(Cook) ; i++){
-      if (i < 10){
+      if (i < 9){
         printf("M%d      | %d\n", Cook.buffer[i].id, Cook.buffer[i].durasi);
       } else{
         printf("M%d     | %d\n", Cook.buffer[i].id, Cook.buffer[i].durasi);
@@ -204,7 +202,7 @@ void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){
     printf("        |\n");
   } else{
     for (int i = IDX_HEAD(Serve); i <= IDX_TAIL(Serve) ; i++){
-      if (i < 10){
+      if (i < 9){
         printf("M%d      | %d\n", Serve.buffer[i].id, Serve.buffer[i].ketahanan);
       } else{
         printf("M%d     | %d\n", Serve.buffer[i].id, Serve.buffer[i].ketahanan);
