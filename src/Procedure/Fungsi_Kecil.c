@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Fungsi_Kecil.h"
+#include "../ADT/Queue/QueueDD.h"
 
 /*prosedur validChecker*/
 void validChecker(boolean valid, int noGame) {
@@ -12,3 +13,21 @@ void validChecker(boolean valid, int noGame) {
   }
 }
 /*ini check valid/engga input doang, simpel kok*/
+
+int searchDD(QueueDD q, int x){
+  int found = false; 
+  int i = IDX_HEAD(q);
+  while (i<=IDX_TAIL(q) && !found){
+    if (q.buffer[i].id == x){
+      found = true;
+    } else {
+      i++;
+    }
+  }
+  if (found){
+    return i;
+  } else {
+    return -999;
+  }
+}
+/* Mencari elemen q yang id nya adalah ID, asumsi ID pasti terdapat pada q */

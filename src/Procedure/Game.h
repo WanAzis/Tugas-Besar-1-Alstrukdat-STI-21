@@ -2,13 +2,12 @@
 #define GAME_H
 
 #include "time.h"
-#include "../ADT/Queue/Queue.h"
+#include "Fungsi_Kecil.h"
+#include "../ADT/MesinKata/mesin_kata.h"
+#include "../ADT/Queue/QueueDD.h"
 
-typedef struct {
-        int durasi;
-        int ketahanan;
-        int harga;
-} Food;
+extern QueueDD Order, Cook, Serve;
+
 /* Daftar Game yang Dapat Dimainkan */
 
 void RNG();
@@ -41,5 +40,7 @@ void Diner_Dash();
       dapat meninggalkan antrian. Setelah pelanggan meninggalkan antrian, maka pemain akan menerima uang
     - SERVE hanya dapat digunakan untuk pesanan yang berada di paling depan. */
 
+void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve);
 
+void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve);
 #endif

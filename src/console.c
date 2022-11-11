@@ -10,15 +10,11 @@
 #include "boolean.h"
 #include "console.h"
 
-
-/* INI ADALAH CODE BARU YANG DITAMBAHKAN KE MAIN */
-/* INI KOMENAN BARU YANG BARU BANGET DITAMBAHIN */
 array ListGame;
 Queue QueueGame;
 int fitur=1,mode;
 
 /* Fitur-fitur pada BNMO */
-/* INI KOMENAN BARU YANG BELOM ADA DI MAIN TAPI UDH GUE BIKIN DI BRANCH GUE */
 
 void MENU(){
   printf("---------------|  MAIN MENU |---------------\n");
@@ -199,7 +195,7 @@ void PLAYGAME(Queue *QueueGame /*harusnya ada list juga*/) {
   }
   Word Game;
   dequeue(QueueGame, &Game);
-  if (WordCompareString(Game, "Dinner DASH")) {
+  if (WordCompareString(Game, "Diner DASH")) {
     printf("Loading...");
     Diner_Dash();
   }
