@@ -12,8 +12,8 @@ BNMO (dibaca: Binomo) adalah sebuah robot video game console yang dimiliki oleh 
 
 # Cara Kompilasi dan Menjalankan Program 
 Clone repositori ini dan masuk ke direktori repositori lokal yang telah dibuat, kemudian masuk ke folder bin
-git clone https://github.com/WanAzis/Tugas-Besar-Alstrukdat-STI-21.git
-cd Tugas-Besar-Alstrukdat-STI-21\bin
+$ git clone https://github.com/WanAzis/Tugas-Besar-Alstrukdat-STI-21.git
+$ cd Tugas-Besar-Alstrukdat-STI-21\bin
 
 Kompilasi manual dengan menuliskan teks di bawah ini pada terminal
 gcc -o BNMO ../src/main.c ../src/ADT/Array/Array.c ../src/ADT/Queue/Queue.c ../src/ADT/QueueDD/QueueDD.c ../src/ADT/MesinKata/mesin_karakter.c ../src/ADT/MesinKata/mesin_kata.c ../src/Procedure/Fungsi_Kecil.c ../src/Procedure/Game.c ../src/console.c
