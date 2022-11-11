@@ -2,13 +2,13 @@
 #define FUNGSI_KECIL_H
 
 #include "../boolean.h"
-#include "../ADT/Queue/QueueDD.h"
+#include "../ADT/QueueDD/QueueDD.h"
 
-/*prosedur validChecker*/
-void validChecker(boolean valid, int noGame);
-/*ini check valid/engga input doang, simpel kok*/
+void UIAwal();
+/* Tampilan awal BNMO berupa gambar dan tulisan untuk mempercantik tampilan */
 
-void ConcatString(char *input1, char *input2, char *output);
+void ConcatString(char *input1, char *input2);
+/* Menggabungkan dua buah string input1 dan input2 ke dalam string input1 */
 
 int searchDD(QueueDD q, int ID);
 /* Mencari elemen q yang id nya adalah ID, asumsi ID pasti terdapat pada q */

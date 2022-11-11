@@ -4,7 +4,7 @@
 #include "time.h"
 #include "Fungsi_Kecil.h"
 #include "../ADT/MesinKata/mesin_kata.h"
-#include "../ADT/Queue/QueueDD.h"
+#include "../ADT/QueueDD/QueueDD.h"
 
 extern QueueDD Order, Cook, Serve;
 

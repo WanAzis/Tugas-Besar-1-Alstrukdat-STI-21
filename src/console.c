@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "ADT/Array/Array.h"
 #include "ADT/Queue/Queue.h"
 #include "ADT/MesinKata/mesin_karakter.h"
@@ -12,7 +11,7 @@
 
 array ListGame;
 Queue QueueGame;
-int fitur=1,mode;
+int fitur=1,mode=0;
 
 /* Fitur-fitur pada BNMO */
 
@@ -23,25 +22,30 @@ void MENU(){
 /* Tampilan awal mesin BNMO yang akan menampilkan pilihan START atau LOAD untuk playar */
 
 void FITURE(){
-  printf("Fitur pada BNMO yang bisa anda pilih :\n");
-  printf("CREATEGAME\n");
-  printf("LISTGAME\n");
-  printf("DELETEGAME\n");
-  printf("QUEUEGAME\n");
-  printf("PLAYGAME\n");
-  printf("SKIPGAME\n");
-  printf("SAVE\n");
-  printf("HELP\n");
-  printf("QUIT\n");
+  printf("-----------------------------------------------\n");
+  printf("|  Ketik HELP untuk melihat penjelasan fitur  |\n");
+  printf("-----------------------------------------------\n");
+  printf("\nFitur pada BNMO yang bisa anda pilih :\n");
+  printf(">> CREATE GAME\n");
+  printf(">> LIST GAME\n");
+  printf(">> DELETE GAME\n");
+  printf(">> QUEUE GAME\n");
+  printf(">> PLAY GAME\n");
+  printf(">> SKIP GAME\n");
+  printf(">> SAVE\n");
+  printf(">> HELP\n");
+  printf(">> QUIT\n");
 }
 /* Perintah untuk menampilkan seluruh fitur BNMO yang dapat dipilih oleh user */
 
 void CHOOSEMODE(int *mode){
-  STARTWORD();
+  printf("Silahkan memilih mode START/LOAD: "); STARTWORD();
   if(WordCompareString(currentWord, "START")){
     *mode=1;
   } else if (WordCompareString(currentWord, "LOAD")){
     *mode=2;
+  } else {
+    printf("Ketikkan mode yang benar START/LOAD\n\n");
   }
 }
 /* Memilih mode awal apakah player memilih START atau LOAD */
@@ -63,33 +67,38 @@ void STARTBNMO(){
 void LOADBNMO(){
   ListGame = Makearray();
   CreateQueue(&QueueGame);
-  printf("Masukkan file save yang ingin diakses: ");
-  STARTWORD();
-  char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, fname);
+  printf("Masukkan file save yang ingin diakses: "); STARTWORD();
+  char fname[] = "..\\data\\";
+  char *akhir = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, akhir);
+  ConcatString(fname, akhir); printf("file yg diakses : %s\n", fname); // HAPUS
   STARTWORDFILE(fname);
-  int loop = currentWord.TabWord[0] - '0';
-  ADVWORD();
-  while(loop--){
-    InsertLast(&ListGame, currentWord);
+  if (pita != NULL){
+    int loop = currentWord.TabWord[0] - '0';
     ADVWORD();
+    while(loop--){
+      InsertLast(&ListGame, currentWord);
+      ADVWORD();
+    }
+  } else {
+    printf("\n"); mode = 0;
   }
 }
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
 void CHOOSEFITURE(int *fitur){
-  STARTWORD();
-  if (WordCompareString(currentWord,"CREATEGAME")){
+  printf("Masukkan perintah: "); STARTWORD(); printf("\n");
+  if (WordCompareString(currentWord,"CREATE GAME")){
     CREATEGAME(&ListGame);
-  } else if (WordCompareString(currentWord,"LISTGAME")){
+  } else if (WordCompareString(currentWord,"LIST GAME")){
     LISTGAME(ListGame);
-  } else if (WordCompareString(currentWord,"DELETEGAME")){
+  } else if (WordCompareString(currentWord,"DELETE GAME")){
     DELETEGAME(&ListGame);
-  } else if (WordCompareString(currentWord,"QUEUEGAME")){
+  } else if (WordCompareString(currentWord,"QUEUE GAME")){
     QUEUEGAME(&QueueGame);
-  } else if (WordCompareString(currentWord,"PLAYGAME")){
+  } else if (WordCompareString(currentWord,"PLAY GAME")){
     PLAYGAME(&QueueGame);
-  } else if (WordCompareString(currentWord,"SKIPGAME")){
+  } else if (WordCompareString(currentWord,"SKIP GAME")){
     SKIPGAME(&QueueGame);
   } else if (WordCompareString(currentWord,"SAVE")){
     SAVE();
@@ -104,10 +113,11 @@ void CHOOSEFITURE(int *fitur){
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
 void SAVE(){
-  printf("Masukkan nama file save: ");
-  STARTWORD();
-  char *fname = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, fname);
+  char fname[] = "..\\data\\";
+  printf("Masukkan nama file save: "); STARTWORD();
+  char *akhir = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, akhir);
+  ConcatString(fname, akhir);
   FILE *fp = fopen(fname, "w");
   fprintf(fp, "%d\n", ListGame.Neff);
   char *ftulis = (char*) malloc (sizeof(char) * currentWord.Length+1);
@@ -123,19 +133,23 @@ void SAVE(){
 
 void CREATEGAME(array *ListGame){
   int i = 0;
-  boolean ada = false;
+  boolean found = false;
 
   printf("Masukkan nama game yang akan ditambahkan: "); STARTWORD();
-  for (i; i < (*ListGame).Neff; i++){
-    if ((*ListGame).A[i] == currentWord){
-       ada = true;
-      }
-    }
-    if (!ada){
-        InsertLast(ListGame, currentWord);
-        printf("Game berhasil ditambahkan");
+  char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, g);
+  while (i<(*ListGame).Neff && !found){
+    if (WordCompareString((*ListGame).A[i], g)){
+       found = true;
     } else {
-        printf("Game sudah terdaftar");
+      i++;
+    }
+  }
+  if (!found){
+    InsertLast(ListGame, currentWord);
+    printf("Game berhasil ditambahkan\n");
+  } else {
+    printf("Game sudah terdaftar\n");
   }
 }
 /* Membuat sebuah game baru inputan player */
@@ -177,11 +191,13 @@ void QUEUEGAME(Queue *QueueGame) {
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
   } printf("\n");
   /*Masukkan input nomor game yang mau dimasukkan kedalam queue*/
-  printf("Nomor Game yang mau ditambahkan ke antrian: ");
-  STARTWORD();
+  printf("Nomor Game yang mau ditambahkan ke antrian: "); STARTWORD();
   int noGame = currentWord.TabWord[0] - '0';
+  char *g = (char*) malloc (sizeof(char) * ListGame.A[noGame-1].Length+1);
+  WordToString(ListGame.A[noGame-1], g);
   if (noGame <= ListGame.Neff && noGame > 0) {
     enqueue(QueueGame, ListGame.A[noGame-1]);
+    printf("Game %s dimasukkan kedalam antrian.\n", g);
   }
   else /*kasus kalau input salah*/ {
     printf("No Game yang di input tidak valid!\n");
@@ -206,21 +222,21 @@ void PLAYGAME(Queue *QueueGame /*harusnya ada list juga*/) {
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
   } printf("\n");
   if (isEmpty(*QueueGame)) {
-    printf("Tidak ada game di dalam queue untuk dimainkan, silahkan masukkkan game kedalam queue terlebih dahulu!\n");
+    printf("Tidak ada game di dalam antrian untuk dimainkan, silahkan masukkkan game kedalam antrian terlebih dahulu!\n");
   }
   else /*kasus queue tidak kosong*/{
     Word Game;
     dequeue(QueueGame, &Game);
-    if (WordCompareString(Game, "Dinner DASH")) {
-      printf("Loading...");
+    if (WordCompareString(Game, "Diner DASH")) {
+      printf("Loading...\n\n");
       Diner_Dash();
     }
     else if (WordCompareString(Game, "RNG")) {
-      printf("Loading...");
+      printf("Loading...\n\n");
       RNG();
     }
     else if (WordCompareString(Game, "Jari Bocil")) {
-      printf("Loading...");
+      printf("Loading...\n\n");
       Jari_Bocil();
     }
     else /*game selain RNG dan Dinner Dash*/ {
@@ -272,10 +288,8 @@ F.S. game di skip, lalu dimainkan
 */
 
 void QUIT(){
-  printf("Apakah anda ingin save?\n"); STARTWORD();
-  char *s = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, s);
-  if (s == "SAVE") {
+  printf("Apakah anda ingin save? (Y/N)\n"); STARTWORD();
+  if (WordCompareString(currentWord, "Y")){
     SAVE();
     printf("Data berhasil di save\n");
     printf("Anda keluar dari game BNMO.\n");
@@ -290,17 +304,17 @@ void QUIT(){
 
 void HELP(){
   printf("FITUR-FITUR BNMO:\n");
-  printf("1. START -> merupakan menu awal untuk memulai BNMO dengan pilihan game default.\n");
-  printf("2. LOAD -> merupakan menu awal untuk membaca dan membuka file save yang berisikan history permainan dari player.\n");
-  printf("3. SAVE -> merupakan menu untuk menyimpan data setelah adanya perubahan dari player.\n");
-  printf("4. CREATEGAME -> merupakan menu untuk menambahkan game baru pada daftar game.\n");
-  printf("5. LISTGAME -> merupakan menu untuk menampilkan daftar game yang tersedia untuk player.\n");
-  printf("6. DELETEGAME -> merupakan menu untuk menghapus sebuah game dari daftar game, dengan syarat:\n");
-  printf("game yang dihapus adalah game tambahan dan game yang terdapat pada queue saat itu tidak bisa dihapus.\n");
-  printf("7. QUEUEGAME -> merupakan menu untuk mendaftarkan game kedalam list queue game yang akan dimainkan oleh player.\n");
-  printf("8. PLAYGAME -> merupakan menu untuk memainkan game.\n");
-  printf("9. SKIPGAME -> merupakan menu untuk melewati game yang tidak ingin dimainkan, sebanyak yang diinginkan.\n");
-  printf("10. QUIT -> merupakan menu untuk keluar dari BNMO.\n");
+  printf("1. START \t-> merupakan menu awal untuk memulai BNMO dengan pilihan game default.\n");
+  printf("2. LOAD \t-> merupakan menu awal untuk membaca dan membuka file save yang berisikan history permainan dari player.\n");
+  printf("3. SAVE \t-> merupakan menu untuk menyimpan data setelah adanya perubahan dari player.\n");
+  printf("4. CREATE GAME \t-> merupakan menu untuk menambahkan game baru pada daftar game.\n");
+  printf("5. LIST GAME \t-> merupakan menu untuk menampilkan daftar game yang tersedia untuk player.\n");
+  printf("6. DELETE GAME \t-> merupakan menu untuk menghapus sebuah game dari daftar game, dengan syarat:\n");
+  printf("\t\t   game yang dihapus adalah game tambahan dan game yang terdapat pada queue saat itu tidak bisa dihapus.\n");
+  printf("7. QUEUE GAME \t-> merupakan menu untuk mendaftarkan game kedalam list queue game yang akan dimainkan oleh player.\n");
+  printf("8. PLAY GAME \t-> merupakan menu untuk memainkan game.\n");
+  printf("9. SKIP GAME \t-> merupakan menu untuk melewati game yang tidak ingin dimainkan, sebanyak yang diinginkan.\n");
+  printf("10. QUIT \t-> merupakan menu untuk keluar dari BNMO.\n");
 }
 /* Menampilkan menu fitur-fitur yang dimiliki oleh mesin BNMO serta penjelasannya */
 

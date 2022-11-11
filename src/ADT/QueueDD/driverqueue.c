@@ -2,14 +2,14 @@
 #include "QueueDD.h"
 
 int main(){
-    Queue q;
+    QueueDD q;
     CreateQueue(&q);
-    ElType input;
+    Food input;
     for (int i = 0; i<3; i++){
         scanf("%i %i %i %i", &input.id, &input.durasi, &input.ketahanan, &input.harga);
         enqueue(&q, input);
     }
-    displayQueue(q);
+    // displayQueue(q);
     // Word CElement;
     // dequeue(&q, &CElement);
     // PrintKata(CElement);printf("\n");

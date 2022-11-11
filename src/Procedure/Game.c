@@ -39,22 +39,22 @@ void RNG(){
    selesai jika player dapat menebak angka dengan benar. */
 
 void Diner_Dash(){
-  CreateQueue(&Order);
-  CreateQueue(&Cook);
-  CreateQueue(&Serve);
-  ElType Food, val; int saldo = 0, idx, ID;
+  MakeQueue(&Order);
+  MakeQueue(&Cook);
+  MakeQueue(&Serve);
+  Food fd, val; int saldo = 0, idx, ID;
   for (int i = 0; i < 3; i++){
-    Food.id = i;
-    Food.durasi = rand() % (5 - 1 +1) + 1;
-    Food.ketahanan = rand() % (5 - 1 +1) + 1;
-    Food.harga = rand() % (50000 - 10000 +1) + 10000;
-    enqueue(&Order, Food);
+    fd.id = i;
+    fd.durasi = rand() % (5 - 1 +1) + 1;
+    fd.ketahanan = rand() % (5 - 1 +1) + 1;
+    fd.harga = rand() % (50000 - 10000 +1) + 10000;
+    Enqueue(&Order, fd);
   }
-  displayQueue(Order); //HAPUS
+  DisplayQueue(Order); //HAPUS
   printf("idx head: %i \nidx tail: %i\n", Order.idxHead, Order.idxTail);
 
   printf("Selamat Datang di Diner Dash!\n");
-  while (length(Order)<=7 && length(Serve)<=15){
+  while (Len(Order)<=7 && Len(Serve)<=15){
     printf("\nSaldo : %i\n\n", saldo);
     printUI(Order, Cook, Serve);
 
@@ -64,7 +64,7 @@ void Diner_Dash(){
       perintah.TabWord[i]=currentWord.TabWord[i];
     } perintah.Length=5;
 
-    if (WordCompareString(perintah, "COOK ")){
+    if (WordCompareString(perintah, "COOK ") && currentWord.Length>6){
       ID=0;
       for (int i = 6; i<currentWord.Length; i++){
         ID = (ID * 10) + currentWord.TabWord[i] - '0';
@@ -74,13 +74,13 @@ void Diner_Dash(){
       if (idx>=IDX_HEAD(Order) && idx<=IDX_TAIL(Order)){
         printf("Berhasil memasak M%i\n", ID);
         ONETURN(&Order, &Cook, &Serve);
-        enqueue(&Cook, Order.buffer[idx]);
+        Enqueue(&Cook, Order.buffer[idx]);
       }
       else {
         printf("Makanan tidak terdapat dalam antrian\n");
       }
     }
-    else if (WordCompareString(perintah, "SERVE")){
+    else if (WordCompareString(perintah, "SERVE") && currentWord.Length>7){
       ID=0;
       for (int i = 7; i<currentWord.Length; i++){
         ID = (ID * 10) + currentWord.TabWord[i] - '0';
@@ -90,8 +90,8 @@ void Diner_Dash(){
       if (idx>=IDX_HEAD(Serve) && idx<=IDX_TAIL(Serve)){
         if (idx==IDX_HEAD(Order)){
           printf("Berhasil mengantar M%i\n", ID);
-          dequeue(&Serve, &Food, idx); dequeue(&Order, &Food, idx);
-          saldo += Food.harga;
+          DequeueAt(&Serve, &fd, idx); DequeueAt(&Order, &fd, idx);
+          saldo += fd.harga;
           ONETURN(&Order, &Cook, &Serve);
         }
         else {
@@ -102,7 +102,7 @@ void Diner_Dash(){
         printf("Makanan belum dapat disajikan\n");
       }
     }
-    else if(WordCompareString(perintah, "SKIP ")){ 
+    else if(WordCompareString(perintah, "SKIP")){ 
       printf("Tidak ada makanan yang dimasak maupun disajikan\n");
       ONETURN(&Order, &Cook, &Serve);
     }
@@ -110,7 +110,7 @@ void Diner_Dash(){
       printf("Perintah tidak valid, silahkan masukkan kembali perintah");
     }
   }
-  if (length(Order)>7){
+  if (Len(Order)>7){
     printf("Game over, antrian sudah melebihi 7\n");
   } else {
     printf("Selamat, Anda memenangkan game Diner Dash!\n");
@@ -138,15 +138,15 @@ void Diner_Dash(){
     - SERVE hanya dapat digunakan untuk pesanan yang berada di paling depan. */
 
 void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve){
-  ElType Food; int loop;
-  loop = length(*Cook);
+  Food fd; int loop;
+  loop = Len(*Cook);
   int i = 0;
   for (int i = IDX_HEAD(*Cook); i<=IDX_TAIL(*Cook); i++){
     (*Cook).buffer[i].durasi--;
     if ((*Cook).buffer[i].durasi==0){
       printf("Makanan M%i telah selesai dimasak\n", (*Cook).buffer[i].id);
-      dequeue(Cook, &Food, i);
-      enqueue(Serve, Food);
+      DequeueAt(Cook, &fd, i);
+      Enqueue(Serve, fd);
       i--;
     }
   }
@@ -155,16 +155,16 @@ void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve){
     (*Serve).buffer[i].ketahanan--;
     if ((*Serve).buffer[i].ketahanan==0){
       printf("Makanan M%i hangus, silahkan masak kembali\n", (*Serve).buffer[i].id);
-      dequeue(Serve, &Food, i);
-      enqueue(Cook, Food);
+      DequeueAt(Serve, &fd, i);
+      Enqueue(Cook, fd);
       i--;
     }
   }
-  Food.id=(*Order).buffer[IDX_TAIL(*Order)].id + 1;
-  Food.durasi = rand() % (5 - 1 +1) + 1;
-  Food.ketahanan = rand() % (5 - 1 +1) + 1;
-  Food.harga = rand() % (50000 - 10000 +1) + 10000;  
-  enqueue(Order, Food);
+  fd.id=(*Order).buffer[IDX_TAIL(*Order)].id + 1;
+  fd.durasi = rand() % (5 - 1 +1) + 1;
+  fd.ketahanan = rand() % (5 - 1 +1) + 1;
+  fd.harga = rand() % (50000 - 10000 +1) + 10000;  
+  Enqueue(Order, fd);
 }
 
 void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){ 
@@ -182,7 +182,7 @@ void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){
   printf("Daftar Makanan yang sedang dimasak\n");
   printf("Makanan | Sisa durasi memasak\n");
   printf("------------------------------\n");
-  if (isEmpty(Cook)){
+  if (ISEmpty(Cook)){
     printf("        |\n");
   } else{
     for (int i = IDX_HEAD(Cook); i <= IDX_TAIL(Cook) ; i++){
@@ -197,7 +197,7 @@ void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){
   printf("Daftar Makanan yang dapat disajikan\n");
   printf("Makanan | Sisa ketahanan makanan\n");
   printf("------------------------------\n");
-  if (isEmpty(Serve)){
+  if (ISEmpty(Serve)){
     printf("        |\n");
   } else{
     for (int i = IDX_HEAD(Serve); i <= IDX_TAIL(Serve) ; i++){
@@ -213,8 +213,8 @@ void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){
 /*fungsi untuk menetima input dari player*/
 int PlayerInput(){
   STARTWORD();
-  if (WordCompareString(currentWord, "Kanan")) {return 0;}
-  else if (WordCompareString(currentWord, "Kiri")) {return 1;}
+  if (WordCompareString(currentWord, "kanan")) {return 0;}
+  else if (WordCompareString(currentWord, "kiri")) {return 1;}
   else {return 999;}
 }
 
@@ -234,11 +234,11 @@ void Jari_Bocil(){
       printf("Kondisi-Komputer sekarang:\n"); 
       printf("Jumlah jari tangan kanan: %i\n", ComputerRF);
       printf("Jumlah jari tangan kiri: %i\n", ComputerLF); printf("\n");
-      printf("Silahkan pilih tangan untuk menyerang (Kanan/Kiri): \n"); /*input tangan menyerang*/
+      printf("Silahkan pilih tangan untuk menyerang (kanan/kiri): \n"); /*input tangan menyerang*/
       PIHand = PlayerInput(); 
       while (PIHand !=0 && PIHand !=1) { /*checker input tangan yang menyerang valid*/
-        printf("Input tidak valid! Input hanya bisa berupa Kanan/Kiri\n");
-        printf("Silahkan pilih tangan untuk menyerang (Kanan/Kiri): \n");
+        printf("Input tidak valid! Input hanya bisa berupa kanan/kiri\n");
+        printf("Silahkan pilih tangan untuk menyerang (kanan/kiri): \n");
         PIHand = PlayerInput();
       }
       /*Checker agar tidak menyerang dengan tangan yang sudah tidak ada jari-nya*/
@@ -247,14 +247,14 @@ void Jari_Bocil(){
         PIHand = 1;
       }
       else if (PIHand == 1 && PlayerLF == 0) {
-        printf("Tangan kiri kamu sudah habis jari-nya, penyerangan akan dilakukan dengan tangan kiri!\n");
+        printf("Tangan kiri kamu sudah habis jari-nya, penyerangan akan dilakukan dengan tangan kanan!\n");
         PIHand = 0;
       }
-      printf("Silahkan pilih tangan lawan untuk diserang (Kanan/Kiri): \n"); /*input tangan diserang*/
+      printf("Silahkan pilih tangan lawan untuk diserang (kanan/kiri): \n"); /*input tangan diserang*/
       PIAttack = PlayerInput();
       while (PIAttack !=0 && PIAttack!=1) { /*checker input tangan yang diserang valid*/
-        printf("Input tidak valid! Input hanya bisa berupa Kanan/Kiri\n");
-        printf("Silahkan pilih tangan lawan untuk diserang (Kanan/Kiri): \n");
+        printf("Input tidak valid! Input hanya bisa berupa kanan/kiri\n");
+        printf("Silahkan pilih tangan lawan untuk diserang (kanan/kiri): \n");
         PIAttack = PlayerInput();
       }
       /*Perhitungan hasil setelah penyerangan*/

@@ -10,18 +10,26 @@
 #include "boolean.h"
 
 int main(){
-    while (mode!=1 && mode!=2){
+    UIAwal(); printf("\n\n");
+    label : while (mode!=1 && mode!=2){
         MENU();
         CHOOSEMODE(&mode);
     }
     if (mode==1){
         STARTBNMO();
     } else {LOADBNMO();}
+    if (mode==0){
+        goto label;
+    }
+
     while (fitur!=0)
     {
         system("cls");
         FITURE();
         CHOOSEFITURE(&fitur);
+        if (fitur!=0){
+            printf("Tulis ENTER untuk melanjutkan >>> "); STARTWORD();
+        }
     }
-    // QUIT();
+    QUIT();
 }

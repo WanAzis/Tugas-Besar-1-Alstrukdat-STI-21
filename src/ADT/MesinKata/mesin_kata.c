@@ -16,12 +16,14 @@ void IgnoreBlanks(){
 
 void STARTWORD(){
     START();
-    IgnoreBlanks();
-    if (currentChar==MARK){
-        EndWord=true;
-    } else {
-        EndWord=false;
-        CopyWord();
+    if (pita != NULL){
+        IgnoreBlanks();
+        if (currentChar==MARK){
+            EndWord=true;
+        } else {
+            EndWord=false;
+            CopyWord();
+        }
     }
 }
 /* I.S. : currentChar sembarang
@@ -31,12 +33,14 @@ void STARTWORD(){
 
 void STARTWORDFILE(char *FileName){
     STARTFILE(FileName);
-    IgnoreBlanks();
-    if (currentChar==MARK){
-        EndWord=true;
-    } else {
-        EndWord=false;
-        CopyWord();
+    if (pita != NULL){
+        IgnoreBlanks();
+        if (currentChar==MARK){
+            EndWord=true;
+        } else {
+            EndWord=false;
+            CopyWord();
+        }
     }
 }
 /* I.S. : currentChar sembarang

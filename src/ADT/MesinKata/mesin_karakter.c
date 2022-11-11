@@ -4,13 +4,15 @@
 char currentChar;
 boolean EOP;
 
-static FILE *pita;
+FILE *pita;
 static int retval;
 
 
 void START(){
     pita = stdin;
-    ADV();
+    if (pita != NULL) {
+        ADV();
+    }
 }
 /* Mesin siap dioperasikan. Pita merupakan stdin yang adalah inputan dari pengguna.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
@@ -25,7 +27,7 @@ void STARTFILE(char *FileName){
     if (pita != NULL) {
         ADV();
     } else {
-        printf("PATH TO FILE DOES NOT EXIST\n");
+        printf("FILE TIDAK DITEMUKAN!\n");
     }
 }
 /* Mesin siap dioperasikan. Pita merupakan file yang diakses dan disiapkan untuk dibaca.
