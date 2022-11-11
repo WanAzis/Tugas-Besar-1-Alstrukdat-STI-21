@@ -27,7 +27,7 @@ void STARTBNMO();
 void LOADBNMO(char *fname);
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void CHOOSEFITURE(int *fitur);
+void CHOOSEFITURE(int *fitur, char *fname);
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
 void SAVE();

@@ -89,39 +89,39 @@ void LOADBNMO(char *fname){
 void CHOOSEFITURE(int *fitur, char *file){
   printf("Masukkan perintah: "); STARTWORD2(); printf("\n");
   if (WordCompareString(currentWord,"CREATE")){
-    ADV2();
+    ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       CREATEGAME(&ListGame);
     }
   } else if (WordCompareString(currentWord,"LIST")){
-    ADV2();
+    ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       LISTGAME(ListGame);
     }
   } else if (WordCompareString(currentWord,"DELETE")){
-    ADV2();
+    ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       DELETEGAME(&ListGame);
     }
   } else if (WordCompareString(currentWord,"QUEUE")){
-    ADV2();
+    ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       QUEUEGAME(&QueueGame);
     }
   } else if (WordCompareString(currentWord,"PLAY")){
-    ADV2();
+    ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       PLAYGAME(&QueueGame);
     }
   } else if (WordCompareString(currentWord,"SKIPGAME")){
-    ADV2();
+    ADVWORD2();
     int ctr=0;
     for (int i = 0; i<currentWord.Length; i++){
       ctr = (ctr * 10) + currentWord.TabWord[i] - '0';
     }
     SKIPGAME(&QueueGame, ctr);
   } else if (WordCompareString(currentWord,"SAVE")){
-    ADV2(); PrintKata(currentWord); // HAPUS
+    ADVWORD2(); PrintKata(currentWord); // HAPUS
     WordToString(currentWord, file);
     SAVE(file);
   } else if (WordCompareString(currentWord,"HELP")){
@@ -134,12 +134,9 @@ void CHOOSEFITURE(int *fitur, char *file){
 }
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
-void SAVE(char *fname){
+void SAVE(char *file){
   char fname[25] = "..\\data\\";
-  printf("Masukkan nama file save: "); STARTWORD();
-  char *akhir = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, akhir);
-  ConcatString(fname, akhir);
+  ConcatString(fname, file);
   FILE *fp = fopen(fname, "w");
   fprintf(fp, "%d\n", ListGame.Neff);
   char *ftulis = (char*) malloc (sizeof(char) * currentWord.Length+1);
@@ -310,8 +307,10 @@ F.S. game di skip, lalu dimainkan
 void QUIT(){
   printf("Apakah anda ingin save? (Y/N)\n"); STARTWORD();
   if (WordCompareString(currentWord, "Y")){
-    printf("")
-    SAVE(fname);
+    printf("Masukkan nama file yang ingin disimpan: "); STARTWORD();
+    char *file = (char*) malloc (sizeof(char) * currentWord.Length+1);
+    WordToString(currentWord, file);
+    SAVE(file);
     printf("Data berhasil di save\n");
     printf("Anda keluar dari game BNMO.\n");
     printf("Bye bye ...\n");

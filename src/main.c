@@ -29,7 +29,7 @@ int main(){
     {
         system("cls");
         FITURE();
-        CHOOSEFITURE(&fitur);
+        CHOOSEFITURE(&fitur, fname);
         if (fitur!=0){
             printf("Tekan <ENTER> untuk melanjutkan >>> "); STARTENTER();
         }
