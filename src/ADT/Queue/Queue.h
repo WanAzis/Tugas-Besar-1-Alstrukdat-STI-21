@@ -1,4 +1,4 @@
-/* File : queue.h */
+/* File : Queue.h */
 /* Definisi ADT Queue dengan representasi array secara eksplisit, alternatif 1, dan alokasi statik */
 
 #ifndef QUEUE_H

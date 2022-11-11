@@ -53,10 +53,8 @@ void ADV(){
 void ADV2(){
     retval = fscanf(pita,"%c",&currentChar);
     EOP = (currentChar=='\n');
-    // if (EOP){
-    //     fclose(pita);
-    // }
 }
+/* Prosedur ADV yang digunakan pada ADVWORD2 */
 
 char GetCC(){
     return currentChar;

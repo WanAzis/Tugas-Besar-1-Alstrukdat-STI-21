@@ -30,7 +30,7 @@ void LOADBNMO(char *fname);
 void CHOOSEFITURE(int *fitur, char *fname);
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
-void SAVE();
+void SAVE(char *file);
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
 void CREATEGAME(array *ListGame);
@@ -63,7 +63,7 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 // /* Memainkan sebuah game yang dimiliki oleh player */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *q /*harusnya ada list juga*/);
+void PLAYGAME(Queue *q);
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "PLAY GAME"
            ketika dipanggil, akan mengecek apakah queue game kosong atau tidak, jika kosong,

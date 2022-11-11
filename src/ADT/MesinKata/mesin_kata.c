@@ -18,6 +18,7 @@ void IgnoreBlanks2(){
         ADV();
     }
 }
+/* Mengabaikan beberapa BLANK */
 
 void STARTWORD(){
     START();
@@ -48,6 +49,7 @@ void STARTWORD2(){
         }
     }
 }
+/* Mengakses pita dengan satu word adalah satu kata yang sebenarnya */
 
 void STARTWORDFILE(char *FileName){
     STARTFILE(FileName);
@@ -96,6 +98,7 @@ void ADVWORD2(){
         CopyWord2();
     }
 }
+/* Digunakan pada STARTWORD2 */
 
 int Strlen(char *s){
     int i = 0;

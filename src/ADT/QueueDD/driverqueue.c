@@ -9,9 +9,4 @@ int main(){
         scanf("%i %i %i %i", &input.id, &input.durasi, &input.ketahanan, &input.harga);
         enqueue(&q, input);
     }
-    // displayQueue(q);
-    // Word CElement;
-    // dequeue(&q, &CElement);
-    // PrintKata(CElement);printf("\n");
-    // displayQueue(q);
 }

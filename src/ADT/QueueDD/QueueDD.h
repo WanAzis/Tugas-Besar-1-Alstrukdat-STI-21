@@ -1,4 +1,4 @@
-/* Queue yang digunakan untuk mengimplementasi game Dinner Dash */
+/* Queue yang digunakan khusus untuk mengimplementasi game Dinner Dash */
 /* Definisi ADT Queue dengan representasi array secara eksplisit, alternatif 1, dan alokasi statik */
 
 #ifndef QUEUE_DD_H

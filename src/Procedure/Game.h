@@ -42,8 +42,11 @@ void Diner_Dash();
 
 
 void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve);
+/* Prosedur untuk melakukan satu putaran pada game Diner DASH. Satu putaran yang dimaksud adalah 
+   mengurangkan durasi dan ketahanan makanan pada antrian Cook dan Serve, lalu menambahkan pesanan sebanyak 1 */
 
 void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve);
+/* Digunakan untuk menampilkan keadaan terkini antrian pesanan, Cook, dan Serve pada game Diner DASH */
 
 void Jari_Bocil();
 /* Deskripsi Game: */
@@ -59,6 +62,7 @@ void Jari_Bocil();
     - Kondisi menang nya ialah ketika kedua jari lawan habis setelah diserang.
 */
 
-int playerInput(); /*function buat membantu game Jari_Bocil*/
+int playerInput(); 
+/*fungsi untuk menerima input dari player pada permainan Jari Bocil */
 
 #endif

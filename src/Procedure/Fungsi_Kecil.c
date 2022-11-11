@@ -56,4 +56,4 @@ int searchDD(QueueDD q, int x){
     return -999;
   }
 }
-/* Mencari elemen q yang id nya adalah ID, asumsi ID pasti terdapat pada q */
+/* Mencari elemen q yang id nya adalah ID, mengembalikan idx ID pada q */

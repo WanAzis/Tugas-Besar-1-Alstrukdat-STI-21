@@ -50,7 +50,6 @@ void Diner_Dash(){
     fd.harga = rand() % (50000 - 10000 +1) + 10000;
     Enqueue(&Order, fd);
   }
-  printf("idx head: %i \nidx tail: %i\n", Order.idxHead, Order.idxTail);
 
   printf("Selamat Datang di Diner Dash!\n");
   while (Len(Order)<=7 && serv<=15){
@@ -113,9 +112,9 @@ void Diner_Dash(){
     }
   }
   if (Len(Order)>7){
-    printf("Game over, antrian sudah melebihi 7\n");
+    printf("Game over, antrian sudah melebihi 7\n\n");
   } else {
-    printf("Selamat, Anda memenangkan game Diner Dash!\n");
+    printf("Selamat, Anda memenangkan game Diner Dash!\n\n");
   }
 }
 /* Game mengantar makanan */
@@ -168,6 +167,8 @@ void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve){
   fd.harga = rand() % (50000 - 10000 +1) + 10000;  
   Enqueue(Order, fd);
 }
+/* Prosedur untuk melakukan satu putaran pada game Diner DASH. Satu putaran yang dimaksud adalah 
+   mengurangkan durasi dan ketahanan makanan pada antrian Cook dan Serve, lalu menambahkan pesanan sebanyak 1 */
 
 void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){ 
   printf("Daftar Pesanan\n");
@@ -211,8 +212,9 @@ void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){
     }
   } printf("\n");
 }
+/* Digunakan untuk menampilkan keadaan terkini antrian pesanan, Cook, dan Serve pada game Diner DASH */
 
-/*fungsi untuk menetima input dari player*/
+/*fungsi untuk menerima input dari player pada permainan Jari Bocil */
 int PlayerInput(){
   STARTWORD();
   if (WordCompareString(currentWord, "kanan")) {return 0;}

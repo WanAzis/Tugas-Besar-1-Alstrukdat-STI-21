@@ -11,5 +11,5 @@ void ConcatString(char *input1, char *input2);
 /* Menggabungkan dua buah string input1 dan input2 ke dalam string input1 */
 
 int searchDD(QueueDD q, int ID);
-/* Mencari elemen q yang id nya adalah ID, asumsi ID pasti terdapat pada q */
+/* Mencari elemen q yang id nya adalah ID, mengembalikan idx ID pada q */
 #endif

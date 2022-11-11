@@ -23,11 +23,12 @@ extern boolean EndWord;
 extern Word currentWord;
 
 void IgnoreBlanks();
-/* Mengabaikan satu atau beberapa BLANK
+/* Mengabaikan satu atau beberapa BLANK dan/atau ENTER (NEWLINE)
    I.S. : currentChar sembarang
    F.S. : currentChar ≠ BLANK atau currentChar = MARK */
 
 void IgnoreBlanks2();
+/* Mengabaikan beberapa BLANK */
 
 void STARTWORD();
 /* I.S. : currentChar sembarang
@@ -36,12 +37,14 @@ void STARTWORD();
           currentChar karakter pertama sesudah karakter terakhir kata */
 
 void STARTWORDFILE(char *FileName);
-/* I.S. : currentChar sembarang
+/* Mengakses pita dengan satu word adalah satu kalimat (mengabaikan BLANK)
+   I.S. : currentChar sembarang
    F.S. : EndWord = true, dan currentChar = MARK;
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi dari file,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
 void STARTWORD2();
+/* Mengakses pita dengan satu word adalah satu kata yang sebenarnya */
 
 void STARTENTER();
 /* Mesin menerima inputan enter, state program berganti */
@@ -54,16 +57,18 @@ void ADVWORD();
    Proses : Akuisisi kata menggunakan procedure SalinWord */
 
 void ADVWORD2();
+/* Digunakan pada STARTWORD2 */
 
 void CopyWord();
-/* Mengakuisisi kata, menyimpan dalam currentWord
+/* Mengakuisisi kata, kata merupakan seluruh input (bisa merupakan kalimat), menyimpan dalam currentWord
    I.S. : currentChar adalah karakter pertama dari kata
    F.S. : currentWord berisi kata yang sudah diakuisisi;
           currentChar = BLANK atau currentChar = MARK;
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-void CopyWord2(); 
+void CopyWord2();
+/* Mengakuisisi kata satu persatu */ 
 
 int Strlen(char *s);
 /* Mengembalikan panjang string s */

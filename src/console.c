@@ -17,7 +17,7 @@ int fitur=1,mode=0;
 
 void MENU(){
   printf("---------------|  MAIN MENU |---------------\n");
-  printf("[1] START\n[2] LOAD\n");
+  printf("[1] START\n[2] LOAD <File Name>\n");
 }
 /* Tampilan awal mesin BNMO yang akan menampilkan pilihan START atau LOAD untuk playar */
 
@@ -31,24 +31,23 @@ void FITURE(){
   printf(">> DELETE GAME\n");
   printf(">> QUEUE GAME\n");
   printf(">> PLAY GAME\n");
-  printf(">> SKIP GAME\n");
-  printf(">> SAVE\n");
+  printf(">> SKIPGAME <n>\n");
+  printf(">> SAVE <File Name>\n");
   printf(">> HELP\n");
   printf(">> QUIT\n");
 }
 /* Perintah untuk menampilkan seluruh fitur BNMO yang dapat dipilih oleh user */
 
 void CHOOSEMODE(int *mode, char *file){
-  printf("Silahkan memilih mode START/LOAD: "); STARTWORD2();
-  PrintKata(currentWord); printf("\n"); // HAPUS
+  printf("Silahkan memilih mode START/LOAD <File Name>: "); STARTWORD2();
   if(WordCompareString(currentWord, "START") && currentWord.Length==5){
     *mode=1;
   } else if (WordCompareString(currentWord, "LOAD")){
-    ADVWORD2(); PrintKata(currentWord); printf("\n"); //HAPUS
+    ADVWORD2();
     WordToString(currentWord, file);
     *mode=2;
   } else {
-    printf("Ketikkan mode yang benar START/LOAD\n\n");
+    printf("Ketikkan mode yang benar START/LOAD <File Name>\n\n");
   }
 }
 /* Memilih mode awal apakah player memilih START atau LOAD */
@@ -71,7 +70,7 @@ void LOADBNMO(char *fname){
   ListGame = Makearray();
   CreateQueue(&QueueGame);
   char file[25] = "../data/";
-  ConcatString(file, fname); printf("file yg diakses : %s\n", file); // HAPUS
+  ConcatString(file, fname);
   STARTWORDFILE(file);
   if (pita != NULL){
     int loop = currentWord.TabWord[0] - '0';
@@ -92,27 +91,27 @@ void CHOOSEFITURE(int *fitur, char *file){
     ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       CREATEGAME(&ListGame);
-    }
+    } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"LIST")){
     ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       LISTGAME(ListGame);
-    }
+    } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"DELETE")){
     ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       DELETEGAME(&ListGame);
-    }
+    } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"QUEUE")){
     ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       QUEUEGAME(&QueueGame);
-    }
+    } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"PLAY")){
     ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
       PLAYGAME(&QueueGame);
-    }
+    } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SKIPGAME")){
     ADVWORD2();
     int ctr=0;
@@ -121,7 +120,7 @@ void CHOOSEFITURE(int *fitur, char *file){
     }
     SKIPGAME(&QueueGame, ctr);
   } else if (WordCompareString(currentWord,"SAVE")){
-    ADVWORD2(); PrintKata(currentWord); // HAPUS
+    ADVWORD2();
     WordToString(currentWord, file);
     SAVE(file);
   } else if (WordCompareString(currentWord,"HELP")){
@@ -179,14 +178,16 @@ void LISTGAME(array ListGame){
     printf("%i. ", i+1); PrintKata(ListGame.A[i]); printf("\n");
   }
 }
-
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
 void DELETEGAME(array *ListGame){
   LISTGAME(*ListGame); printf("\n");
   printf("Masukkan nomor game yang ingin dihapus : "); STARTWORD();
-  int nmr = currentWord.TabWord[0] - '0';
-  if ((*ListGame).Neff>5 && nmr>5){
+  int nmr = 0;
+  for (int i = 0; i<currentWord.Length; i++){
+    nmr = (nmr * 10) + currentWord.TabWord[i] - '0';
+  }
+  if ((*ListGame).Neff>6 && nmr>6){
     if (nmr<=(*ListGame).Neff){
       DeleteAt(ListGame, nmr-1);
       printf("Game berhasil dihapus!\n");
@@ -211,15 +212,18 @@ void QUEUEGAME(Queue *QueueGame) {
   } printf("\n");
   /*Masukkan input nomor game yang mau dimasukkan kedalam queue*/
   printf("Nomor Game yang mau ditambahkan ke antrian: "); STARTWORD();
-  int noGame = currentWord.TabWord[0] - '0';
+  int noGame = 0;
+  for (int i = 0; i<currentWord.Length; i++){
+    noGame = (noGame * 10) + currentWord.TabWord[i] - '0';
+  }
+  printf("No game adalah : %i\n", noGame); printf("Neff listgame : %i\n", ListGame.Neff); // HAPUS
   char *g = (char*) malloc (sizeof(char) * ListGame.A[noGame-1].Length+1);
   WordToString(ListGame.A[noGame-1], g);
-  if (noGame <= ListGame.Neff && noGame > 0) {
+  if (noGame <= ListGame.Neff){
     enqueue(QueueGame, ListGame.A[noGame-1]);
     printf("Game %s dimasukkan kedalam antrian.\n", g);
-  }
-  else /*kasus kalau input salah*/ {
-    printf("No Game yang di input tidak valid!\n");
+  } else {
+    printf("No game yang diinput tidak valid!\n");
   }
 }
 /*
@@ -235,7 +239,7 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *QueueGame /*harusnya ada list juga*/) {
+void PLAYGAME(Queue *QueueGame) {
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
@@ -261,7 +265,7 @@ void PLAYGAME(Queue *QueueGame /*harusnya ada list juga*/) {
     else /*game selain RNG dan Dinner Dash*/ {
       char *stringGame = (char*) malloc (sizeof(char) * Game.Length+1);
       WordToString(Game, stringGame);
-      printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.", stringGame);
+      printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.\n", stringGame);
     }
   }
 }
@@ -290,7 +294,7 @@ void SKIPGAME(Queue *QueueGame, int ctr) {
   }
   else /*kasus kalau input salah*/ {
     CreateQueue(QueueGame);
-    printf("Tidak ada permainan lagi dalam daftar game-mu");
+    printf("\nTidak ada permainan lagi dalam daftar game-mu\n");
   }
 }
 /*
@@ -339,6 +343,6 @@ void HELP(){
 /* Menampilkan menu fitur-fitur yang dimiliki oleh mesin BNMO serta penjelasannya */
 
 void COMMANDLAIN(){
-  printf("Command tidak dikenali, silahkan masukkan command yang valid.\n");
+  printf("Command tidak dikenali, silahkan masukkan command yang valid!\n");
 }
 /* Mengeluarkan pesan kesalahan serta meminta inputan ulang ketika player memberi perintah yang tidak valid */
