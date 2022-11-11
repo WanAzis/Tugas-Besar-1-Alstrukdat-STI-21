@@ -16,7 +16,6 @@ int main(){
     label : while (mode!=1 && mode!=2){
         MENU();
         CHOOSEMODE(&mode, fname);
-        printf("nama file : %s\n", fname); // HAPUS
     }
     if (mode==1){
         STARTBNMO();

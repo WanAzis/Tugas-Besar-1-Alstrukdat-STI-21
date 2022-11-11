@@ -105,7 +105,7 @@ void CHOOSEFITURE(int *fitur, char *file){
   } else if (WordCompareString(currentWord,"QUEUE")){
     ADVWORD2();
     if (WordCompareString(currentWord,"GAME")){
-      QUEUEGAME(&QueueGame);
+      QUEUEGAME(&QueueGame, ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"PLAY")){
     ADVWORD2();
@@ -114,11 +114,13 @@ void CHOOSEFITURE(int *fitur, char *file){
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SKIPGAME")){
     ADVWORD2();
+    if (currentWord.Length!=0){
     int ctr=0;
     for (int i = 0; i<currentWord.Length; i++){
       ctr = (ctr * 10) + currentWord.TabWord[i] - '0';
     }
     SKIPGAME(&QueueGame, ctr);
+    } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SAVE")){
     ADVWORD2();
     WordToString(currentWord, file);
@@ -202,7 +204,7 @@ void DELETEGAME(array *ListGame){
 /* Menghapus sebuah game yang dimiliki oleh player */
 
 /*prosedur queuegame*/
-void QUEUEGAME(Queue *QueueGame) {
+void QUEUEGAME(Queue *QueueGame, array ListGame) {
   /*Menampilkan List Game*/
   LISTGAME(ListGame); printf("\n");
   /*Menampilkan Queue Game yang sudah ada*/

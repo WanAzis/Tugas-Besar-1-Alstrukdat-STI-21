@@ -46,7 +46,7 @@ void DELETEGAME(array *ListGame);
 // /* Mendaftarkan sebuah game yang dimiliki oleh player kedalam Queue Game untuk dimainkan */
 
 /*prosedur queuegame*/
-void QUEUEGAME(Queue *q);
+void QUEUEGAME(Queue *q, array ListGame);
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEUE GAME", 
            intinya setiap dipanggil, akan memilih game pada list game, dan akan dimasukkan
