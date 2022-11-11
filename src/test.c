@@ -4,9 +4,9 @@
 
 int main(){
     // FITURE();
-    STARTBNMO();
-    CREATEGAME(&ListGame);
-    DELETEGAME(&ListGame);
-    LISTGAME(ListGame);
-    
+    STARTBNMO(&QueueGame);
+    QUEUEGAME(&QueueGame);
+    QUEUEGAME(&QueueGame);
+    QUEUEGAME(&QueueGame);
+    PLAYGAME(&QueueGame);
 }
