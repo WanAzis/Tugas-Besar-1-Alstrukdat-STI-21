@@ -27,6 +27,8 @@ void IgnoreBlanks();
    I.S. : currentChar sembarang
    F.S. : currentChar ≠ BLANK atau currentChar = MARK */
 
+void IgnoreBlanks2();
+
 void STARTWORD();
 /* I.S. : currentChar sembarang
    F.S. : EndWord = true, dan currentChar = MARK;
@@ -39,12 +41,19 @@ void STARTWORDFILE(char *FileName);
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi dari file,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
+void STARTWORD2();
+
+void STARTENTER();
+/* Mesin menerima inputan enter, state program berganti */
+
 void ADVWORD();
 /* I.S. : currentChar adalah karakter pertama kata yang akan diakuisisi
    F.S. : currentWord adalah kata terakhir yang sudah diakuisisi,
           currentChar adalah karakter pertama dari kata berikutnya, mungkin MARK
           Jika currentChar = MARK, EndWord = true.
    Proses : Akuisisi kata menggunakan procedure SalinWord */
+
+void ADVWORD2();
 
 void CopyWord();
 /* Mengakuisisi kata, menyimpan dalam currentWord
@@ -53,6 +62,11 @@ void CopyWord();
           currentChar = BLANK atau currentChar = MARK;
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
+
+void CopyWord2(); 
+
+int Strlen(char *s);
+/* Mengembalikan panjang string s */
 
 void WordToString(Word Kata, char *s);
 /* Proses : Menerima kata dalam bentuk Word lalu mengubahnya ke bentuk string

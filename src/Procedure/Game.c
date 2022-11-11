@@ -42,7 +42,7 @@ void Diner_Dash(){
   MakeQueue(&Order);
   MakeQueue(&Cook);
   MakeQueue(&Serve);
-  Food fd, val; int saldo = 0, idx, ID;
+  Food fd, val; int saldo = 0, idx, ID, serv=0;
   for (int i = 0; i < 3; i++){
     fd.id = i;
     fd.durasi = rand() % (5 - 1 +1) + 1;
@@ -50,11 +50,10 @@ void Diner_Dash(){
     fd.harga = rand() % (50000 - 10000 +1) + 10000;
     Enqueue(&Order, fd);
   }
-  DisplayQueue(Order); //HAPUS
   printf("idx head: %i \nidx tail: %i\n", Order.idxHead, Order.idxTail);
 
   printf("Selamat Datang di Diner Dash!\n");
-  while (Len(Order)<=7 && Len(Serve)<=15){
+  while (Len(Order)<=7 && serv<=15){
     printf("\nSaldo : %i\n\n", saldo);
     printUI(Order, Cook, Serve);
 
@@ -68,13 +67,16 @@ void Diner_Dash(){
       ID=0;
       for (int i = 6; i<currentWord.Length; i++){
         ID = (ID * 10) + currentWord.TabWord[i] - '0';
-      } printf("ID yang di akses: %i\n", ID); // HAPUS
+      }
 
-      idx = searchDD(Order, ID); printf("idx yang di akses: %i\n", idx); //HAPUS
-      if (idx>=IDX_HEAD(Order) && idx<=IDX_TAIL(Order)){
+      idx = searchDD(Order, ID);
+      if (idx>=IDX_HEAD(Order) && idx<=IDX_TAIL(Order) && Len(Cook)<=5){
         printf("Berhasil memasak M%i\n", ID);
         ONETURN(&Order, &Cook, &Serve);
         Enqueue(&Cook, Order.buffer[idx]);
+      }
+      else if (Len(Cook)>5){
+        printf("Tidak bisa memasak makanan karena makanan yang sedang dimasak sudah mencapai 5\n");
       }
       else {
         printf("Makanan tidak terdapat dalam antrian\n");
@@ -84,25 +86,25 @@ void Diner_Dash(){
       ID=0;
       for (int i = 7; i<currentWord.Length; i++){
         ID = (ID * 10) + currentWord.TabWord[i] - '0';
-      } printf("ID yang di akses: %i\n", ID); // HAPUS
+      }
 
-      idx = searchDD(Serve, ID); printf("idx yang di akses: %i\n", idx); //HAPUS
+      idx = searchDD(Serve, ID);
       if (idx>=IDX_HEAD(Serve) && idx<=IDX_TAIL(Serve)){
-        if (idx==IDX_HEAD(Order)){
-          printf("Berhasil mengantar M%i\n", ID);
+        if (ID==Order.buffer[IDX_HEAD(Order)].id){
+          printf("Berhasil mengantar M%i\n", ID); serv++;
           DequeueAt(&Serve, &fd, idx); DequeueAt(&Order, &fd, idx);
           saldo += fd.harga;
           ONETURN(&Order, &Cook, &Serve);
         }
         else {
-          printf("M%i belum dapat disajikan karena M%i belum selesai\n", ID, Cook.buffer[Cook.idxHead].id);
+          printf("M%i belum dapat disajikan karena M%i belum selesai\n", ID, Order.buffer[Order.idxHead].id);
         }
       }
       else {
         printf("Makanan belum dapat disajikan\n");
       }
     }
-    else if(WordCompareString(perintah, "SKIP")){ 
+    else if(WordCompareString(currentWord, "SKIP")){ 
       printf("Tidak ada makanan yang dimasak maupun disajikan\n");
       ONETURN(&Order, &Cook, &Serve);
     }

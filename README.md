@@ -3,6 +3,6 @@ Pengerjaan tugas besar mata kuliah Analisis dan Struktur Data program studi STI 
 
 gcc main.c ADT/Array/Array.c ADT/Queue/Queue.c ADT/QueueDD/QueueDD.c ADT/MesinKata/mesin_karakter.c ADT/MesinKata/mesin_kata.c Procedure/Fungsi_Kecil.c Procedure/Game.c console.c -o BNMO
 
-gcc test.c ADT/Array/Array.c ADT/Queue/Queue.c ADT/MesinKata/mesin_karakter.c ADT/MesinKata/mesin_kata.c Procedure/Fungsi_Kecil.c Procedure/Game.c console.c -o tes
+gcc test.c ADT/Array/Array.c ADT/Queue/Queue.c ADT/QueueDD/QueueDD.c ADT/MesinKata/mesin_karakter.c ADT/MesinKata/mesin_kata.c Procedure/Fungsi_Kecil.c Procedure/Game.c console.c -o tes
 
-gcc -o BNMO ../src/main.c ../src/ADT/Array/Array.c ../src/ADT/Queue/Queue.c ../src/ADT/Queue/QueueDD.c ../src/ADT/MesinKata/mesin_karakter.c ../src/ADT/MesinKata/mesin_kata.c ../src/Procedure/Fungsi_Kecil.c ../src/Procedure/Game.c ../src/console.c
+gcc -o BNMO ../src/main.c ../src/ADT/Array/Array.c ../src/ADT/Queue/Queue.c ../src/ADT/QueueDD/QueueDD.c ../src/ADT/MesinKata/mesin_karakter.c ../src/ADT/MesinKata/mesin_kata.c ../src/Procedure/Fungsi_Kecil.c ../src/Procedure/Game.c ../src/console.c

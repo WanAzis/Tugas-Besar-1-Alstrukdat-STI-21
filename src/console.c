@@ -38,11 +38,28 @@ void FITURE(){
 }
 /* Perintah untuk menampilkan seluruh fitur BNMO yang dapat dipilih oleh user */
 
-void CHOOSEMODE(int *mode){
-  printf("Silahkan memilih mode START/LOAD: "); STARTWORD();
-  if(WordCompareString(currentWord, "START")){
+void CHOOSEMODE(int *mode, char *file){
+  printf("Silahkan memilih mode START/LOAD: "); STARTWORD2();
+  PrintKata(currentWord);
+  // Word perintah;
+  // for (int i = 0; i<5; i++){
+  //   perintah.TabWord[i]=currentWord.TabWord[i];
+  // } perintah.Length=5;
+
+  if(WordCompareString(currentWord, "START") && currentWord.Length==5){
     *mode=1;
   } else if (WordCompareString(currentWord, "LOAD")){
+    ADVWORD2(); PrintKata(currentWord);
+    // int j = 0;
+    // for (int i = 5; i<currentWord.Length; i++){
+    //   file[j] = currentWord.TabWord[i];
+    //   j++;
+    // } for (j; j<Strlen(file); j++){
+    //   if (file[j]!='\0'){
+    //     file[j]='\0';
+    //   }
+    // }
+    WordToString(currentWord, file);
     *mode=2;
   } else {
     printf("Ketikkan mode yang benar START/LOAD\n\n");
@@ -64,15 +81,12 @@ void STARTBNMO(){
 }
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
-void LOADBNMO(){
+void LOADBNMO(char *fname){
   ListGame = Makearray();
   CreateQueue(&QueueGame);
-  printf("Masukkan file save yang ingin diakses: "); STARTWORD();
-  char fname[] = "..\\data\\";
-  char *akhir = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  WordToString(currentWord, akhir);
-  ConcatString(fname, akhir); printf("file yg diakses : %s\n", fname); // HAPUS
-  STARTWORDFILE(fname);
+  char file[] = "..\\data\\";
+  ConcatString(file, fname); printf("file yg diakses : %s\n", file); // HAPUS
+  STARTWORDFILE(file);
   if (pita != NULL){
     int loop = currentWord.TabWord[0] - '0';
     ADVWORD();
@@ -98,7 +112,7 @@ void CHOOSEFITURE(int *fitur){
     QUEUEGAME(&QueueGame);
   } else if (WordCompareString(currentWord,"PLAY GAME")){
     PLAYGAME(&QueueGame);
-  } else if (WordCompareString(currentWord,"SKIP GAME")){
+  } else if (WordCompareString(currentWord,"SKIPGAME")){
     SKIPGAME(&QueueGame);
   } else if (WordCompareString(currentWord,"SAVE")){
     SAVE();

@@ -9,15 +9,17 @@
 #include "console.h"
 #include "boolean.h"
 
+char fname[50];
+
 int main(){
     UIAwal(); printf("\n\n");
     label : while (mode!=1 && mode!=2){
         MENU();
-        CHOOSEMODE(&mode);
+        CHOOSEMODE(&mode, fname);
     }
     if (mode==1){
         STARTBNMO();
-    } else {LOADBNMO();}
+    } else {LOADBNMO(fname);}
     if (mode==0){
         goto label;
     }
@@ -28,7 +30,7 @@ int main(){
         FITURE();
         CHOOSEFITURE(&fitur);
         if (fitur!=0){
-            printf("Tulis ENTER untuk melanjutkan >>> "); STARTWORD();
+            printf("Tekan <ENTER> untuk melanjutkan >>> "); STARTENTER();
         }
     }
     QUIT();

@@ -18,7 +18,7 @@ void MENU();
 void FITURE();
 /* Perintah untuk menampilkan seluruh fitur BNMO yang dapat dipilih oleh user */
 
-void CHOOSEMODE(int *mode);
+void CHOOSEMODE(int *mode, char *file);
 /* Memilih mode awal apakah player memilih START atau LOAD */
 
 void STARTBNMO();

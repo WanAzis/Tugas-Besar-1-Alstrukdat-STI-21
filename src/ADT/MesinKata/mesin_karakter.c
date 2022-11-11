@@ -7,7 +7,6 @@ boolean EOP;
 FILE *pita;
 static int retval;
 
-
 void START(){
     pita = stdin;
     if (pita != NULL) {
