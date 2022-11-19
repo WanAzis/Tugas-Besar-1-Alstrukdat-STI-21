@@ -1,4 +1,4 @@
-# Tugas-Besar-Alstrukdat-STI-21
+# Tugas-Besar-1-Alstrukdat-STI-21
 Pengerjaan tugas besar mata kuliah Analisis dan Struktur Data program studi STI tahun ajaran 2022/2023 
 Kelompok 1 K3, Anggota : 
     1. Wan Aufa Azis	 		    18221001
