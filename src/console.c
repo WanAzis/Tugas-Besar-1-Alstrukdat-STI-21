@@ -1,12 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ADT/Array/Array.h"
-#include "ADT/Queue/Queue.h"
-#include "ADT/MesinKata/mesin_karakter.h"
-#include "ADT/MesinKata/mesin_kata.h"
-#include "Procedure/Fungsi_Kecil.h"
-#include "Procedure/Game.h"
-#include "boolean.h"
 #include "console.h"
 
 array ListGame;
@@ -73,7 +66,10 @@ void LOADBNMO(char *fname){
   ConcatString(file, fname);
   STARTWORDFILE(file);
   if (pita != NULL){
-    int loop = currentWord.TabWord[0] - '0';
+    int loop=0;
+    for (int i = 0; i<currentWord.Length; i++){
+      loop = (loop*10) + currentWord.TabWord[i]-'0';
+    }
     ADVWORD();
     while(loop--){
       InsertLast(&ListGame, currentWord);
@@ -148,6 +144,7 @@ void SAVE(char *file){
   WordToString(ListGame.A[ListGame.Neff-1], ftulis);
   fprintf(fp, "%s;", ftulis);
   fclose(fp);
+  printf("Berhasil menyimpan ke File!\n");
 }
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
@@ -218,7 +215,6 @@ void QUEUEGAME(Queue *QueueGame, array ListGame) {
   for (int i = 0; i<currentWord.Length; i++){
     noGame = (noGame * 10) + currentWord.TabWord[i] - '0';
   }
-  printf("No game adalah : %i\n", noGame); printf("Neff listgame : %i\n", ListGame.Neff); // HAPUS
   char *g = (char*) malloc (sizeof(char) * ListGame.A[noGame-1].Length+1);
   WordToString(ListGame.A[noGame-1], g);
   if (noGame <= ListGame.Neff){
@@ -264,10 +260,16 @@ void PLAYGAME(Queue *QueueGame) {
       printf("Loading...\n\n");
       Jari_Bocil();
     }
-    else /*game selain RNG dan Dinner Dash*/ {
+    else if (WordCompareString(Game, "DINOSAUR IN EARTH") || WordCompareString(Game, "RISEWOMAN") || WordCompareString(Game, "EIFFEL TOWER")) /*game selain RNG dan Dinner Dash*/ {
       char *stringGame = (char*) malloc (sizeof(char) * Game.Length+1);
       WordToString(Game, stringGame);
       printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.\n", stringGame);
+    }
+    else {
+      int rnd = rand() % (100 - 1 +1) + 1;
+      printf("Game sedang dimainkan!\n");
+      printf("GAME OVER!\n");
+      printf("FINAL SCORE : %i\n", rnd);
     }
   }
 }

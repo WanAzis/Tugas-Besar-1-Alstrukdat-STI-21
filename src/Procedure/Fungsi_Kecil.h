@@ -2,7 +2,7 @@
 #define FUNGSI_KECIL_H
 
 #include "../boolean.h"
-#include "../ADT/QueueDD/QueueDD.h"
+#include "../ADT/queueDD/queueDD.h"
 
 void UIAwal();
 /* Tampilan awal BNMO berupa gambar dan tulisan untuk mempercantik tampilan */

@@ -1,11 +1,11 @@
 # Tugas-Besar-Alstrukdat-STI-21
 Pengerjaan tugas besar mata kuliah Analisis dan Struktur Data program studi STI tahun ajaran 2022/2023 
 Kelompok 1 K3, Anggota : 
-    1. Wan Aufa Azis	 		    18221001
-    2. Athira Dhyanissa Tafkir		18221022
-    3. Dhafin Ghalib Luqman Hakim	18221023
-    4. Syasya Umaira 			    18221026
-    5. Muhammad Mumtaz 			    18221029
+1. Wan Aufa Azis	 		    18221001
+2. Athira Dhyanissa Tafkir		18221022
+3. Dhafin Ghalib Luqman Hakim	18221023
+4. Syasya Umaira 			    18221026
+5. Muhammad Mumtaz 			    18221029
 
 # Deskripsi Singkat Program
 BNMO (dibaca: Binomo) adalah sebuah robot video game console yang dimiliki oleh Indra dan Doni. Dua bulan yang lalu, ia mengalami kerusakan dan telah berhasil diperbaiki. Sayangnya, setelah diperbaiki ia justru mendapatkan lebih banyak bug dalam sistemnya. Oleh karena itu, Indra dan Doni mencari programmer lain yang lebih handal untuk ulang memprogram robot video game console kesayangannya.

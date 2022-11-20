@@ -2,9 +2,9 @@
 #define GAME_H
 
 #include "time.h"
-#include "Fungsi_Kecil.h"
-#include "../ADT/MesinKata/mesin_kata.h"
-#include "../ADT/QueueDD/QueueDD.h"
+#include "fungsi_kecil.h"
+#include "../ADT/mesinkata/mesin_kata.h"
+#include "../ADT/queueDD/queueDD.h"
 
 extern QueueDD Order, Cook, Serve;
 

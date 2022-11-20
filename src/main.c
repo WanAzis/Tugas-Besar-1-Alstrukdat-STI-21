@@ -1,13 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ADT/Array/Array.h"
-#include "ADT/Queue/Queue.h"
-#include "ADT/MesinKata/mesin_karakter.h"
-#include "ADT/MesinKata/mesin_kata.h"
-#include "Procedure/Fungsi_Kecil.h"
-#include "Procedure/Game.h"
 #include "console.h"
-#include "boolean.h"
 
 char fname[50];
 

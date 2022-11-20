@@ -5,7 +5,7 @@
 #define __ARRAY_DINAMIK__
 
 #include "../../boolean.h"
-#include "../MesinKata/mesin_kata.h"
+#include "../mesinkata/mesin_kata.h"
 
 #define InitialSize 10
 

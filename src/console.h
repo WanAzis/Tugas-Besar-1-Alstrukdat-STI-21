@@ -1,10 +1,13 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "ADT/Array/Array.h"
-#include "ADT/MesinKata/mesin_karakter.h"
-#include "ADT/MesinKata/mesin_kata.h"
-#include "ADT/Queue/Queue.h"
+#include "ADT/array/array.h"
+#include "ADT/queue/queue.h"
+#include "ADT/mesinkata/mesin_karakter.h"
+#include "ADT/mesinkata/mesin_kata.h"
+#include "procedure/fungsi_kecil.h"
+#include "procedure/game.h"
+#include "boolean.h"
 
 extern array ListGame;
 extern Queue QueueGame;

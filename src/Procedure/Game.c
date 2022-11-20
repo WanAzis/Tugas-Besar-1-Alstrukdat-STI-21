@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Game.h"
+#include "game.h"
 
 QueueDD Order, Cook, Serve;
 struct tm *Time;
@@ -45,14 +45,14 @@ void Diner_Dash(){
   Food fd, val; int saldo = 0, idx, ID, serv=0;
   for (int i = 0; i < 3; i++){
     fd.id = i;
-    fd.durasi = rand() % (5 - 1 +1) + 1;
-    fd.ketahanan = rand() % (5 - 1 +1) + 1;
+    fd.durasi = rand() % (3 - 1 +1) + 1;
+    fd.ketahanan = rand() % (6 - 3 +1) + 3;
     fd.harga = rand() % (50000 - 10000 +1) + 10000;
     Enqueue(&Order, fd);
   }
 
   printf("Selamat Datang di Diner Dash!\n");
-  while (Len(Order)<=11 && serv<=15){  //GANTI
+  while (Len(Order)<=100 && serv<=15){ 
     printf("\nSaldo : %i\n\n", saldo);
     printUI(Order, Cook, Serve);
 
@@ -161,7 +161,7 @@ void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve){
   }
   fd.id=(*Order).buffer[IDX_TAIL(*Order)].id + 1;
   fd.durasi = rand() % (5 - 1 +1) + 1;
-  fd.ketahanan = rand() % (5 - 1 +1) + 1;
+  fd.ketahanan = rand() % (5 - 3 +1) + 3;
   fd.harga = rand() % (50000 - 10000 +1) + 10000;  
   Enqueue(Order, fd);
 }

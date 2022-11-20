@@ -179,6 +179,26 @@ boolean WordCompareString(Word Kata, char *s){
    I.S. : Word terdefinisi, string juga terdefinisi
    F.S. : menghasilkan true jika kata sama dengan ripresentasinya pada string input */
 
+boolean WordCompare(Word input1, Word input2){
+    if (input1.Length!=input2.Length){
+        return false;
+    } else {
+        boolean found = true;
+        int i = 0;
+        while (i<input1.Length && found){
+            if (input1.TabWord[i]!=input2.TabWord[i]){
+                found = false;
+            }
+            else {
+                i++;
+            }
+        } return found;
+    }
+}
+/* Proses : Membandingkan kata dengan kata, menghasilkan true jika kata sama 
+   I.S. : Word terdefinisi
+   F.S. : menghasilkan true jika kedua kata sama, false jika tidak */
+
 void PrintKata(Word Kata){
     for (int i = 0; i<Kata.Length; i++){
         printf("%c", Kata.TabWord[i]);

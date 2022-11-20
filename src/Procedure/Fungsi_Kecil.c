@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Fungsi_Kecil.h"
+#include "fungsi_kecil.h"
 
 void UIAwal(){
   printf("\t     _____________________________ \n");   
