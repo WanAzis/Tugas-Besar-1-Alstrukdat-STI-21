@@ -56,4 +56,7 @@ void Pop(Stack * S, TypeStack* X);
 Stack Reversestack(Stack *S);
 /* Menghasilkan stack yang merupakan kebalikan dari stack input S */
 
+void CetakStack(Stack S);
+/* Mencetak stack S ke layar */
+
 #endif

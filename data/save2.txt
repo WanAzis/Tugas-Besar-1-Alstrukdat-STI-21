@@ -6,4 +6,34 @@ RISEWOMAN
 EIFFEL TOWER
 Jari Bocil
 Custom 1
-Custom 2;
+Custom 2
+5
+Diner DASH
+DINOSAUR IN EARTH
+Jari Bocil
+Custom 1
+Diner DASH
+2
+Azis 100
+Mumtaz 90
+5
+aku 2
+saya 5
+kita 4
+dia 4
+mereka 0
+4
+ghalib 20
+thira 13
+syasya 98
+Azis 20
+1
+ekhem 22
+0
+2
+satu 1
+dua 2
+1
+tinggi 1000
+0
+;

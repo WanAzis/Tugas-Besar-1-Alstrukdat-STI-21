@@ -86,3 +86,16 @@ boolean IsMembermap(Map M, keytype k){
     } return found;
 }
 /* Mengembalikan true jika k adalah member dari M */
+
+void CetakMap(Map M){
+    if (IsEmptymap(M)){
+        printf("{}\n");
+    } else {
+        printf("{");
+        for (int i = 0; i<M.Count-1; i++){
+            PrintKata(M.Elements[i].Key);printf(";");printf("%i , ",M.Elements[i].Value);
+        } PrintKata(M.Elements[M.Count-1].Key);printf(";");printf("%i",M.Elements[M.Count-1].Value);
+        printf("}\n");
+    }
+}
+/* Mencetak Map M kelayar */

@@ -123,17 +123,10 @@ void Printarraymap(arraymap arr){
     if (IsEmptyarrmap(arr)){
         printf("[]\n");
     } else {
-    printf("[");
-    for (int i = 0;i<arr.Neff-1;i++) {
-        for(int j = 0; j<arr.A[i].Count; j++){
-            PrintKata(arr.A[i].Elements[j].Key);printf(",");printf("%i",arr.A[i].Elements[j].Value);
-            printf(" ; ");
-        }printf("\n");
-    }
-    for(int j = 0; j<arr.A[arr.Neff-1].Count; j++){
-        PrintKata(arr.A[arr.Neff-1].Elements[j].Key);printf(",");printf("%i",arr.A[arr.Neff-1].Elements[j].Value);
-        printf(" ; ");
-    } 
-    printf("]\n");
+        printf("[");
+        for (int i = 0;i<arr.Neff-1;i++) {
+            CetakMap(arr.A[i]);
+        } CetakMap(arr.A[arr.Neff-1]);
+        printf("]\n");
     }
 }

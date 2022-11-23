@@ -34,11 +34,11 @@ void FITURE(){
 /* Perintah untuk menampilkan seluruh fitur BNMO yang dapat dipilih oleh user */
 
 void CHOOSEMODE(int *mode, char *file){
-  printf("Silahkan memilih mode START/LOAD <File Name>: "); STARTWORD2();
+  printf("Silahkan memilih mode START/LOAD <File Name>: "); STARTWORD();
   if(WordCompareString(currentWord, "START") && currentWord.Length==5){
     *mode=1;
   } else if (WordCompareString(currentWord, "LOAD")){
-    ADVWORD2();
+    ADVWORD();
     WordToString(currentWord, file);
     *mode=2;
   } else {
@@ -53,10 +53,10 @@ void STARTBNMO(){
   char *fname = "..\\data\\config.txt";
   STARTWORDFILE(fname);
   int loop = currentWord.TabWord[0] - '0';
-  ADVWORD();
+  ADVSENTENCE();
   while(loop--){
     InsertLast(&ListGame, currentWord);
-    ADVWORD();
+    ADVSENTENCE();
   }
 }
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
@@ -72,19 +72,17 @@ void LOADBNMO(char *fname){
     int loop=0;
     for (int i = 0; i<currentWord.Length; i++){
       loop = (loop*10) + currentWord.TabWord[i]-'0';
-    }
-    ADVWORD();
+    } ADVSENTENCE();
     while(loop--){
       InsertLast(&ListGame, currentWord);
-      ADVWORD();
+      ADVSENTENCE();
     } loop=0;
     for (int i = 0; i<currentWord.Length; i++){
       loop = (loop*10) + currentWord.TabWord[i]-'0';
-    }
-    ADVWORD();
+    } ADVSENTENCE();
     while(loop--){
       Push(&awal, currentWord);
-      ADVWORD();
+      ADVSENTENCE();
     } HistoryGame = Reversestack(&awal);
     keytype k; valuetype v; Map m;
     for (int j = 0; j<ListGame.Neff; j++){
@@ -93,14 +91,12 @@ void LOADBNMO(char *fname){
         loop = (loop*10) + currentWord.TabWord[i]-'0';
       }
       while(loop--){
-        ADVWORD(); k = currentWord;  // GANTI
-        PrintKata(k); //HAPUS
-        // ADVWORD2(); v = 0; // PrintKata(currentWord);
+        ADVWORD(); k = currentWord;
+        ADVWORD(); v = 0;
         for (int i = 0; i<currentWord.Length; i++){
           v = (v*10) + currentWord.TabWord[i]-'0';
-        }
-        Insertmap(&m, k, 0); //GANTI
-      } InsertLastarrmap(&ScoreBoardGame,m); ADVWORD();
+        } Insertmap(&m, k, v);
+      } InsertLastarrmap(&ScoreBoardGame,m); ADVSENTENCE();
     }
   } else {
     printf("\n"); mode = 0;
@@ -109,34 +105,34 @@ void LOADBNMO(char *fname){
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
 void CHOOSEFITURE(int *fitur, char *file){
-  printf("Masukkan perintah: "); STARTWORD2(); printf("\n");
+  printf("Masukkan perintah: "); STARTWORD(); printf("\n");
   if (WordCompareString(currentWord,"CREATE")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       CREATEGAME(&ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"LIST")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       LISTGAME(ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"DELETE")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       DELETEGAME(&ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"QUEUE")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       QUEUEGAME(&QueueGame, ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"PLAY")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       PLAYGAME(&QueueGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SKIPGAME")){
-    ADVWORD2();
+    ADVWORD();
     if (currentChar!='\0'){
     int ctr=0;
     for (int i = 0; i<currentWord.Length; i++){
@@ -145,7 +141,7 @@ void CHOOSEFITURE(int *fitur, char *file){
     SKIPGAME(&QueueGame, ctr);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SAVE")){
-    ADVWORD2();
+    ADVWORD();
     WordToString(currentWord, file);
     SAVE(file);
   } else if (WordCompareString(currentWord,"HELP")){
@@ -179,7 +175,7 @@ void CREATEGAME(array *ListGame){
   int i = 0;
   boolean found = false;
 
-  printf("Masukkan nama game yang akan ditambahkan: "); STARTWORD();
+  printf("Masukkan nama game yang akan ditambahkan: "); STARTSENTENCE();
   char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, g);
   while (i<(*ListGame).Neff && !found){

@@ -68,4 +68,7 @@ void Deletemap(Map *M, keytype k);
 boolean IsMembermap(Map M, keytype k);
 /* Mengembalikan true jika k adalah member dari M */
 
+void CetakMap(Map M);
+/* Mencetak Map M kelayar */
+
 #endif

@@ -54,3 +54,17 @@ Stack Reversestack(Stack *S){
     } return hasil;
 }
 /* Menghasilkan stack yang merupakan kebalikan dari stack input S */
+
+void CetakStack(Stack S){
+    if (IsEmptystack(S)){
+        printf("[]\n");
+    } else{
+        TypeStack Kata;
+        printf("[");
+        while (Top(S)!=0){
+            Pop(&S,&Kata); PrintKata(Kata); printf(",");
+        } Pop(&S,&Kata); PrintKata(Kata);
+        printf("]\n");
+    }
+}
+/* Mencetak stack S ke layar */

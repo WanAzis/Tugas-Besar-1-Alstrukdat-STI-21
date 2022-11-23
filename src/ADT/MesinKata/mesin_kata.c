@@ -13,12 +13,12 @@ void IgnoreBlanks(){
    I.S. : currentChar sembarang
    F.S. : currentChar ≠ BLANK atau currentChar = MARK */
 
-void IgnoreBlanks2(){
-    while (currentChar==BLANK && currentChar!=MARK){
-        ADV();
-    }
-}
-/* Mengabaikan beberapa BLANK */
+// void IgnoreBlanks2(){
+//     while (currentChar==BLANK && currentChar!=MARK){
+//         ADV();
+//     }
+// }
+// /* Mengabaikan beberapa BLANK */
 
 void STARTWORD(){
     START();
@@ -37,15 +37,15 @@ void STARTWORD(){
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
-void STARTWORD2(){
+void STARTSENTENCE(){
     START();
     if (pita != NULL){
-        IgnoreBlanks2();
+        IgnoreBlanks();
         if (currentChar==MARK){
             EndWord=true;
         } else {
             EndWord=false;
-            CopyWord2();
+            CopySentence();
         }
     }
 }
@@ -59,7 +59,7 @@ void STARTWORDFILE(char *FileName){
             EndWord=true;
         } else {
             EndWord=false;
-            CopyWord();
+            CopySentence();
         }
     }
 }
@@ -73,7 +73,7 @@ void STARTENTER(){
     if (currentChar=='\n'){
         EndWord=true;
     } else {
-        printf("Tekan <ENTER>\n");
+        printf("\nTekan <ENTER> "); STARTENTER();
     }
 }
 /* Mesin menerima inputan enter, state program berganti */
@@ -92,12 +92,12 @@ void ADVWORD(){
           Jika currentChar = MARK, EndWord = true.
    Proses : Akuisisi kata menggunakan procedure SalinWord */
 
-void ADVWORD2(){
-    IgnoreBlanks2();
-    if (currentChar=='\n'){
+void ADVSENTENCE(){
+    IgnoreBlanks();
+    if (currentChar==MARK){
         EndWord=true;
     } else{
-        CopyWord2();
+        CopySentence();
     }
 }
 /* Digunakan pada STARTWORD2 */
@@ -112,7 +112,7 @@ int Strlen(char *s){
 
 void CopyWord(){
     int i = 0;
-    while (currentChar!=MARK && currentChar!=NEWLINE){
+    while (currentChar!=NEWLINE && currentChar!=BLANK){
         if (i<NMax){
             currentWord.TabWord[i]=currentChar;
         }
@@ -129,14 +129,14 @@ void CopyWord(){
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-void CopyWord2(){
+void CopySentence(){
     int i = 0;
-    while (currentChar!='\n' && currentChar!=BLANK){
+    while (currentChar!=NEWLINE){
         if (i<NMax){
             currentWord.TabWord[i]=currentChar;
         }
-        ADV2(); i++;
-    } 
+        ADV(); i++;
+    }
     if (i<NMax) {
         currentWord.Length=i;
     } else {currentWord.Length=NMax;}

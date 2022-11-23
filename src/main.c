@@ -13,10 +13,7 @@ int main(){
     }
     if (mode==1){
         STARTBNMO();
-    } else {LOADBNMO(fname);
-    Printarraymap(ScoreBoardGame); //HAPUS
-    STARTWORD(); 
-    }
+    } else {LOADBNMO(fname);}
     if (mode==0){
         goto label;
     }
