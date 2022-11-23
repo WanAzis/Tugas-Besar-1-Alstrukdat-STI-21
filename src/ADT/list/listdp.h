@@ -9,7 +9,6 @@
 #include "../../boolean.h"
 #include "../point/point.h"
 
-#define Nil NULL
 
 /* Definisi Type Data */
 typedef POINT infotype;
@@ -38,11 +37,11 @@ typedef struct {
 
 /* PROTOTYPE */
 /****************** TEST LIST KOSONG ******************/
-boolean IsEmpty (List L);
+boolean IsEmptylist (List L);
 /* Mengirim true jika list kosong. Lihat definisi di atas. */
 
 /****************** PEMBUATAN LIST KOSONG ******************/
-void CreateEmpty (List *L);
+void CreateEmptylist (List *L);
 /* I.S. L sembarang  */
 /* F.S. Terbentuk list kosong. Lihat definisi di atas. */
 
@@ -58,7 +57,7 @@ void Dealokasi (address P);
 /* Melakukan dealokasi/pengembalian address P */
 
 /****************** PENCARIAN SEBUAH ELEMEN LIST ******************/
-address Search (List L, infotype X);
+address Searchlist(List L, infotype X);
 /* Mencari apakah ada elemen list dengan Info(P)=X */
 /* Jika ada, mengirimkan address elemen tersebut. */
 /* Jika tidak ada, mengirimkan Nil */
@@ -87,10 +86,10 @@ void DelVLast (List *L, infotype *X);
 
 /****************** PRIMITIF BERDASARKAN ALAMAT ******************/
 /*** PENAMBAHAN ELEMEN BERDASARKAN ALAMAT ***/
-void InsertFirst (List *L, address P);
+void InsertFirstlist (List *L, address P);
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. Menambahkan elemen ber-address P sebagai elemen pertama */
-void InsertLast (List *L, address P);
+void InsertLastlist (List *L, address P);
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. P ditambahkan sebagai elemen terakhir yang baru */
 void InsertAfter (List *L, address P, address Prec);
@@ -101,12 +100,12 @@ void InsertBefore (List *L, address P, address Succ);
 /* F.S. Insert P sebagai elemen sebelum elemen beralamat Succ */
 
 /*** PENGHAPUSAN SEBUAH ELEMEN ***/
-void DelFirst (List *L, address *P);
+void DelFirstlist (List *L, address *P);
 /* I.S. List tidak kosong */
 /* F.S. P adalah alamat elemen pertama list sebelum penghapusan */
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */
 /* First element yg baru adalah suksesor elemen pertama yang lama */
-void DelLast (List *L, address *P);
+void DelLastlist (List *L, address *P);
 /* I.S. List tidak kosong */
 /* F.S. P adalah alamat elemen terakhir list sebelum penghapusan  */
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */

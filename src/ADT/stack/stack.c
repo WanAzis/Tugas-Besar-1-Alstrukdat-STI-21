@@ -2,8 +2,8 @@
 #include "stack.h"
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Stack *S){
-    Top(*S)=Nil;
+void CreateEmptystack(Stack *S){
+    Top(*S)=-1;
 }
 /* I.S. sembarang*/
 /* F.S. Membuat sebuah stack S yang kosong berkapasitas MaxEl */
@@ -11,18 +11,18 @@ void CreateEmpty(Stack *S){
 /* Ciri stack kosong : TOP bernilai Nil */
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
-boolean IsEmpty(Stack S){
-    return Top(S)==Nil;
+boolean IsEmptystack(Stack S){
+    return Top(S)==-1;
 }
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
-boolean IsFull(Stack S){
-    return Top(S)==MaxEl-1;
+boolean IsFullstack(Stack S){
+    return Top(S)==100-1;
 }
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push(Stack * S, infotype X){
-    if (IsEmpty(*S)){
+void Push(Stack * S, TypeStack X){
+    if (IsEmptystack(*S)){
         Top(*S)=0;
     } else {
         Top(*S)++;
@@ -34,10 +34,10 @@ void Push(Stack * S, infotype X){
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack * S, infotype* X){
+void Pop(Stack * S, TypeStack* X){
     *X = InfoTop(*S);
     if (Top(*S)==0){
-        Top(*S)=Nil;
+        Top(*S)=-1;
     } else {
         Top(*S)--;
     }
@@ -45,3 +45,12 @@ void Pop(Stack * S, infotype* X){
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
+
+Stack Reversestack(Stack *S){
+    Stack hasil; CreateEmptystack(&hasil);
+    TypeStack x;
+    while (!IsEmptystack(*S)){
+        Pop(S,&x); Push(&hasil,x);
+    } return hasil;
+}
+/* Menghasilkan stack yang merupakan kebalikan dari stack input S */

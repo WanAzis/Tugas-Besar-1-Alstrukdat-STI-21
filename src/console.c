@@ -4,6 +4,8 @@
 
 array ListGame;
 Queue QueueGame;
+Stack HistoryGame;
+arraymap ScoreBoardGame;
 int fitur=1,mode=0;
 
 /* Fitur-fitur pada BNMO */
@@ -46,8 +48,8 @@ void CHOOSEMODE(int *mode, char *file){
 /* Memilih mode awal apakah player memilih START atau LOAD */
 
 void STARTBNMO(){
-  ListGame = Makearray();
-  CreateQueue(&QueueGame);
+  ListGame = Makearray(); CreateQueue(&QueueGame);
+  CreateEmptystack(&HistoryGame); ScoreBoardGame = Makearraymap();
   char *fname = "..\\data\\config.txt";
   STARTWORDFILE(fname);
   int loop = currentWord.TabWord[0] - '0';
@@ -60,8 +62,9 @@ void STARTBNMO(){
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
 void LOADBNMO(char *fname){
-  ListGame = Makearray();
-  CreateQueue(&QueueGame);
+  ListGame = Makearray(); CreateQueue(&QueueGame);
+  CreateEmptystack(&HistoryGame); ScoreBoardGame = Makearraymap();
+  Stack awal; CreateEmptystack(&awal);
   char file[25] = "../data/";
   ConcatString(file, fname);
   STARTWORDFILE(file);
@@ -74,6 +77,30 @@ void LOADBNMO(char *fname){
     while(loop--){
       InsertLast(&ListGame, currentWord);
       ADVWORD();
+    } loop=0;
+    for (int i = 0; i<currentWord.Length; i++){
+      loop = (loop*10) + currentWord.TabWord[i]-'0';
+    }
+    ADVWORD();
+    while(loop--){
+      Push(&awal, currentWord);
+      ADVWORD();
+    } HistoryGame = Reversestack(&awal);
+    keytype k; valuetype v; Map m;
+    for (int j = 0; j<ListGame.Neff; j++){
+      loop=0; CreateEmptymap(&m);
+      for (int i = 0; i<currentWord.Length; i++){
+        loop = (loop*10) + currentWord.TabWord[i]-'0';
+      }
+      while(loop--){
+        ADVWORD(); k = currentWord;  // GANTI
+        PrintKata(k); //HAPUS
+        // ADVWORD2(); v = 0; // PrintKata(currentWord);
+        for (int i = 0; i<currentWord.Length; i++){
+          v = (v*10) + currentWord.TabWord[i]-'0';
+        }
+        Insertmap(&m, k, 0); //GANTI
+      } InsertLastarrmap(&ScoreBoardGame,m); ADVWORD();
     }
   } else {
     printf("\n"); mode = 0;

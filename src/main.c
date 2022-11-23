@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "implementasiadt.c"
 #include "console.h"
 
 char fname[50];
@@ -12,7 +13,10 @@ int main(){
     }
     if (mode==1){
         STARTBNMO();
-    } else {LOADBNMO(fname);}
+    } else {LOADBNMO(fname);
+    Printarraymap(ScoreBoardGame); //HAPUS
+    STARTWORD(); 
+    }
     if (mode==0){
         goto label;
     }

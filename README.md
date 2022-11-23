@@ -19,6 +19,6 @@ Clone repositori ini dan masuk ke direktori repositori lokal yang telah dibuat, 
 
 Kompilasi manual dengan menuliskan teks di bawah ini pada terminal
 ```
-    gcc -o BNMO ../src/main.c ../src/ADT/Array/Array.c ../src/ADT/Queue/Queue.c ../src/ADT/QueueDD/QueueDD.c ../src/ADT/MesinKata/mesin_karakter.c      ../src/ADT/MesinKata/mesin_kata.c ../src/Procedure/Fungsi_Kecil.c ../src/Procedure/Game.c ../src/console.c
+    gcc -o BNMO ../src/main.c ../src/ADT/array/array.c ../src/ADT/array/arraymap.c ../src/ADT/list/listdp.c ../src/ADT/map/map.c ../src/ADT/queue/queue.c ../src/ADT/queueDD/queueDD.c ../src/ADT/mesinkata/mesin_karakter.c ../src/ADT/mesinkata/mesin_kata.c ../src/ADT/set/set/c ../src/ADT/stack/stack.c ../src/ADT/point/point.c ../src/procedure/fungsi_kecil.c ../src/procedure/game.c ../src/console.c
 ```
 Run file executable BNMO.exe, kemudian setelah masuk ke dalam program pastikan bahwa setiap command yang diinput dalam program merupakan Uppercase dan tanpa whitespace.

@@ -2,21 +2,21 @@
 #include "map.h"
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Map *M){
-    (*M).Count=Nil;
+void CreateEmptymap(Map *M){
+    (*M).Count=0;
 }
 /* I.S. Sembarang */
 /* F.S. Membuat sebuah Map M kosong berkapasitas MaxEl */
 /* Ciri Map kosong : count bernilai Nil */
 
 /* ********* Predikat Untuk test keadaan KOLEKSI ********* */
-boolean IsEmpty(Map M){
-    return M.Count==Nil;
+boolean IsEmptymap(Map M){
+    return M.Count==0;
 }
 /* Mengirim true jika Map M kosong*/
 /* Ciri Map kosong : count bernilai Nil */
 
-boolean IsFull(Map M){
+boolean IsFullmap(Map M){
     return M.Count==MaxEl;
 }
 /* Mengirim true jika Map M penuh */
@@ -40,8 +40,8 @@ valuetype Value(Map M, keytype k){
 /* Mengembalikan nilai value dengan key k dari M */
 /* Jika tidak ada key k pada M, akan mengembalikan Undefined */
 
-void Insert(Map *M, keytype k, valuetype v){
-    if(!IsMember(*M, k)){
+void Insertmap(Map *M, keytype k, valuetype v){
+    if(!IsMembermap(*M, k)){
         (*M).Elements[(*M).Count].Key=k;
         (*M).Elements[(*M).Count].Value=v;
         (*M).Count++;
@@ -52,7 +52,7 @@ void Insert(Map *M, keytype k, valuetype v){
         M mungkin sudah beranggotakan v dengan key k */
 /* F.S. v menjadi anggota dari M dengan key k. Jika k sudah ada, operasi tidak dilakukan */
 
-void Delete(Map *M, keytype k){
+void Deletemap(Map *M, keytype k){
     boolean found = false;
     int i = 0;
     while (i<(*M).Count && !found){
@@ -74,7 +74,7 @@ void Delete(Map *M, keytype k){
         element dengan key k mungkin anggota / bukan anggota dari M */
 /* F.S. element dengan key k bukan anggota dari M */
 
-boolean IsMember(Map M, keytype k){
+boolean IsMembermap(Map M, keytype k){
     boolean found = false;
     int i = 0;
     while (i<M.Count && !found){
