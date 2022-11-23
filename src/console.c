@@ -337,12 +337,22 @@ F.S. game di skip, lalu dimainkan
 */
 
 void SCOREBOARD(arraymap ScoreBoardGame){
-
+  for(int i=0; i< ScoreBoardGame.Neff ; i++){
+    printf("**** SCOREBOARD GAME ") ; PrintKata(ListGame.A[i]); printf(" ****\n");
+    printf("|     Nama     |     Score     |\n");
+    printf("| ---------------------------- |\n");
+    for (int j = 0; j < ScoreBoardGame.A[j].Count; j++)
+    {
+      printf("|     "); PrintKata(ScoreBoardGame.A[i].Elements[j].Key); printf("     |  %d  |\n", ScoreBoardGame.A[i].Elements[j].Value); 
+    }
+    printf("| ---------------------------- |\n");
+  }
 }
 /* Menampilkan ScoreBoard pemain ditiap game */
 
-void RESETSCOREBOARD(arraymap* ScoreBoardGame){
 
+void RESETSCOREBOARD(arraymap* ScoreBoardGame){
+  
 }
 /* ScoreBoard permainan direset sesuai keinginan player */
 
