@@ -368,3 +368,8 @@ void scoreboard (int score){
   printf("Bye bye ...\n");
 }
 /* Menampilkan scoreboard ketika player berhasil menyelesaikan game */
+
+void resetScoreboard (int *score){
+  *score = 0;
+}
+/* Mengembalikan nilai score menjadi 0 */
