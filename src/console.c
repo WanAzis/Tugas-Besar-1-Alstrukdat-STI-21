@@ -350,7 +350,6 @@ void SCOREBOARD(arraymap ScoreBoardGame){
 }
 /* Menampilkan ScoreBoard pemain ditiap game */
 
-
 void RESETSCOREBOARD(arraymap* ScoreBoardGame){
   
 }
