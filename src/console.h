@@ -103,6 +103,18 @@ list game awal). n sudah di dapat dari input command
 F.S. game di skip, lalu dimainkan
 */
 
+void SCOREBOARD(arraymap ScoreBoardGame);
+/* Menampilkan ScoreBoard pemain ditiap game */
+
+void RESETSCOREBOARD(arraymap* ScoreBoardGame);
+/* ScoreBoard permainan direset sesuai keinginan player */
+
+void HISTORY(Stack HistoryGame, int n);
+/* Menampilkan History permainan pemain */
+
+void RESETHISTORY(Stack* HistoryGame);
+/* Mereset history permainan pemain */
+
 void QUIT();
 /* Player keluar dari mesin BNMO */
 

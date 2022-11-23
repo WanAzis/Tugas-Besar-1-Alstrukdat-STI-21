@@ -16,7 +16,7 @@ void MENU(){
 }
 /* Tampilan awal mesin BNMO yang akan menampilkan pilihan START atau LOAD untuk playar */
 
-void FITURE(){
+void FITURE(){ //TAMBAHKAN FITUR BARU
   printf("-----------------------------------------------\n");
   printf("|  Ketik HELP untuk melihat penjelasan fitur  |\n");
   printf("-----------------------------------------------\n");
@@ -104,7 +104,7 @@ void LOADBNMO(char *fname){
 }
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void CHOOSEFITURE(int *fitur, char *file){
+void CHOOSEFITURE(int *fitur, char *file){ //TAMBAHKAN FITUR BARU
   printf("Masukkan perintah: "); STARTWORD(); printf("\n");
   if (WordCompareString(currentWord,"CREATE")){
     ADVWORD();
@@ -154,7 +154,7 @@ void CHOOSEFITURE(int *fitur, char *file){
 }
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
-void SAVE(char *file){
+void SAVE(char *file){ //TULIS FILE SESUAI TYPE FILE SAVE BARU
   char fname[25] = "..\\data\\";
   ConcatString(fname, file);
   FILE *fp = fopen(fname, "w");
@@ -202,7 +202,7 @@ void LISTGAME(array ListGame){
 }
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
-void DELETEGAME(array *ListGame){
+void DELETEGAME(array *ListGame){  //UBAH BATAS GAME DEFAULT
   LISTGAME(*ListGame); printf("\n");
   printf("Masukkan nomor game yang ingin dihapus : "); STARTWORD();
   int nmr = 0;
@@ -260,7 +260,8 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *QueueGame) {
+void PLAYGAME(Queue *QueueGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
+                                   //MINTA NAMA PEMAIN DIAKHIR, PUSH HISTORY PERMAINAN, INSERT SCORE PEMAIN
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
@@ -335,6 +336,26 @@ list game awal). n sudah di dapat dari input command
 F.S. game di skip, lalu dimainkan
 */
 
+void SCOREBOARD(arraymap ScoreBoardGame){
+
+}
+/* Menampilkan ScoreBoard pemain ditiap game */
+
+void RESETSCOREBOARD(arraymap* ScoreBoardGame){
+
+}
+/* ScoreBoard permainan direset sesuai keinginan player */
+
+void HISTORY(Stack HistoryGame, int n){
+
+}
+/* Menampilkan History permainan pemain */
+
+void RESETHISTORY(Stack* HistoryGame){
+
+}
+/* Mereset history permainan pemain */
+
 void QUIT(){
   printf("Apakah anda ingin save? (Y/N)\n"); STARTWORD();
   if (WordCompareString(currentWord, "Y")){
@@ -353,7 +374,7 @@ void QUIT(){
 }
 /* Player keluar dari mesin BNMO */
 
-void HELP(){
+void HELP(){ //TAMBAHKAN INFORMASI FITUR BARU
   printf("FITUR-FITUR BNMO:\n");
   printf("1. START \t-> merupakan menu awal untuk memulai BNMO dengan pilihan game default.\n");
   printf("2. LOAD \t-> merupakan menu awal untuk membaca dan membuka file save yang berisikan history permainan dari player.\n");
