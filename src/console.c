@@ -350,3 +350,21 @@ void COMMANDLAIN(){
   printf("Command tidak dikenali, silahkan masukkan command yang valid!\n");
 }
 /* Mengeluarkan pesan kesalahan serta meminta inputan ulang ketika player memberi perintah yang tidak valid */
+
+void scoreboard (int score){
+  printf("Selamat, kamu berhasil menyelesaikan game ini!\n");
+  printf("Score kamu adalah %d\n", score);
+  printf("Masukkan nama kamu: "); STARTWORD();
+  char *nama = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, nama);
+  printf("Selamat %s, kamu berhasil menyelesaikan game ini!\n", nama);
+  printf("Score kamu adalah %d\n", score);
+  printf("Masukkan nama file yang ingin disimpan: "); STARTWORD();
+  char *file = (char*) malloc (sizeof(char) * currentWord.Length+1);
+  WordToString(currentWord, file);
+  SAVE(file);
+  printf("Data berhasil di save\n");
+  printf("Anda keluar dari game BNMO.\n");
+  printf("Bye bye ...\n");
+}
+/* Menampilkan scoreboard ketika player berhasil menyelesaikan game */
