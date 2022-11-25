@@ -39,24 +39,25 @@ void RNG(){
    selesai jika player dapat menebak angka dengan benar. */
 
 void Diner_Dash(){
+  srand(time(NULL));
   MakeQueue(&Order);
   MakeQueue(&Cook);
   MakeQueue(&Serve);
   Food fd, val; int saldo = 0, idx, ID, serv=0;
   for (int i = 0; i < 3; i++){
     fd.id = i;
-    fd.durasi = rand() % (3 - 1 +1) + 1;
-    fd.ketahanan = rand() % (6 - 3 +1) + 3;
+    fd.durasi = rand() % (5 - 1 +1) + 1;
+    fd.ketahanan = rand() % (5 - 2 +1) + 2;
     fd.harga = rand() % (50000 - 10000 +1) + 10000;
     Enqueue(&Order, fd);
   }
 
   printf("Selamat Datang di Diner Dash!\n");
-  while (Len(Order)<=100 && serv<=15){ 
+  while (Len(Order)<=7 && serv<=5){ 
     printf("\nSaldo : %i\n\n", saldo);
     printUI(Order, Cook, Serve);
 
-    printf("MASUKKAN COMMAND: "); STARTWORD();
+    printf("MASUKKAN COMMAND: "); STARTSENTENCE();
     Word perintah;
     for (int i = 0; i<5; i++){
       perintah.TabWord[i]=currentWord.TabWord[i];
@@ -111,10 +112,10 @@ void Diner_Dash(){
       printf("Perintah tidak valid, silahkan masukkan kembali perintah");
     }
   }
-  if (Len(Order)>7){
-    printf("Game over, antrian sudah melebihi 7\n\n");
-  } else {
+  if (serv>5){
     printf("Selamat, Anda memenangkan game Diner Dash!\n\n");
+  } else {
+    printf("Game over, antrian sudah melebihi 7\n\n");
   }
 }
 /* Game mengantar makanan */
@@ -161,7 +162,7 @@ void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve){
   }
   fd.id=(*Order).buffer[IDX_TAIL(*Order)].id + 1;
   fd.durasi = rand() % (5 - 1 +1) + 1;
-  fd.ketahanan = rand() % (5 - 3 +1) + 3;
+  fd.ketahanan = rand() % (6 - 2 +1) + 2;
   fd.harga = rand() % (50000 - 10000 +1) + 10000;  
   Enqueue(Order, fd);
 }
@@ -170,43 +171,31 @@ void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve){
 
 void printUI(QueueDD Order, QueueDD Cook, QueueDD Serve){ 
   printf("Daftar Pesanan\n");
-  printf("Makanan | Durasi memasak | Ketahanan | Harga\n");
+  printf("Makanan\t| Durasi memasak | Ketahanan\t| Harga\n");
   printf("----------------------------------------------\n");
   for (int i = IDX_HEAD(Order); i <= IDX_TAIL(Order) ; i++){
-    if (i < 9){
-      printf("M%d      | %d              | %d         | %d\n", Order.buffer[i].id, Order.buffer[i].durasi, Order.buffer[i].ketahanan, Order.buffer[i].harga);
-    } else {
-      printf("M%d     | %d              | %d         | %d\n", Order.buffer[i].id, Order.buffer[i].durasi, Order.buffer[i].ketahanan, Order.buffer[i].harga);
-    }
+    printf("M%d\t| %d\t\t | %d\t\t| %d\n", Order.buffer[i].id, Order.buffer[i].durasi, Order.buffer[i].ketahanan, Order.buffer[i].harga);
   } printf("\n");
     
   printf("Daftar Makanan yang sedang dimasak\n");
-  printf("Makanan | Sisa durasi memasak\n");
+  printf("Makanan\t| Sisa durasi memasak\n");
   printf("------------------------------\n");
   if (ISEmpty(Cook)){
-    printf("        |\n");
+    printf("\t|\n");
   } else{
     for (int i = IDX_HEAD(Cook); i <= IDX_TAIL(Cook) ; i++){
-      if (i < 9){
-        printf("M%d      | %d\n", Cook.buffer[i].id, Cook.buffer[i].durasi);
-      } else{
-        printf("M%d     | %d\n", Cook.buffer[i].id, Cook.buffer[i].durasi);
-      }
-    } printf("\n");
-  }
+      printf("M%d\t| %d\n", Cook.buffer[i].id, Cook.buffer[i].durasi);
+    } 
+  } printf("\n");
 
   printf("Daftar Makanan yang dapat disajikan\n");
-  printf("Makanan | Sisa ketahanan makanan\n");
+  printf("Makanan\t| Sisa ketahanan makanan\n");
   printf("------------------------------\n");
   if (ISEmpty(Serve)){
-    printf("        |\n");
+    printf("\t|\n");
   } else{
     for (int i = IDX_HEAD(Serve); i <= IDX_TAIL(Serve) ; i++){
-      if (i < 9){
-        printf("M%d      | %d\n", Serve.buffer[i].id, Serve.buffer[i].ketahanan);
-      } else{
-        printf("M%d     | %d\n", Serve.buffer[i].id, Serve.buffer[i].ketahanan);
-      }
+      printf("M%d\t| %d\n", Serve.buffer[i].id, Serve.buffer[i].ketahanan);
     }
   } printf("\n");
 }

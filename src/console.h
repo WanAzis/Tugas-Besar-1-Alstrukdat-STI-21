@@ -103,7 +103,7 @@ list game awal). n sudah di dapat dari input command
 F.S. game di skip, lalu dimainkan
 */
 
-void SCOREBOARD(arraymap ScoreBoardGame);
+void SCOREBOARD(arraymap ScoreBoardGame, array ListGame);
 /* Menampilkan ScoreBoard pemain ditiap game */
 
 void RESETSCOREBOARD(arraymap* ScoreBoardGame);

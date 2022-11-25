@@ -88,6 +88,12 @@ boolean WordCompare(Word input1, Word input2);
    I.S. : Word terdefinisi
    F.S. : menghasilkan true jika kedua kata sama, false jika tidak */
 
+boolean WordCompareKapital(Word input1, Word input2);
+/* Proses : Membandingkan kata dengan kata, menghasilkan true jika kata sama, 
+   kata yg sama adalah tidak dibedakan kapital dan tidaknya
+   I.S. : Word terdefinisi
+   F.S. : menghasilkan true jika kedua kata sama, false jika tidak */
+
 void PrintKata(Word Kata);
 /* Proses : Menuliskan tipe bentukan kata ke layar
    I.S. : Word terdefinisi

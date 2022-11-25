@@ -39,21 +39,3 @@ void ConcatString(char *input1, char *input2){
   }
 }
 /* Menggabungkan dua buah string input1 dan input2 ke dalam string input1 */
-
-int searchDD(QueueDD q, int x){
-  int found = false; 
-  int i = IDX_HEAD(q);
-  while (i<=IDX_TAIL(q) && !found){
-    if (q.buffer[i].id == x){
-      found = true;
-    } else {
-      i++;
-    }
-  }
-  if (found){
-    return i;
-  } else {
-    return -999;
-  }
-}
-/* Mencari elemen q yang id nya adalah ID, mengembalikan idx ID pada q */

@@ -16,7 +16,7 @@ void MENU(){
 }
 /* Tampilan awal mesin BNMO yang akan menampilkan pilihan START atau LOAD untuk playar */
 
-void FITURE(){ //TAMBAHKAN FITUR BARU
+void FITURE(){
   printf("-----------------------------------------------\n");
   printf("|  Ketik HELP untuk melihat penjelasan fitur  |\n");
   printf("-----------------------------------------------\n");
@@ -27,6 +27,10 @@ void FITURE(){ //TAMBAHKAN FITUR BARU
   printf(">> QUEUE GAME\n");
   printf(">> PLAY GAME\n");
   printf(">> SKIPGAME <n>\n");
+  printf(">> HISTORY <n>\n");
+  printf(">> RESET HISTORY\n");
+  printf(">> SCOREBOARD\n");
+  printf(">> RESET SCOREBOARD\n");
   printf(">> SAVE <File Name>\n");
   printf(">> HELP\n");
   printf(">> QUIT\n");
@@ -140,6 +144,24 @@ void CHOOSEFITURE(int *fitur, char *file){ //TAMBAHKAN FITUR BARU
     }
     SKIPGAME(&QueueGame, ctr);
     } else {COMMANDLAIN();}
+  } else if (WordCompareString(currentWord,"SCOREBOARD")){
+    SCOREBOARD(ScoreBoardGame, ListGame);
+  } else if (WordCompareString(currentWord,"HISTORY")){
+    ADVWORD();
+    if (currentChar!='\0'){
+      int ctr=0;
+      for (int i = 0; i<currentWord.Length; i++){
+        ctr = (ctr * 10) + currentWord.TabWord[i] - '0';
+      }
+      HISTORY(HistoryGame, ctr);
+    } else {COMMANDLAIN();}
+  } else if (WordCompareString(currentWord,"RESET")){
+    ADVWORD();
+    if (WordCompareString(currentWord,"SCOREBOARD")){
+      RESETSCOREBOARD(&ScoreBoardGame);
+    } else if (WordCompareString(currentWord,"HISTORY")){
+      RESETHISTORY(&HistoryGame);
+    } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SAVE")){
     ADVWORD();
     WordToString(currentWord, file);
@@ -154,24 +176,38 @@ void CHOOSEFITURE(int *fitur, char *file){ //TAMBAHKAN FITUR BARU
 }
 /* Menerima perintah dari pengguna untuk menjalankan fitur yang diinginkan */
 
-void SAVE(char *file){ //TULIS FILE SESUAI TYPE FILE SAVE BARU
+void SAVE(char *file){
   char fname[25] = "..\\data\\";
   ConcatString(fname, file);
   FILE *fp = fopen(fname, "w");
   fprintf(fp, "%d\n", ListGame.Neff);
   char *ftulis = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  for(int i=0; i<ListGame.Neff-1; i++){
+  for(int i=0; i<ListGame.Neff; i++){
     WordToString(ListGame.A[i], ftulis);
     fprintf(fp, "%s\n", ftulis);
   }
-  WordToString(ListGame.A[ListGame.Neff-1], ftulis);
-  fprintf(fp, "%s;", ftulis);
+  fprintf(fp, "%d\n", Top(HistoryGame)+1); //HARUSNYA DI POP PRINT, TAPI TKT JADI PARAMETER OUTPUT SI STACK NYA, NANTI CEK AJA
+  for (int i = Top(HistoryGame); i>=0; i--){
+    WordToString(HistoryGame.T[i], ftulis);
+    fprintf(fp, "%s\n", ftulis);
+  }
+  for (int i = 0; i<ScoreBoardGame.Neff; i++){
+    if (IsEmptymap(ScoreBoardGame.A[i])){
+      fprintf(fp, "0\n");
+    } else {
+      fprintf(fp, "%i\n", ScoreBoardGame.A[i].Count);
+      for (int j = 0; j<ScoreBoardGame.A[i].Count; j++){
+        WordToString(ScoreBoardGame.A[i].Elements[j].Key, ftulis);
+        fprintf(fp, "%s %d\n", ftulis, ScoreBoardGame.A[i].Elements[j].Value);
+      }
+    }
+  } fprintf(fp, ";");
   fclose(fp);
   printf("Berhasil menyimpan ke File!\n");
 }
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
-void CREATEGAME(array *ListGame){
+void CREATEGAME(array *ListGame){ //CREATEEMPTY MAP BARU DI ARRAYMAP SCOREBOARD
   int i = 0;
   boolean found = false;
 
@@ -336,16 +372,16 @@ list game awal). n sudah di dapat dari input command
 F.S. game di skip, lalu dimainkan
 */
 
-void SCOREBOARD(arraymap ScoreBoardGame){
+void SCOREBOARD(arraymap ScoreBoardGame, array ListGame){
   for(int i=0; i< ScoreBoardGame.Neff ; i++){
     printf("**** SCOREBOARD GAME ") ; PrintKata(ListGame.A[i]); printf(" ****\n");
     printf("|     Nama     |     Score     |\n");
     printf("| ---------------------------- |\n");
-    for (int j = 0; j < ScoreBoardGame.A[j].Count; j++)
+    for (int j = 0; j < ScoreBoardGame.A[i].Count; j++)
     {
       printf("|     "); PrintKata(ScoreBoardGame.A[i].Elements[j].Key); printf("     |  %d  |\n", ScoreBoardGame.A[i].Elements[j].Value); 
     }
-    printf("| ---------------------------- |\n");
+    printf("| ---------------------------- |\n\n");
   }
 }
 /* Menampilkan ScoreBoard pemain ditiap game */
