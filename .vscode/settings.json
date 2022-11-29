@@ -1,7 +1,10 @@
 {
     "files.associations": {
         "mesinkarakter.h": "c",
-        "TES.C": "cpp"
+        "TES.C": "cpp",
+        "array.h": "c",
+        "boolean.h": "c",
+        "game.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

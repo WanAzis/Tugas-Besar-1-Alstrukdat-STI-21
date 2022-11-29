@@ -4,6 +4,8 @@
 
 array ListGame;
 Queue QueueGame;
+Stack HistoryGame;
+arraymap ScoreBoardGame;
 int fitur=1,mode=0;
 
 /* Fitur-fitur pada BNMO */
@@ -25,6 +27,10 @@ void FITURE(){
   printf(">> QUEUE GAME\n");
   printf(">> PLAY GAME\n");
   printf(">> SKIPGAME <n>\n");
+  printf(">> HISTORY <n>\n");
+  printf(">> RESET HISTORY\n");
+  printf(">> SCOREBOARD\n");
+  printf(">> RESET SCOREBOARD\n");
   printf(">> SAVE <File Name>\n");
   printf(">> HELP\n");
   printf(">> QUIT\n");
@@ -32,11 +38,11 @@ void FITURE(){
 /* Perintah untuk menampilkan seluruh fitur BNMO yang dapat dipilih oleh user */
 
 void CHOOSEMODE(int *mode, char *file){
-  printf("Silahkan memilih mode START/LOAD <File Name>: "); STARTWORD2();
+  printf("Silahkan memilih mode START/LOAD <File Name>: "); STARTWORD();
   if(WordCompareString(currentWord, "START") && currentWord.Length==5){
     *mode=1;
   } else if (WordCompareString(currentWord, "LOAD")){
-    ADVWORD2();
+    ADVWORD();
     WordToString(currentWord, file);
     *mode=2;
   } else {
@@ -46,22 +52,23 @@ void CHOOSEMODE(int *mode, char *file){
 /* Memilih mode awal apakah player memilih START atau LOAD */
 
 void STARTBNMO(){
-  ListGame = Makearray();
-  CreateQueue(&QueueGame);
+  ListGame = Makearray(); CreateQueue(&QueueGame);
+  CreateEmptystack(&HistoryGame); ScoreBoardGame = Makearraymap();
   char *fname = "..\\data\\config.txt";
   STARTWORDFILE(fname);
   int loop = currentWord.TabWord[0] - '0';
-  ADVWORD();
+  ADVSENTENCE();
   while(loop--){
     InsertLast(&ListGame, currentWord);
-    ADVWORD();
+    ADVSENTENCE();
   }
 }
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
 void LOADBNMO(char *fname){
-  ListGame = Makearray();
-  CreateQueue(&QueueGame);
+  ListGame = Makearray(); CreateQueue(&QueueGame);
+  CreateEmptystack(&HistoryGame); ScoreBoardGame = Makearraymap();
+  Stack awal; CreateEmptystack(&awal);
   char file[25] = "../data/";
   ConcatString(file, fname);
   STARTWORDFILE(file);
@@ -69,11 +76,31 @@ void LOADBNMO(char *fname){
     int loop=0;
     for (int i = 0; i<currentWord.Length; i++){
       loop = (loop*10) + currentWord.TabWord[i]-'0';
-    }
-    ADVWORD();
+    } ADVSENTENCE();
     while(loop--){
       InsertLast(&ListGame, currentWord);
-      ADVWORD();
+      ADVSENTENCE();
+    } loop=0;
+    for (int i = 0; i<currentWord.Length; i++){
+      loop = (loop*10) + currentWord.TabWord[i]-'0';
+    } ADVSENTENCE();
+    while(loop--){
+      Push(&awal, currentWord);
+      ADVSENTENCE();
+    } HistoryGame = Reversestack(&awal);
+    keytype k; valuetype v; Map m;
+    for (int j = 0; j<ListGame.Neff; j++){
+      loop=0; CreateEmptymap(&m);
+      for (int i = 0; i<currentWord.Length; i++){
+        loop = (loop*10) + currentWord.TabWord[i]-'0';
+      }
+      while(loop--){
+        ADVWORD(); k = currentWord;
+        ADVWORD(); v = 0;
+        for (int i = 0; i<currentWord.Length; i++){
+          v = (v*10) + currentWord.TabWord[i]-'0';
+        } Insertmap(&m, k, v);
+      } InsertLastarrmap(&ScoreBoardGame,m); ADVSENTENCE();
     }
   } else {
     printf("\n"); mode = 0;
@@ -82,34 +109,34 @@ void LOADBNMO(char *fname){
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
 void CHOOSEFITURE(int *fitur, char *file){
-  printf("Masukkan perintah: "); STARTWORD2(); printf("\n");
+  printf("Masukkan perintah: "); STARTWORD(); printf("\n");
   if (WordCompareString(currentWord,"CREATE")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       CREATEGAME(&ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"LIST")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       LISTGAME(ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"DELETE")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       DELETEGAME(&ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"QUEUE")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       QUEUEGAME(&QueueGame, ListGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"PLAY")){
-    ADVWORD2();
+    ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
       PLAYGAME(&QueueGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SKIPGAME")){
-    ADVWORD2();
+    ADVWORD();
     if (currentChar!='\0'){
     int ctr=0;
     for (int i = 0; i<currentWord.Length; i++){
@@ -117,8 +144,26 @@ void CHOOSEFITURE(int *fitur, char *file){
     }
     SKIPGAME(&QueueGame, ctr);
     } else {COMMANDLAIN();}
+  } else if (WordCompareString(currentWord,"SCOREBOARD")){
+    SCOREBOARD(ScoreBoardGame, ListGame);
+  } else if (WordCompareString(currentWord,"HISTORY")){
+    ADVWORD();
+    if (currentChar!='\0'){
+      int ctr=0;
+      for (int i = 0; i<currentWord.Length; i++){
+        ctr = (ctr * 10) + currentWord.TabWord[i] - '0';
+      }
+      HISTORY(HistoryGame, ctr);
+    } else {COMMANDLAIN();}
+  } else if (WordCompareString(currentWord,"RESET")){
+    ADVWORD();
+    if (WordCompareString(currentWord,"SCOREBOARD")){
+      RESETSCOREBOARD(&ScoreBoardGame);
+    } else if (WordCompareString(currentWord,"HISTORY")){
+      RESETHISTORY(&HistoryGame);
+    } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SAVE")){
-    ADVWORD2();
+    ADVWORD();
     WordToString(currentWord, file);
     SAVE(file);
   } else if (WordCompareString(currentWord,"HELP")){
@@ -137,12 +182,26 @@ void SAVE(char *file){
   FILE *fp = fopen(fname, "w");
   fprintf(fp, "%d\n", ListGame.Neff);
   char *ftulis = (char*) malloc (sizeof(char) * currentWord.Length+1);
-  for(int i=0; i<ListGame.Neff-1; i++){
+  for(int i=0; i<ListGame.Neff; i++){
     WordToString(ListGame.A[i], ftulis);
     fprintf(fp, "%s\n", ftulis);
   }
-  WordToString(ListGame.A[ListGame.Neff-1], ftulis);
-  fprintf(fp, "%s;", ftulis);
+  fprintf(fp, "%d\n", Top(HistoryGame)+1); //HARUSNYA DI POP PRINT, TAPI TKT JADI PARAMETER OUTPUT SI STACK NYA, NANTI CEK AJA
+  for (int i = Top(HistoryGame); i>=0; i--){
+    WordToString(HistoryGame.T[i], ftulis);
+    fprintf(fp, "%s\n", ftulis);
+  }
+  for (int i = 0; i<ScoreBoardGame.Neff; i++){
+    if (IsEmptymap(ScoreBoardGame.A[i])){
+      fprintf(fp, "0\n");
+    } else {
+      fprintf(fp, "%i\n", ScoreBoardGame.A[i].Count);
+      for (int j = 0; j<ScoreBoardGame.A[i].Count; j++){
+        WordToString(ScoreBoardGame.A[i].Elements[j].Key, ftulis);
+        fprintf(fp, "%s %d\n", ftulis, ScoreBoardGame.A[i].Elements[j].Value);
+      }
+    }
+  } fprintf(fp, ";");
   fclose(fp);
   printf("Berhasil menyimpan ke File!\n");
 }
@@ -152,7 +211,7 @@ void CREATEGAME(array *ListGame){
   int i = 0;
   boolean found = false;
 
-  printf("Masukkan nama game yang akan ditambahkan: "); STARTWORD();
+  printf("Masukkan nama game yang akan ditambahkan: "); STARTSENTENCE();
   char *g = (char*) malloc (sizeof(char) * currentWord.Length+1);
   WordToString(currentWord, g);
   while (i<(*ListGame).Neff && !found){
@@ -164,6 +223,7 @@ void CREATEGAME(array *ListGame){
   }
   if (!found){
     InsertLast(ListGame, currentWord);
+    Map m; CreateEmptymap(&m); InsertLastarrmap(&ScoreBoardGame, m);
     printf("Game berhasil ditambahkan\n");
   } else {
     printf("Game sudah terdaftar\n");
@@ -179,7 +239,7 @@ void LISTGAME(array ListGame){
 }
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
-void DELETEGAME(array *ListGame){
+void DELETEGAME(array *ListGame){  //UBAH BATAS GAME DEFAULT //HAPUS SCOREBOARD DAN HISTORY GAME TSB
   LISTGAME(*ListGame); printf("\n");
   printf("Masukkan nomor game yang ingin dihapus : "); STARTWORD();
   int nmr = 0;
@@ -237,7 +297,10 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *QueueGame) {
+void PLAYGAME(Queue *QueueGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
+                                   //MINTA NAMA PEMAIN DIAKHIR, PUSH HISTORY PERMAINAN, INSERT SCORE PEMAIN
+                                   //TIAP GAME BIKIN PARAMETER OUTPUT SCORE
+  int score;
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
@@ -259,6 +322,10 @@ void PLAYGAME(Queue *QueueGame) {
     else if (WordCompareString(Game, "Jari Bocil")) {
       printf("Loading...\n\n");
       Jari_Bocil();
+    }
+    else if (WordCompareString(Game, "TOWER OF HANOI")) {
+      printf("Loading...\n\n");
+      Tower_of_Hanoi(&score);
     }
     else if (WordCompareString(Game, "DINOSAUR IN EARTH") || WordCompareString(Game, "RISEWOMAN") || WordCompareString(Game, "EIFFEL TOWER")) /*game selain RNG dan Dinner Dash*/ {
       char *stringGame = (char*) malloc (sizeof(char) * Game.Length+1);
@@ -312,6 +379,36 @@ list game awal). n sudah di dapat dari input command
 F.S. game di skip, lalu dimainkan
 */
 
+void SCOREBOARD(arraymap ScoreBoardGame, array ListGame){
+  for(int i=0; i< ScoreBoardGame.Neff ; i++){
+    printf("**** SCOREBOARD GAME ") ; PrintKata(ListGame.A[i]); printf(" ****\n");
+    printf("|     Nama     |     Score     |\n");
+    printf("| ---------------------------- |\n");
+    for (int j = 0; j < ScoreBoardGame.A[i].Count; j++)
+    {
+      printf("|     "); PrintKata(ScoreBoardGame.A[i].Elements[j].Key); printf("     |  %d  |\n", ScoreBoardGame.A[i].Elements[j].Value); 
+    }
+    printf("| ---------------------------- |\n\n");
+  }
+}
+/* Menampilkan ScoreBoard pemain ditiap game */
+
+
+void RESETSCOREBOARD(arraymap* ScoreBoardGame){
+  
+}
+/* ScoreBoard permainan direset sesuai keinginan player */
+
+void HISTORY(Stack HistoryGame, int n){
+  
+}
+/* Menampilkan History permainan pemain */
+
+void RESETHISTORY(Stack* HistoryGame){
+
+}
+/* Mereset history permainan pemain */
+
 void QUIT(){
   printf("Apakah anda ingin save? (Y/N)\n"); STARTWORD();
   if (WordCompareString(currentWord, "Y")){
@@ -330,7 +427,7 @@ void QUIT(){
 }
 /* Player keluar dari mesin BNMO */
 
-void HELP(){
+void HELP(){ //TAMBAHKAN INFORMASI FITUR BARU
   printf("FITUR-FITUR BNMO:\n");
   printf("1. START \t-> merupakan menu awal untuk memulai BNMO dengan pilihan game default.\n");
   printf("2. LOAD \t-> merupakan menu awal untuk membaca dan membuka file save yang berisikan history permainan dari player.\n");

@@ -2,29 +2,29 @@
 #include "set.h"
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Set *S){
-    COUNT(*S)=Nil;
+void CreateEmptyset(Set *S){
+    COUNT(*S)=NIL;
 }
 /* I.S. Sembarang */
 /* F.S. Membuat sebuah Set S kosong berkapasitas MaxEl */
 /* Ciri Set kosong : count bernilai Nil */
 
 /* ********* Predikat Untuk test keadaan KOLEKSI ********* */
-boolean IsEmpty(Set S){
-    return COUNT(S)==Nil;
+boolean IsEmptyset(Set S){
+    return COUNT(S)==NIL;
 }
 /* Mengirim true jika Set S kosong*/
 /* Ciri Set kosong : count bernilai Nil */
 
-boolean IsFull(Set S){
-    return COUNT(S)==MaxEl;
+boolean IsFullset(Set S){
+    return COUNT(S)==100;
 }
 /* Mengirim true jika Set S penuh */
 /* Ciri Set penuh : count bernilai MaxEl */
 
 /* ********** Operator Dasar Set ********* */
-void Insert(Set *S, infotype Elmt){
-    if(!IsMember(*S, Elmt)){
+void Insertset(Set *S, TypeSet Elmt){
+    if(!IsMemberset(*S, Elmt)){
         ELMT(*S,COUNT(*S))=Elmt;
         COUNT(*S)++;
     }
@@ -34,7 +34,7 @@ void Insert(Set *S, infotype Elmt){
         S mungkin sudah beranggotakan Elmt */
 /* F.S. Elmt menjadi anggota dari S. Jika Elmt sudah merupakan anggota, operasi tidak dilakukan */
 
-void Delete(Set *S, infotype Elmt){
+void Deleteset(Set *S, TypeSet Elmt){
     boolean found = false;
     int i = 0;
     while (i<COUNT(*S) && !found){
@@ -43,7 +43,7 @@ void Delete(Set *S, infotype Elmt){
         } else{
             i++;
         }
-    } // i=S.count or found
+    }
     if (found){
         while (i<COUNT(*S)-1){
             ELMT(*S, i)=ELMT(*S, i+1);
@@ -56,7 +56,7 @@ void Delete(Set *S, infotype Elmt){
         Elmt mungkin anggota / bukan anggota dari S */
 /* F.S. Elmt bukan anggota dari S */
 
-boolean IsMember(Set S, infotype Elmt){
+boolean IsMemberset(Set S, TypeSet Elmt){
     boolean found = false;
     int i = 0;
     while (i<COUNT(S) && !found){

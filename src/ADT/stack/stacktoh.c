@@ -1,8 +1,10 @@
 #include <stdio.h>
-#include "stack.h"
+#include "stacktoh.h"
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmptystack(Stack *S){
+void CreateEmptystacktoh(Stacktoh *S, int n){
+    S->T = (int *) malloc (n * sizeof(int));
+    S->SCapacity = n;
     Top(*S)=-1;
 }
 /* I.S. sembarang*/
@@ -11,18 +13,18 @@ void CreateEmptystack(Stack *S){
 /* Ciri stack kosong : TOP bernilai Nil */
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
-boolean IsEmptystack(Stack S){
+boolean IsEmptystacktoh(Stacktoh S){
     return Top(S)==-1;
 }
 /* Mengirim true jika Stack kosong: lihat definisi di atas */
-boolean IsFullstack(Stack S){
-    return Top(S)==100-1;
+boolean IsFullstacktoh(Stacktoh S){
+    return Top(S)==S.SCapacity-1;
 }
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push(Stack * S, TypeStack X){
-    if (IsEmptystack(*S)){
+void Pushtoh(Stacktoh * S, int X){
+    if (IsEmptystacktoh(*S)){
         Top(*S)=0;
     } else {
         Top(*S)++;
@@ -34,7 +36,7 @@ void Push(Stack * S, TypeStack X){
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack * S, TypeStack* X){
+void Poptoh(Stacktoh * S, int* X){
     *X = InfoTop(*S);
     if (Top(*S)==0){
         Top(*S)=-1;
@@ -45,26 +47,3 @@ void Pop(Stack * S, TypeStack* X){
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
-
-Stack Reversestack(Stack *S){
-    Stack hasil; CreateEmptystack(&hasil);
-    TypeStack x;
-    while (!IsEmptystack(*S)){
-        Pop(S,&x); Push(&hasil,x);
-    } return hasil;
-}
-/* Menghasilkan stack yang merupakan kebalikan dari stack input S */
-
-void CetakStack(Stack S){
-    if (IsEmptystack(S)){
-        printf("[]\n");
-    } else{
-        TypeStack Kata;
-        printf("[");
-        while (Top(S)!=0){
-            Pop(&S,&Kata); PrintKata(Kata); printf(",");
-        } Pop(&S,&Kata); PrintKata(Kata);
-        printf("]\n");
-    }
-}
-/* Mencetak stack S ke layar */

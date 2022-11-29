@@ -1,16 +1,13 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include "ADT/array/array.h"
-#include "ADT/queue/queue.h"
-#include "ADT/mesinkata/mesin_karakter.h"
-#include "ADT/mesinkata/mesin_kata.h"
-#include "procedure/fungsi_kecil.h"
-#include "procedure/game.h"
+#include "implementasiadt.h"
 #include "boolean.h"
 
 extern array ListGame;
 extern Queue QueueGame;
+extern Stack HistoryGame;
+extern arraymap ScoreBoardGame;
 extern int fitur, mode;
 
 /* Fitur-fitur pada BNMO */
@@ -94,6 +91,18 @@ I.S. list game ditampilkan (bisa berupa queue jika sudah ada, kalau queue kosong
 list game awal). n sudah di dapat dari input command
 F.S. game di skip, lalu dimainkan
 */
+
+void SCOREBOARD(arraymap ScoreBoardGame, array ListGame);
+/* Menampilkan ScoreBoard pemain ditiap game */
+
+void RESETSCOREBOARD(arraymap* ScoreBoardGame);
+/* ScoreBoard permainan direset sesuai keinginan player */
+
+void HISTORY(Stack HistoryGame, int n);
+/* Menampilkan History permainan pemain */
+
+void RESETHISTORY(Stack* HistoryGame);
+/* Mereset history permainan pemain */
 
 void QUIT();
 /* Player keluar dari mesin BNMO */

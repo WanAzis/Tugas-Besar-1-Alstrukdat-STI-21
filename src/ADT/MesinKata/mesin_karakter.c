@@ -9,9 +9,7 @@ static int retval;
 
 void START(){
     pita = stdin;
-    if (pita != NULL) {
-        ADV();
-    }
+    ADV();
 }
 /* Mesin siap dioperasikan. Pita merupakan stdin yang adalah inputan dari pengguna.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
@@ -50,10 +48,13 @@ void ADV(){
           currentChar mungkin = MARK
           Jika  currentChar = MARK maka EOP akan menyala (true) */
 
-void ADV2(){
-    retval = fscanf(pita,"%c",&currentChar);
-    EOP = (currentChar=='\n');
-}
+// void ADV2(){
+//     retval = fscanf(pita,"%c",&currentChar);
+//     EOP = (currentChar=='\n');
+//     if (EOP){
+//         fclose(pita);
+//     }
+// }
 /* Prosedur ADV yang digunakan pada ADVWORD2 */
 
 char GetCC(){
@@ -62,6 +63,6 @@ char GetCC(){
 /* Mengirimkan currentChar */
 
 boolean IsEOP(){
-    return currentChar==MARK;
+    return currentChar=='\n';
 }
 /* Mengirimkan true jika currentChar = MARK */

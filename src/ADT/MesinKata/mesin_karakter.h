@@ -34,7 +34,7 @@ void ADV();
           currentChar mungkin = MARK
           Jika  currentChar = MARK maka EOP akan menyala (true) */
 
-void ADV2();
+// void ADV2();
 /* Prosedur ADV yang digunakan pada ADVWORD2 */
 
 char GetCC();
