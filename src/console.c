@@ -402,6 +402,7 @@ void HISTORY(Stack HistoryGame, int n){
 /* Menampilkan History permainan pemain */
 
 void RESETHISTORY(Stack* HistoryGame){
+  printf("APAKAH KAMU INGIN MELAKUKAN RESET HISTORY");
 
 }
 /* Mereset history permainan pemain */

@@ -11,5 +11,4 @@
 #include "ADT/set/set.c"
 #include "ADT/stack/stack.c"
 #include "procedure/fungsi_kecil.c"
-#include "procedure/game.c"
 #include "console.c"

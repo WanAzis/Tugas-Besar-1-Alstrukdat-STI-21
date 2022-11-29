@@ -10,5 +10,4 @@
 #include "ADT/set/set.h"
 #include "ADT/stack/stack.h"
 #include "procedure/fungsi_kecil.h"
-#include "procedure/game.h"
 #include "console.h"
