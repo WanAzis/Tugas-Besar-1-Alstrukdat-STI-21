@@ -21,12 +21,12 @@ yang ada di atasnya. Beberapa modifikasi untuk permainan ini:
       yang terpenting adalah jika langkahnya 31, skornya adalah 10).
 */
 
-void Display_ToH(Stacktoh A, Stacktoh B, Stacktoh);
+void Display_ToH(Stacktoh A, Stacktoh B, Stacktoh C, int JmlPiringan);
 /*
 Menampilkan kondisi terkini dari masing-masing tiang pada Tower of Hanoi
 */
 
-void Input_ToH(Stacktoh A, Stacktoh B, Stacktoh C, char *TiangIn, char *TiangOut);
+void Input_ToH(Stacktoh A, Stacktoh B, Stacktoh C, int JmlPiringan, char *TiangIn, char *TiangOut);
 /*
 Meminta input untuk memindahkan piringan dari tiang satu ke yang lainya
 */
