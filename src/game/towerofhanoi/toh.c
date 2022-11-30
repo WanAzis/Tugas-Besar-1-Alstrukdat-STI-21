@@ -17,62 +17,53 @@ void Tower_of_Hanoi(int *score){
     }
     char TiangIn, TiangOut;
     while (!IsFullstacktoh(C)) {
-      Input_ToH(A, B, C, &TiangIn, &TiangOut); /*minta input dan checker valid/engga*/
+      Input_ToH(A, B, C, JmlPiringan, &TiangIn, &TiangOut); /*minta input dan checker valid/engga*/
       while (!Constrain_ToH(A, B, C, TiangIn, TiangOut)) { /*input melanggar constrain*/
         printf("Anda melanggar aturan! Tidak bisa memindahkan piringan yang lebih besar diatas piringan yang lebih kecil!\n");
         printf("Silahkan masukkan kembali input tiang asal dan tujuan!\n"); printf("\n");
-        Input_ToH(A, B, C, &TiangIn, &TiangOut);
+        Input_ToH(A, B, C, JmlPiringan, &TiangIn, &TiangOut);
       }
       /*tidak melanggar constrain*/
       Move_Piringan(A, B, C, TiangIn, TiangOut);
       counter++;
+    }
     printf("SELAMAT ANDA TELAH MEMEANANGKAN PERMAINAN!\n");
     *score = Score_Counter(counter, JmlPiringan);
-  }
 }
 
-void Display_ToH(Stacktoh A, Stacktoh B, Stacktoh C) {
-  /*display nya bingung mau gimana jujur, ini printstack dulu aja ya*/
-  printf("TIANG A:\n");
-  if (IsEmptystacktoh(A)){
-      printf("[]\n");
-  } 
-  else {
-      int Piringan;
-      printf("[");
-      while (Top(A)!=0){
-          Poptoh(&A,&Piringan); printf("%i, ",Piringan);
-      } Poptoh(&A,&Piringan); printf("%i",Piringan);
-      printf("]\n");
+void Display_ToH(Stacktoh A, Stacktoh B, Stacktoh C, int JmlPiringan) {
+  for (int i=JmlPiringan-1; i>=0; i++) { /*looping print per line*/
+    Displaystacktoh(A, i);
+    Displaystacktoh(B, i);
+    Displaystacktoh(C, i);
+    printf("\n"); 
   }
-  printf("TIANG B:\n");
-  if (IsEmptystacktoh(B)){
-      printf("[]\n");
-  } 
-  else {
-      int Piringan;
-      printf("[");
-      while (Top(B)!=0){
-          Poptoh(&B,&Piringan); printf("%i, ",Piringan);
-      } Poptoh(&B,&Piringan); printf("%i",Piringan);
-      printf("]\n");
+  /*print alas dari stack*/
+  for (int i=0;i<3;i++){
+    for (int i=0;i<(JmlPiringan*2)-1;i++) {
+      printf("=");
+    }
+    printf("   ");
   }
-  printf("TIANG C:\n");
-  if (IsEmptystacktoh(C)){
-      printf("[]\n");
-  } 
-  else {
-      int Piringan;
-      printf("[");
-      while (Top(C)!=0){
-          Poptoh(&C,&Piringan); printf("%i, ",Piringan);
-      } Poptoh(&C,&Piringan); printf("%i",Piringan);
-      printf("]\n");
-  }
+  printf("\n");
+  /*print A, B, C*/
+  for (int i=0;i<JmlPiringan;i++) {printf(" ");}
+  printf("A");
+  for (int i=0;i<JmlPiringan;i++) {printf(" ");}
+  printf("   ");
+  for (int i=0;i<JmlPiringan;i++) {printf(" ");}
+  printf("B");
+  for (int i=0;i<JmlPiringan;i++) {printf(" ");}
+  printf("   ");
+  for (int i=0;i<JmlPiringan;i++) {printf(" ");}
+  printf("C");
+  for (int i=0;i<JmlPiringan;i++) {printf(" ");}
+  printf("   ");
+  printf("\n");
 }
 
-void Input_ToH(Stacktoh A, Stacktoh B, Stacktoh C, char *TiangIn, char *TiangOut) {
-  Display_ToH(A, B, C);
+void Input_ToH(Stacktoh A, Stacktoh B, Stacktoh C, int JmlPiringan, char *TiangIn, char *TiangOut) {
+  Display_ToH(A, B, C, JmlPiringan);
   printf("TIANG ASAL: \n");
   STARTWORD(); /*menerima input tiang asal*/
   while (currentWord.Length != 1 && (currentWord.TabWord[0] != 'A' && currentWord.TabWord[0] != 'B' && currentWord.TabWord[0] != 'C')) /*checker input valid/tidak*/
@@ -81,8 +72,8 @@ void Input_ToH(Stacktoh A, Stacktoh B, Stacktoh C, char *TiangIn, char *TiangOut
     printf("TIANG ASAL: \n");
     STARTWORD();
   }
-  *TiangIn = currentWord.TabWord[0];
   /*kondisi input valid*/
+  *TiangIn = currentWord.TabWord[0];
   printf("TIANG TUJUAN: \n");
   STARTWORD();
   while (currentWord.Length != 1 && (currentWord.TabWord[0] != 'A' && currentWord.TabWord[0] != 'B' && currentWord.TabWord[0] != 'C')) /*checker input valid/tidak*/
@@ -91,6 +82,7 @@ void Input_ToH(Stacktoh A, Stacktoh B, Stacktoh C, char *TiangIn, char *TiangOut
     printf("TIANG TUJUAN: \n");
     STARTWORD();
   }
+  /*kondisi input valid*/
   *TiangOut = currentWord.TabWord[0];
 }
 
@@ -164,10 +156,19 @@ void Move_Piringan(Stacktoh A, Stacktoh B, Stacktoh C, char TiangIn, char TiangO
 }
 
 int Score_Counter(int counter, int JumlahPiringan) {
-  int score, minmoves = 1;
+  int score, 
+  minscore = 0,
+  minmoves = 1, 
+  maxscore = JumlahPiringan*2, /*maxscore akan bertambah dan berkurang bergantung Jumlah Piringan*/ 
+  maxmoves = minmoves*((JumlahPiringan*2)+1); /*perhitungan maxmoves, jika lebih score akan nol*/
+
   for (int i = 0; i<JumlahPiringan;i++){
     minmoves = minmoves*2;
+  } /*looping untuk pembagi counter nantinya*/
+
+  if (counter >= maxmoves) {return 0;} /*kasus pemain movesnya melebihi maxmoves*/
+  else { /*kalau movesnya masih lebih kecil dari maxmoves*/
+    score = maxscore-((counter/minmoves-1)-1);
+    return score;
   }
-  score = 10-((counter/minmoves-1)-1);
-  return score;
 }

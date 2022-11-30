@@ -51,4 +51,7 @@ void Poptoh(Stacktoh * S, int* X);
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
 
+void Displaystacktoh(Stacktoh S, int i);
+/*mendisplaykan stack spesifik untuk di game tower of hanoi*/
+
 #endif
