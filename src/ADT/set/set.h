@@ -10,12 +10,12 @@ Deklarasi set yang dengan implementasi array eksplisit-statik rata kiri
 
 #define NIL 0
 
-typedef Word TypeSet;
+typedef char TypeSet;
 typedef int idx;
 
 typedef struct
 {
-    TypeSet Elements[100];
+    TypeSet Elements[26];
     idx Count;
 } Set;
 

@@ -17,7 +17,7 @@ boolean IsEmptyset(Set S){
 /* Ciri Set kosong : count bernilai Nil */
 
 boolean IsFullset(Set S){
-    return COUNT(S)==100;
+    return COUNT(S)==26;
 }
 /* Mengirim true jika Set S penuh */
 /* Ciri Set penuh : count bernilai MaxEl */
@@ -38,7 +38,7 @@ void Deleteset(Set *S, TypeSet Elmt){
     boolean found = false;
     int i = 0;
     while (i<COUNT(*S) && !found){
-        if(WordCompare(ELMT(*S,i),Elmt)){
+        if(ELMT(*S,i)==Elmt){
             found = true;
         } else{
             i++;
@@ -60,7 +60,7 @@ boolean IsMemberset(Set S, TypeSet Elmt){
     boolean found = false;
     int i = 0;
     while (i<COUNT(S) && !found){
-        if(WordCompare(ELMT(S,i),Elmt)){
+        if(ELMT(S,i)==Elmt){
             found= true;
         } else{
             i++;
