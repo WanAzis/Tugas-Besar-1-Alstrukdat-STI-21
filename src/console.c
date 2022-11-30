@@ -298,7 +298,8 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 
 /*prosedur playgame*/
 void PLAYGAME(Queue *QueueGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
-                                   //MINTA NAMA PEMAIN DIAKHIR, PUSH HISTORY PERMAINAN, INSERT SCORE PEMAIN
+                                   //MINTA NAMA PEMAIN DIAKHIR (NAMA GAK BOLEH SAMA WALAUPUN BEDA KAPITAL DOANG) 
+                                   //PUSH HISTORY PERMAINAN, INSERT SCORE PEMAIN
                                    //TIAP GAME BIKIN PARAMETER OUTPUT SCORE
   int score;
   printf("Berikut adalah daftar antrian game-mu: \n");
@@ -333,6 +334,7 @@ void PLAYGAME(Queue *QueueGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
       printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.\n", stringGame);
     }
     else {
+      srand(time(NULL));
       int rnd = rand() % (100 - 1 +1) + 1;
       printf("Game sedang dimainkan!\n");
       printf("GAME OVER!\n");

@@ -5,38 +5,38 @@
 matriks Maps;
 List Badan;
 POINT Mkn, Met, Obs;
+boolean GameOver;
 
 /* Merupakan program utama dari game */
 void SnakeonMeteor(int* Score){
+    Maps = MakeMatriks();
     /* PERSIAPAN AWAL KONDISI TUBUH SNAKE DAN POSISI Mkn */
     srand(time(NULL));
     int abs = rand() % 5, ord = rand() % 5;
     POINT koordinat = MakePOINT(abs, ord);
     address P = Alokasi(koordinat);
     InsertLastlist(&Badan, P); // Pembuatan badan snake
-    
-    // for(int i = 0; i<2; i++){
-    //     TambahEkor(&Badan);
-    // }
-    srand(time(NULL));
-    abs = rand() % 5 + 3; ord = rand() % 5 + 3; // Pembuatan posisi makanan
+    for(int i = 0; i<2; i++){
+        TambahEkor(&Badan);
+    }
+    abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi makanan
     Mkn = MakePOINT(abs, ord);
-    while (ComparePOINT(Mkn, Info(First(Badan))) || ComparePOINT(Mkn, Info(Next(First(Badan)))) || ComparePOINT(Mkn, Info(Next(Next(First(Badan)))))){
+    // ComparePOINT(Mkn, Info(Next(First(Badan)))) || ComparePOINT(Mkn, Info(Next(Next(First(Badan)))))
+    while (ComparePOINT(Mkn, Info(First(Badan))) || ComparePOINT(Mkn, Info(Next(First(Badan)))) || ComparePOINT(Mkn, Info(Last(Badan)))){
         abs = rand() % 5; ord = rand() % 5;
         Mkn = MakePOINT(abs, ord);
     }
-    srand(time(NULL));
-    abs = rand() % 5 + 1; ord = rand() % 5 + 1; // Pembuatan posisi obs
+    abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi obs
     Obs = MakePOINT(abs, ord);
-    while (ComparePOINT(Mkn, Info(First(Badan))) || ComparePOINT(Mkn, Info(Next(First(Badan)))) || ComparePOINT(Mkn, Info(Next(Next(First(Badan))))) || ComparePOINT(Mkn, Obs)){
+    while (ComparePOINT(Obs, Info(First(Badan))) || ComparePOINT(Obs, Info(Next(First(Badan)))) || ComparePOINT(Obs, Info(Last(Badan))) || ComparePOINT(Mkn, Obs)){
         abs = rand() % 5; ord = rand() % 5;
         Obs = MakePOINT(abs, ord);
-    } InsertAtMatriks(&Maps,OBS,Absis(Obs),Ordinat(Obs));
-    // UpdateMapsSOM(&Maps, Badan, Mkn, Met);
+    }
+    UpdateMapsSOM(&Maps, Badan, Mkn, Met, Obs);
     PrintMatriks(Maps);
 
     /* TAHAP PERMAINAN */
-    boolean GameOver = false; // Penanda game masih terus berlanjut
+    GameOver = false; // Penanda game masih terus berlanjut
 
 
 }
@@ -45,17 +45,18 @@ void SnakeonMeteor(int* Score){
 void PrintPetaSOM(matriks Maps){}
 
 /* Meng-update matriks Maps sesuai dengan kondisi terkini permainan */
-void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met){
+void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met, POINT Obs){
     (*Maps)=MakeMatriks();
     address P = First(Badan);
     InsertAtMatriks(Maps,KEPALA,Absis(Info(P)),Ordinat(Info(P))); P = Next(P);
-    // while(P!=NIL){
-    //     int j = 0;
-    //     InsertAtMatriks(Maps,j+'1',Absis(Info(P)),Ordinat(Info(P)));
-    //     P = Next(P);
-    // } Dealokasi(P);
+    int j = 0;
+    while(P!=NIL){
+        InsertAtMatriks(Maps,j+'1',Absis(Info(P)),Ordinat(Info(P)));
+        P = Next(P); j++;
+    } Dealokasi(P);
+    InsertAtMatriks(Maps,OBS,Absis(Obs),Ordinat(Obs));
     InsertAtMatriks(Maps,MAKANAN,Absis(Mkn),Ordinat(Mkn));
-    InsertAtMatriks(Maps,MET,Absis(Met),Ordinat(Met));
+    // InsertAtMatriks(Maps,MET,Absis(Met),Ordinat(Met));
 }
 
 /* Memvalidasi langkah ular dalam permainan */
@@ -65,7 +66,20 @@ boolean isLangkahValid(matriks Maps){}
 void ONETURNSOM(List* Badan, POINT* Obs, POINT* Met, POINT* Mkn){}
 
 /* Prosedur untuk penambahan ekor pada ular */
-void TambahEkor(List *Badan){}
+void TambahEkor(List *Badan){
+    address P = Last(*Badan); POINT ekor;
+    if (GetelmtMatriks(Maps, Absis(Info(P)), Ordinat(Info(P))-1)==FLAG && Ordinat(Info(P))-1 >= 0){
+        ekor = PlusDelta(Info(P),0,-1);
+    } else if (GetelmtMatriks(Maps, Absis(Info(P))-1, Ordinat(Info(P)))==FLAG && Absis(Info(P))-1 >= 0){
+        ekor = PlusDelta(Info(P),-1,0);
+    } else if (GetelmtMatriks(Maps, Absis(Info(P))+1, Ordinat(Info(P)))==FLAG && Absis(Info(P))+1 <= 4){
+        ekor = PlusDelta(Info(P),1,0);
+    } else if (GetelmtMatriks(Maps, Absis(Info(P)), Ordinat(Info(P))+1)==FLAG && Ordinat(Info(P))+1 <= 4){
+        ekor = PlusDelta(Info(P),0,1);
+    } else {GameOver=true; return;}
+    address add = Alokasi(ekor);
+    InsertLastlist(Badan,add);
+}
 
 /* Menghitung score pemain yang telah GameOver */
 int HitungScore(List Badan){}

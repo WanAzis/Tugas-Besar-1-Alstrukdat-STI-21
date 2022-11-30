@@ -14,6 +14,7 @@
 extern matriks Maps;
 extern List Badan;
 extern POINT Mkn, Met, Obs;
+extern boolean GameOver;
 
 /* Merupakan program utama dari game */
 void SnakeonMeteor(int* Score);
@@ -22,7 +23,7 @@ void SnakeonMeteor(int* Score);
 void PrintPetaSOM(matriks Maps);
 
 /* Meng-update matriks Maps sesuai dengan kondisi terkini permainan */
-void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met);
+void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met, POINT Obs);
 
 /* Memvalidasi langkah ular dalam permainan */
 boolean isLangkahValid(matriks Maps);
