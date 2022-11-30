@@ -400,11 +400,16 @@ void RESETSCOREBOARD(arraymap* ScoreBoardGame){
 /* ScoreBoard permainan direset sesuai keinginan player */
 
 void HISTORY(Stack HistoryGame, int n){
-  
+  printf("Berikut adalah daftar Game yang telah dimainkan\n");
+  for (int j = 0; j < n; j++) {
+    printf("%d. ", j+1); PrintKata(InfoTop(HistoryGame)); printf("\n");
+    Pop(&HistoryGame, &InfoTop(HistoryGame)); 
+  }
 }
 /* Menampilkan History permainan pemain */
 
 void RESETHISTORY(Stack* HistoryGame){
+  printf("APAKAH KAMU INGIN MELAKUKAN RESET HISTORY");
 
 }
 /* Mereset history permainan pemain */
