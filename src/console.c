@@ -403,9 +403,19 @@ void RESETSCOREBOARD(arraymap* ScoreBoardGame){
 
 void HISTORY(Stack HistoryGame, int n){
   printf("Berikut adalah daftar Game yang telah dimainkan\n");
-  for (int j = 0; j < n; j++) {
-    printf("%d. ", j+1); PrintKata(InfoTop(HistoryGame)); printf("\n");
-    Pop(&HistoryGame, &InfoTop(HistoryGame)); 
+  Word simpan;
+  if (n < Top(HistoryGame)+1) {
+    for (int j = 0; j < n; j++) {
+      printf("%d. ", j+1); PrintKata(InfoTop(HistoryGame)); printf("\n");
+      Pop(&HistoryGame, &simpan);
+    }
+  }
+  else {
+    int loop = Top(HistoryGame);
+    for (int i = 0; i <= loop; i++) {
+      printf("%d. ", i+1); PrintKata(InfoTop(HistoryGame)); printf("\n");
+      Pop(&HistoryGame, &simpan);
+    }
   }
 }
 /* Menampilkan History permainan pemain */
