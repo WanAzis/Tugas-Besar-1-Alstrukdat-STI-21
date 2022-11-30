@@ -108,7 +108,7 @@ void LOADBNMO(char *fname){
 }
 /* Memulai mesin BNMO dengan mengakses file save player sebelumnya */
 
-void CHOOSEFITURE(int *fitur, char *file){ //TAMBAHKAN FITUR BARU
+void CHOOSEFITURE(int *fitur, char *file){
   printf("Masukkan perintah: "); STARTWORD(); printf("\n");
   if (WordCompareString(currentWord,"CREATE")){
     ADVWORD();
@@ -207,7 +207,7 @@ void SAVE(char *file){
 }
 /* Menyimpan state terkini mesin BNMO kedalam file inputan player */
 
-void CREATEGAME(array *ListGame){ //CREATEEMPTY MAP BARU DI ARRAYMAP SCOREBOARD
+void CREATEGAME(array *ListGame){
   int i = 0;
   boolean found = false;
 
@@ -223,6 +223,7 @@ void CREATEGAME(array *ListGame){ //CREATEEMPTY MAP BARU DI ARRAYMAP SCOREBOARD
   }
   if (!found){
     InsertLast(ListGame, currentWord);
+    Map m; CreateEmptymap(&m); InsertLastarrmap(&ScoreBoardGame, m);
     printf("Game berhasil ditambahkan\n");
   } else {
     printf("Game sudah terdaftar\n");
@@ -238,7 +239,7 @@ void LISTGAME(array ListGame){
 }
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
-void DELETEGAME(array *ListGame){  //UBAH BATAS GAME DEFAULT
+void DELETEGAME(array *ListGame){  //UBAH BATAS GAME DEFAULT //HAPUS SCOREBOARD DAN HISTORY GAME TSB
   LISTGAME(*ListGame); printf("\n");
   printf("Masukkan nomor game yang ingin dihapus : "); STARTWORD();
   int nmr = 0;
@@ -298,6 +299,8 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 /*prosedur playgame*/
 void PLAYGAME(Queue *QueueGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
                                    //MINTA NAMA PEMAIN DIAKHIR, PUSH HISTORY PERMAINAN, INSERT SCORE PEMAIN
+                                   //TIAP GAME BIKIN PARAMETER OUTPUT SCORE
+  int score;
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
@@ -319,6 +322,10 @@ void PLAYGAME(Queue *QueueGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
     else if (WordCompareString(Game, "Jari Bocil")) {
       printf("Loading...\n\n");
       Jari_Bocil();
+    }
+    else if (WordCompareString(Game, "TOWER OF HANOI")) {
+      printf("Loading...\n\n");
+      Tower_of_Hanoi(&score);
     }
     else if (WordCompareString(Game, "DINOSAUR IN EARTH") || WordCompareString(Game, "RISEWOMAN") || WordCompareString(Game, "EIFFEL TOWER")) /*game selain RNG dan Dinner Dash*/ {
       char *stringGame = (char*) malloc (sizeof(char) * Game.Length+1);
@@ -388,17 +395,23 @@ void SCOREBOARD(arraymap ScoreBoardGame, array ListGame){
 
 
 void RESETSCOREBOARD(arraymap* ScoreBoardGame){
-  
+  for(int i=0; i< ScoreBoardGame->Neff ; i++){
+    ScoreBoardGame->A[i].Count = 0;
+  }
 }
 /* ScoreBoard permainan direset sesuai keinginan player */
 
 void HISTORY(Stack HistoryGame, int n){
-
+  printf("Berikut adalah daftar Game yang telah dimainkan\n");
+  for (int j = 0; j < n; j++) {
+    printf("%d. ", j+1); PrintKata(InfoTop(HistoryGame)); printf("\n");
+    Pop(&HistoryGame, &InfoTop(HistoryGame)); 
+  }
 }
 /* Menampilkan History permainan pemain */
 
 void RESETHISTORY(Stack* HistoryGame){
-
+  printf("APAKAH KAMU INGIN MELAKUKAN RESET HISTORY");
 }
 /* Mereset history permainan pemain */
 

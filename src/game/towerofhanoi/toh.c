@@ -66,7 +66,7 @@ void Input_ToH(Stacktoh A, Stacktoh B, Stacktoh C, int JmlPiringan, char *TiangI
   Display_ToH(A, B, C, JmlPiringan);
   printf("TIANG ASAL: \n");
   STARTWORD(); /*menerima input tiang asal*/
-  while (currentWord.Length != 1 && (currentWord.TabWord[0] != "A" && currentWord.TabWord[0] != 'B' && currentWord.TabWord[0] != 'C')) /*checker input valid/tidak*/
+  while (currentWord.Length != 1 && (currentWord.TabWord[0] != 'A' && currentWord.TabWord[0] != 'B' && currentWord.TabWord[0] != 'C')) /*checker input valid/tidak*/
   { /*kalau tidak valid akan looping sampai valid*/
     printf("Input tidak valid, silahkan memilih tiang A, B, atau C!\n");
     printf("TIANG ASAL: \n");
@@ -76,7 +76,7 @@ void Input_ToH(Stacktoh A, Stacktoh B, Stacktoh C, int JmlPiringan, char *TiangI
   *TiangIn = currentWord.TabWord[0];
   printf("TIANG TUJUAN: \n");
   STARTWORD();
-  while (currentWord.Length != 1 && (currentWord.TabWord[0] != "A" && currentWord.TabWord[0] != 'B' && currentWord.TabWord[0] != 'C')) /*checker input valid/tidak*/
+  while (currentWord.Length != 1 && (currentWord.TabWord[0] != 'A' && currentWord.TabWord[0] != 'B' && currentWord.TabWord[0] != 'C')) /*checker input valid/tidak*/
   { /*kalau tidak valid akan looping sampai valid*/
     printf("Input tidak valid, silahkan memilih tiang A, B, atau C!\n");
     printf("TIANG TUJUAN: \n");
