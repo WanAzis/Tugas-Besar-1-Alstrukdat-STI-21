@@ -34,7 +34,7 @@ boolean Constrain_ToH(Stacktoh A, Stacktoh B, Stacktoh C, char TiangIn, char Tia
 /*
 Mengecek apakah permintaan pemindahan piring sudah benar/belum 
 */
-void Move_Piringan(Stacktoh A, Stacktoh B, Stacktoh C, char TiangIn, char TiangOut);
+void Move_Piringan(Stacktoh *A, Stacktoh *B, Stacktoh *C, char TiangIn, char TiangOut);
 /*
 Memindahkan piringan dari satu tiang ke tiang lainnya.
 */

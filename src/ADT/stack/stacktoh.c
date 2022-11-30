@@ -48,19 +48,18 @@ void Poptoh(Stacktoh * S, int* X){
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */
 
-void Displaystacktoh(Stacktoh S, int i) {
-    if (Top(S) == i) { /*kondisi kalau ada piringan di tingkat tersbeut*/
-        for (int j=S.SCapacity-1;j>InfoTop(S)/2;j--) {printf(" ");}
-        for (int j=0;j>InfoTop(S)/2;j++) {printf("*");}
-        printf("*");
-        for (int j=0;j>InfoTop(S)/2;j++) {printf("*");}
-        for (int j=S.SCapacity-1;j>InfoTop(S)/2;j--) {printf(" ");}
-        Top(S)--;
+void Displaystacktoh(Stacktoh *S, int i) {
+    if (Top(*S) == i) { /*kondisi kalau ada piringan di tingkat tersbeut*/
+        for (int j=S->SCapacity-1;j>InfoTop(*S)/2;j--) {printf(" ");}
+        for (int j=0;j<InfoTop(*S);j++) {printf("*");}
+        for (int j=S->SCapacity-1;j>InfoTop(*S)/2;j--) {printf(" ");}
+        printf("\t");
+        Top(*S)--;
     }
     else { /*kondisi kalau misal gaada piringan di tingkat tersebut*/
-        for (int j=S.SCapacity-1;j>InfoTop(S)/2;j--) {printf(" ");}
+        for (int j=S->SCapacity-1;j>0;j--) {printf(" ");}
         printf("|");
-        for (int j=S.SCapacity-1;j>InfoTop(S)/2;j--) {printf(" ");}
+        for (int j=S->SCapacity-1;j>0;j--) {printf(" ");}
+        printf("\t");
     }
-    printf("   ");
 }
