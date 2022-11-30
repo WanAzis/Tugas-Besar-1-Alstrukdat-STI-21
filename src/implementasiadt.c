@@ -11,6 +11,7 @@
 #include "ADT/set/set.c"
 #include "ADT/stack/stack.c"
 #include "ADT/stack/stacktoh.c"
+#include "ADT/matriks/matriks.c"
 #include "procedure/fungsi_kecil.c"
 #include "game/dinerdash/dinerdash.c"
 #include "game/hangman/hangman.c"

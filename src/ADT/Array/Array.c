@@ -157,15 +157,6 @@ void Reversearray(array *arr)
         arr->A[j] = temp;
         i++; j--;
     }
-    /*array temp;
-    // array *arr;
-    temp = Copyarray(*arr);
-    Deallocatearray(arr);
-    *arr = Makearray();
-    for (int i = 0; i<temp.Neff; i++) {
-        arr->A[i] = temp.A[temp.Neff-i-1];
-    } arr->Neff = temp.Neff;
-    Deallocatearray(&temp);*/
 }
 
 /**

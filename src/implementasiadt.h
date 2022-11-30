@@ -10,6 +10,7 @@
 #include "ADT/set/set.h"
 #include "ADT/stack/stack.h"
 #include "ADT/stack/stacktoh.h"
+#include "ADT/matriks/matriks.h"
 #include "procedure/fungsi_kecil.h"
 #include "game/dinerdash/dinerdash.h"
 #include "game/hangman/hangman.h"

@@ -4,7 +4,9 @@
         "TES.C": "cpp",
         "array.h": "c",
         "boolean.h": "c",
-        "game.h": "c"
+        "game.h": "c",
+        "rng.h": "c",
+        "jaribocil.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }
