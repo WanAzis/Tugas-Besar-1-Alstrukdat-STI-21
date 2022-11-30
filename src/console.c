@@ -395,7 +395,9 @@ void SCOREBOARD(arraymap ScoreBoardGame, array ListGame){
 
 
 void RESETSCOREBOARD(arraymap* ScoreBoardGame){
-  
+  for(int i=0; i< ScoreBoardGame->Neff ; i++){
+    ScoreBoardGame->A[i].Count = 0;
+  }
 }
 /* ScoreBoard permainan direset sesuai keinginan player */
 
@@ -410,7 +412,6 @@ void HISTORY(Stack HistoryGame, int n){
 
 void RESETHISTORY(Stack* HistoryGame){
   printf("APAKAH KAMU INGIN MELAKUKAN RESET HISTORY");
-
 }
 /* Mereset history permainan pemain */
 
