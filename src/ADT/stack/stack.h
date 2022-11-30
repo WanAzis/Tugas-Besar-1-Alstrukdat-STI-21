@@ -8,7 +8,6 @@
 #include "../../boolean.h"
 #include "../mesinkata/mesin_kata.h"
 
-
 typedef Word TypeStack;
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
