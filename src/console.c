@@ -421,7 +421,14 @@ void HISTORY(Stack HistoryGame, int n){
 /* Menampilkan History permainan pemain */
 
 void RESETHISTORY(Stack* HistoryGame){
-  printf("APAKAH KAMU INGIN MELAKUKAN RESET HISTORY");
+  printf("APAKAH KAMU INGIN MELAKUKAN RESET HISTORY? [YA/TIDAK]\n");
+  STARTWORD();
+  if (WordCompareString(currentWord, "YA")) {
+    printf("History berhasil di-reset./n")
+  }
+  else {
+    
+  }
 }
 /* Mereset history permainan pemain */
 
