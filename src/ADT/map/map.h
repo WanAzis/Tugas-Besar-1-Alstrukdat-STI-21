@@ -9,7 +9,7 @@ Deklarasi map yang dengan implementasi array eksplisit-statik rata kiri
 */
 
 #define Nil 0
-#define MaxEl 20
+#define MaxEl 30
 #define Undefined -999
 
 // typedef int bool;
@@ -54,7 +54,7 @@ valuetype Value(Map M, keytype k);
 /* Jika tidak ada key k pada M, akan mengembalikan Undefined */
 
 void Insertmap(Map *M, keytype k, valuetype v);
-/* Menambahkan Elmt sebagai elemen Map M. */
+/* Menambahkan Elmt sebagai elemen Map M dengan v yang berurut dari terbesar. */
 /* I.S. M mungkin kosong, M tidak penuh
         M mungkin sudah beranggotakan v dengan key k */
 /* F.S. v menjadi anggota dari M dengan key k. Jika k sudah ada, operasi tidak dilakukan */

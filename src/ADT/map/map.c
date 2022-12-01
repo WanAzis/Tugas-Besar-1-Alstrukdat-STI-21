@@ -42,8 +42,13 @@ valuetype Value(Map M, keytype k){
 
 void Insertmap(Map *M, keytype k, valuetype v){
     if(!IsMembermap(*M, k)){
-        (*M).Elements[(*M).Count].Key=k;
-        (*M).Elements[(*M).Count].Value=v;
+        int i = (*M).Count;
+        while (i>0 && v > (*M).Elements[i-1].Value){
+            (*M).Elements[i]=(*M).Elements[i-1];
+            i--;
+        } // i = 0 or v <= (*M).Elements[i-1].Value
+        (*M).Elements[i].Key=k;
+        (*M).Elements[i].Value=v;
         (*M).Count++;
     }
 }

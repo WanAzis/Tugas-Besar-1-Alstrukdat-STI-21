@@ -6,7 +6,7 @@
 
 #include "../../boolean.h"
 
-#define FLAG 'W'
+#define FLAG ' '
 
 typedef struct {
     char arr[5];

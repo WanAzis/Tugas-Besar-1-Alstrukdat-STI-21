@@ -26,10 +26,10 @@ void PrintPetaSOM(matriks Maps);
 void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met, POINT Obs);
 
 /* Memvalidasi langkah ular dalam permainan */
-boolean isLangkahValid(matriks Maps);
+boolean isLangkahValid(matriks Maps, Word kata);
 
 /* Prosedur satu TURN, TURN ditandakan dengan perubahan posisi tubuh snake dan penambahan ekor snake */
-void ONETURNSOM(List* Badan, POINT* Obs, POINT* Met, POINT* Mkn);
+void ONETURNSOM(Word kata, List* Badan, POINT* Met, POINT* Mkn, int* type);
 
 /* Prosedur untuk penambahan ekor pada ular */
 void TambahEkor(List *Badan);

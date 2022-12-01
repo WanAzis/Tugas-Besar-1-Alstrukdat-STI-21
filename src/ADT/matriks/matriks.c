@@ -84,11 +84,11 @@ void DeleteAtMatriks(matriks *m, int i, int j){
  * Prekondisi: matriks terdefinisi
  */
 void PrintMatriks(matriks m){
-    printf("[");
+    printf("[\n");
     for(int i = 0; i<5; i++){
         printf("{%c", GetelmtMatriks(m,i,0));
         for (int j = 1; j<5; j++){
             printf(",%c", GetelmtMatriks(m,i,j));
         } printf("}"); if(i<4){printf("\n");}
-    } printf("]\n");
+    } printf("\n]\n");
 }

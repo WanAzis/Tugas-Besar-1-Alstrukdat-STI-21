@@ -68,3 +68,8 @@ boolean IsMemberset(Set S, TypeSet Elmt){
     } return found;
 }
 /* Mengembalikan true jika Elmt adalah member dari S */
+
+void PrintSet(Set S){
+    
+}
+/* Menuliskan isi set S ke layar */
