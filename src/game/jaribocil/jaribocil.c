@@ -10,7 +10,7 @@ int PlayerInput(){
   else {return 999;}
 }
 
-void Jari_Bocil(){
+void Jari_Bocil(int *score){
   const int MaxFinger = 5;
   const int RIGHT = 0;
   const int LEFT = 1;
@@ -78,10 +78,12 @@ void Jari_Bocil(){
   }
   if (ComputerRF == 0 && ComputerLF == 0) { /*kondisi player menang*/
     printf("Selamat Anda telah memenangkan permainan, jangan sombong yaaa!\n"); /*pesan player menang, komputer kalah*/
+    *score = 10;
     /*print score*/
   }
   else { /*kondisi komputer menang*/
     printf("Yaaah masa kalah sama komputer, Ayok coba lagi!\n"); /*pesan komputer menang, player kalah*/
+    *score = 0;
     /*print score*/
   }
 }

@@ -63,7 +63,10 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 // /* Memainkan sebuah game yang dimiliki oleh player */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *q);
+void PLAYGAME(Queue *q, arraymap *ScoreBoardGame, Stack *HistoryGame);
+/*
+/*penunjang playgame*/
+void EndGame(arraymap *ScoreBoardGame, int Game, int score);
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "PLAY GAME"
            ketika dipanggil, akan mengecek apakah queue game kosong atau tidak, jika kosong,
@@ -80,7 +83,7 @@ F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 // /* Melewatkan satu atau beberapa game dari Queue Game yang dimiliki player */
 
 /*prosedur skipGame*/
-void SKIPGAME(Queue *q, int ctr);
+void SKIPGAME(Queue *q, arraymap *ScoreBoardGame, Stack *HistoryGame, int ctr);
 /*
 Deskripsi: function akan dilakukan ketika queue game sudah ada dan user memberika input
            berupa "SKIP GAME n". Jika n>length queue, maka muncul pesan error, jika n valid,
