@@ -22,13 +22,15 @@ void SnakeonMeteor(int* Score){
     }
     abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi makanan
     Mkn = MakePOINT(abs, ord);
-    while (ComparePOINT(Mkn, Info(First(Badan))) || ComparePOINT(Mkn, Info(Next(First(Badan)))) || ComparePOINT(Mkn, Info(Last(Badan)))){
+    //ComparePOINT(Mkn, Info(First(Badan))) || ComparePOINT(Mkn, Info(Next(First(Badan)))) || ComparePOINT(Mkn, Info(Last(Badan)))
+    while (checkBadanUlar(Badan,Mkn)){
         abs = rand() % 5; ord = rand() % 5;
         Mkn = MakePOINT(abs, ord);
     } //Memastikan posisi makanan tidak sama dengan posisi tubuh snake
     abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi obs
     Obs = MakePOINT(abs, ord);
-    while (ComparePOINT(Obs, Info(First(Badan))) || ComparePOINT(Obs, Info(Next(First(Badan)))) || ComparePOINT(Obs, Info(Last(Badan))) || ComparePOINT(Obs, Mkn)){
+    //ComparePOINT(Obs, Info(First(Badan))) || ComparePOINT(Obs, Info(Next(First(Badan)))) || ComparePOINT(Obs, Info(Last(Badan)))
+    while (checkBadanUlar(Badan,Obs) || ComparePOINT(Obs, Mkn)){
         abs = rand() % 5; ord = rand() % 5;
         Obs = MakePOINT(abs, ord);
     } //Memastikan posisi obstacle tidak sama dengan posisi tubuh snake dan Mkn
@@ -49,13 +51,9 @@ void SnakeonMeteor(int* Score){
     GameOver = false; // Penanda game masih terus berlanjut
     int Turn = 1; int TypeGO;
     while (!GameOver){
-        printf("TURN %i:\n");
+        printf("TURN %i:\n", Turn);
         printf("Silahkan masukkan command anda: "); STARTWORD(); printf("\n");
-        if (!isLangkahValid(Maps,currentWord)){
-            if(!GameOver){
-                printf("Command tidak valid! Silahkan input command menggunakan huruf w/a/s/d\n");
-            }
-        } else {
+        if (isLangkahValid(Maps,currentWord,Badan)){
             printf("\nBerhasil bergerak!\n");
             ONETURNSOM(currentWord,&Badan,&Met,&Mkn, &TypeGO); UpdateMapsSOM(&Maps,Badan,Mkn,Met,Obs);
             PrintMatriks(Maps);
@@ -81,16 +79,93 @@ void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met, POINT Obs){
     } Dealokasi(P);
     InsertAtMatriks(Maps,OBS,Absis(Obs),Ordinat(Obs));
     InsertAtMatriks(Maps,MAKANAN,Absis(Mkn),Ordinat(Mkn));
-    // InsertAtMatriks(Maps,MET,Absis(Met),Ordinat(Met));
+    InsertAtMatriks(Maps,MET,Absis(Met),Ordinat(Met));
 }
 
 /* Memvalidasi langkah ular dalam permainan */
-boolean isLangkahValid(matriks Maps, Word kata){
-    
+boolean isLangkahValid(matriks Maps, Word kata, List Badan){
+    boolean valid = true;
+    if(kata.Length!=1){
+        printf("Command tidak valid! Silahkan input command menggunakan huruf w/a/s/d\n");
+        return false;
+    } else {
+        if (kata.TabWord[0]!='w' && kata.TabWord[0]!='a' && kata.TabWord[0]!='s' && kata.TabWord[0]!='d'){
+            printf("Command tidak valid! Silahkan input command menggunakan huruf w/a/s/d\n");
+            return false;
+        } else {
+            if (kata.TabWord[0]!='w' && GetelmtMatriks(Maps,Absis(Info(First(Badan)))-1 % 5,Ordinat(Info(First(Badan))) % 5) == FLAG){
+                return true;
+            } else if (kata.TabWord[0]!='a' && GetelmtMatriks(Maps,Absis(Info(First(Badan))) % 5,Ordinat(Info(First(Badan)))-1 % 5) == FLAG){
+                return true;
+            } else if (kata.TabWord[0]!='s' && GetelmtMatriks(Maps,Absis(Info(First(Badan)))+1 % 5,Ordinat(Info(First(Badan))) % 5) == FLAG){
+                return true;
+            } else if (kata.TabWord[0]!='d' && GetelmtMatriks(Maps,Absis(Info(First(Badan))) % 5,Ordinat(Info(First(Badan)))+1 % 5) == FLAG){
+                return true;
+            } else if (GetelmtMatriks(Maps,Absis(Info(First(Badan)))-1 % 5,Ordinat(Info(First(Badan))) % 5) == FLAG ||
+                       GetelmtMatriks(Maps,Absis(Info(First(Badan))) % 5,Ordinat(Info(First(Badan)))-1 % 5) == FLAG ||
+                       GetelmtMatriks(Maps,Absis(Info(First(Badan)))+1 % 5,Ordinat(Info(First(Badan))) % 5) == FLAG ||
+                       GetelmtMatriks(Maps,Absis(Info(First(Badan))) % 5,Ordinat(Info(First(Badan)))+1 % 5) == FLAG){
+                printf("Ular gagal bergerak, silahkan input ulang command\n");
+                return false;
+            } else {
+                printf("Ular tidak dapat bergerak kemanapun!\n"); GameOver = true; return false;
+            }
+        }
+    }
 }
 
-/* Prosedur satu TURN, TURN ditandakan dengan perubahan posisi tubuh snake dan penambahan ekor snake */
-void ONETURNSOM(Word kata, List* Badan, POINT* Met, POINT* Mkn, int* type){}
+/* Prosedur satu TURN, TURN ditandakan dengan perubahan posisi tubuh snake dan penambahan ekor snake serta peruabah posisi meteor */
+void ONETURNSOM(Word kata, List* Badan, POINT* Met, POINT* Mkn, int* type){
+    /* Menggerakkan kepala ular, serta badan yang mengikuti pergerakan kepala atau bagian badan sebelumnya */
+    address P = Last(*Badan);
+    while (P!=First(*Badan)){
+        ReplacePOINT(&Info(P),Absis(Info(Prev(P))),Ordinat(Info(Prev(P))));
+        P = Prev(P);
+    } //P berada di kepala ular
+    if (kata.TabWord[0]='w'){
+        ReplacePOINT(&Info(P),Absis(Info(P))-1 % 5,Ordinat(Info(P)));
+        // Geser(&Info(P),-1,0);
+    } else if (kata.TabWord[0]='a'){
+        ReplacePOINT(&Info(P),Absis(Info(P)),Ordinat(Info(P))-1 % 5);
+        // Geser(&Info(P),0,-1);
+    } else if (kata.TabWord[0]='s'){
+        ReplacePOINT(&Info(P),Absis(Info(P))+1 % 5,Ordinat(Info(P)));
+        // Geser(&Info(P),1,0);
+    } else if (kata.TabWord[0]='d'){
+        ReplacePOINT(&Info(P),Absis(Info(P)),Ordinat(Info(P))+1 % 5);
+        // Geser(&Info(P),0,1);
+    } //Posisi kepala dan badan ular sudah sesuai
+
+    /* Men-generate posisi meteor dan makanan baru (jika belum dimakan) */
+    int abs,ord;
+    if (ComparePOINT(Info(First(*Badan)),*Mkn)){
+        TambahEkor(Badan); //Menambah ekor ular sesuai aturan
+        // srand(time(NULL));
+        abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi makanan
+        ReplacePOINT(Mkn,abs,ord);
+        while (checkBadanUlar(*Badan,*Mkn)){
+            abs = rand() % 5; ord = rand() % 5;
+            ReplacePOINT(Mkn,abs,ord);
+        } //Memastikan posisi makanan tidak sama dengan posisi tubuh snake
+    }
+    abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi Meteor
+    ReplacePOINT(Met,abs,ord);
+    while (ComparePOINT(*Met, *Mkn)){
+        abs = rand() % 5; ord = rand() % 5;
+        ReplacePOINT(Met,abs,ord);
+    } //Memastikan posisi meteor tidak sama dengan posisi Mkn
+
+    P = Searchlist(*Badan,*Met); //Mengecek apakah ada koordinat Met pada badan ular
+    if(P!=NIL){
+        if(P==First(*Badan)){
+            GameOver = true; *type=1;
+        }
+        DelP(Badan,*Met);
+        printf("Anda terkena meteor!\n");
+    }
+
+
+}
 
 /* Prosedur untuk penambahan ekor pada ular */
 void TambahEkor(List *Badan){
@@ -106,6 +181,19 @@ void TambahEkor(List *Badan){
     } else {GameOver=true; return;}
     address add = Alokasi(ekor);
     InsertLastlist(Badan,add);
+}
+
+/* Mengecek apakah sebuah koordinat titik ada pada badan ular */
+boolean checkBadanUlar(List Badan, POINT P){
+    boolean found = false;
+    address loc = First(Badan);
+    while (loc!=NIL && !found){
+        if (ComparePOINT(Info(loc),P)){
+            found = true;
+        } else {
+            loc = Next(loc);
+        }
+    } return found;
 }
 
 /* Menghitung score pemain yang telah GameOver */

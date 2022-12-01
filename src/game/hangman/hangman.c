@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../boolean.h"
 #include "hangman.h"
-#include "time.h"
 
 void Hangman(){
   array Answers = Makearray();
@@ -54,6 +52,10 @@ void Hangman(){
 void MakeTebakan(Word Jawaban, Word *Tebakan){
   (*Tebakan).Length = Jawaban.Length;
   for(int i=0; i<Jawaban.Length; i++){
-    (*Tebakan).TabWord[i] = "_";
+    (*Tebakan).TabWord[i] = '_';
   }
+}
+
+boolean CheckJawab(Word Jawaban, Word* Tebakan){
+
 }
