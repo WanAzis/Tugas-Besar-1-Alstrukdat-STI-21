@@ -133,7 +133,7 @@ void CHOOSEFITURE(int *fitur, char *file){
   } else if (WordCompareString(currentWord,"PLAY")){
     ADVWORD();
     if (WordCompareString(currentWord,"GAME")){
-      PLAYGAME(&QueueGame);
+      PLAYGAME(&QueueGame, &ScoreBoardGame, &HistoryGame);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SKIPGAME")){
     ADVWORD();
@@ -142,7 +142,7 @@ void CHOOSEFITURE(int *fitur, char *file){
     for (int i = 0; i<currentWord.Length; i++){
       ctr = (ctr * 10) + currentWord.TabWord[i] - '0';
     }
-    SKIPGAME(&QueueGame, ctr);
+    SKIPGAME(&QueueGame, &ScoreBoardGame, &HistoryGame, ctr);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SCOREBOARD")){
     SCOREBOARD(ScoreBoardGame, ListGame);
@@ -297,7 +297,7 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *QueueGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
+void PLAYGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
                                    //MINTA NAMA PEMAIN DIAKHIR (NAMA GAK BOLEH SAMA WALAUPUN BEDA KAPITAL DOANG) 
                                    //PUSH HISTORY PERMAINAN, INSERT SCORE PEMAIN
                                    //TIAP GAME BIKIN PARAMETER OUTPUT SCORE
@@ -312,36 +312,93 @@ void PLAYGAME(Queue *QueueGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
   else /*kasus queue tidak kosong*/{
     Word Game;
     dequeue(QueueGame, &Game);
-    if (WordCompareString(Game, "Diner DASH")) {
-      printf("Loading...\n\n");
-      Diner_Dash();
+    int i = 0;
+    while (WordCompare(Game, ListGame.A[i])) {
+      i++;
     }
-    else if (WordCompareString(Game, "RNG")) {
-      printf("Loading...\n\n");
-      RNG();
-    }
-    else if (WordCompareString(Game, "Jari Bocil")) {
-      printf("Loading...\n\n");
-      Jari_Bocil();
-    }
-    else if (WordCompareString(Game, "TOWER OF HANOI")) {
-      printf("Loading...\n\n");
-      Tower_of_Hanoi(&score);
-    }
-    else if (WordCompareString(Game, "DINOSAUR IN EARTH") || WordCompareString(Game, "RISEWOMAN") || WordCompareString(Game, "EIFFEL TOWER")) /*game selain RNG dan Dinner Dash*/ {
+    if (i>5) { /*kondisi kalau game yang dimainin itu game baru (diluar file config)*/
       char *stringGame = (char*) malloc (sizeof(char) * Game.Length+1);
       WordToString(Game, stringGame);
-      printf("Game %s masih dalam maintenance, belum dapat dimainkan. Silahkan pilih game lain.\n", stringGame);
-    }
-    else {
-      srand(time(NULL));
-      int rnd = rand() % (100 - 1 +1) + 1;
-      printf("Game sedang dimainkan!\n");
+      printf("Game %s sedang dimainkan!\n", stringGame); /*ceritanya game nya lagi main*/
+      srand(time(NULL)); /*ceritanya lagi ngitung skor*/
+      int score = rand() % (100 - 1 +1) + 1;
+
+      /*Game over, print score, minta nama pemain*/
       printf("GAME OVER!\n");
-      printf("FINAL SCORE : %i\n", rnd);
+      EndGame(ScoreBoardGame, i, score);
+      /*Push history game*/
+      Push(HistoryGame, Game);
+    }
+    else { /*kondisi game nya udah ada di file config*/
+      if (WordCompareString(Game, "RNG")) {
+        printf("Loading...\n\n");
+        RNG(); /*KASI OUTPUT SCORE!*/
+        EndGame(ScoreBoardGame, i, score);
+        /*Push history game*/
+        Push(HistoryGame, Game);
+      }
+      else if (WordCompareString(Game, "Diner DASH")) {
+        printf("Loading...\n\n");
+        Diner_Dash(); /*KASI OUTPUT SCORE!*/
+        EndGame(ScoreBoardGame, i, score);
+        /*Push history game*/
+        Push(HistoryGame, Game);        
+      }
+      else if (WordCompareString(Game, "HANGMAN")) {
+        printf("Loading...\n\n");
+        Hangman(); /*KASI OUTPUT SCORE!*/
+        EndGame(ScoreBoardGame, i, score);
+        /*Push history game*/
+        Push(HistoryGame, Game);      
+      }
+      else if (WordCompareString(Game, "TOWER OF HANOI")) {
+        printf("Loading...\n\n");
+        Tower_of_Hanoi(&score);
+        EndGame(ScoreBoardGame, i, score);
+        /*Push history game*/
+        Push(HistoryGame, Game);      
+      }
+      else if (WordCompareString(Game, "SNAKE ON METEOR")) {
+        printf("Loading...\n\n");
+        SnakeonMeteor(&score);
+        EndGame(ScoreBoardGame, i, score);
+        /*Push history game*/
+        Push(HistoryGame, Game);      
+      }
+      else if (WordCompareString(Game, "Jari Bocil")) {
+        printf("Loading...\n\n");
+        Jari_Bocil(&score);
+        EndGame(ScoreBoardGame, i, score);
+        /*Push history game*/
+        Push(HistoryGame, Game);      
+      }
     }
   }
 }
+
+/*fungsi penunjang PlayGame()*/
+void EndGame(arraymap *ScoreBoardGame, int Game, int score) {
+  printf("SKOR AKHIR : %i\n", score);
+  label : printf("NAMA: "); STARTWORD(); printf("\n");
+  boolean found = false; int j = 0;
+  while (!found && j<ScoreBoardGame->A[Game].Count) {
+    if (WordCompare(currentWord, ScoreBoardGame->A[Game].Elements[j].Key)) {
+      found = true; /*kondisi kalau ketemu yang sama namanya*/
+      j++;
+    }
+    else {
+      j++; /*kondisi kalau nama nya gaada yang sama*/
+    }
+  }
+  if (found == true) { /*ketemu nama yang sama*/
+    printf("Nama yang di Input sudah ada, silahkan masukkan nama lain!\n");
+    goto label;
+  }
+  else { /*Nama yang di input tidak ada di ScoreBoard*/
+    Insertmap(ScoreBoardGame->A[Game].Elements, currentWord, score); 
+  }
+}
+
 /*
 Deskripsi: function akan dijalankan ketika menerima input dari user berupa "PLAY GAME"
            ketika dipanggil, akan mengecek apakah queue game kosong atau tidak, jika kosong,
@@ -355,7 +412,7 @@ F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 */
 
 /*prosedur skipGame*/
-void SKIPGAME(Queue *QueueGame, int ctr) {
+void SKIPGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame,int ctr) {
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
@@ -363,7 +420,7 @@ void SKIPGAME(Queue *QueueGame, int ctr) {
   if (ctr <= IDX_TAIL(*QueueGame) && ctr >= 0) {
     Word Game;
     for (int i=0; i<ctr;i++) {dequeue(QueueGame, &Game);}
-    PLAYGAME(QueueGame);
+    PLAYGAME(QueueGame, ScoreBoardGame, HistoryGame);
   }
   else /*kasus kalau input salah*/ {
     CreateQueue(QueueGame);

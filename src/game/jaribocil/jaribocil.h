@@ -4,7 +4,7 @@
 #include "time.h"
 #include "../../ADT/mesinkata/mesin_kata.h"
 
-void Jari_Bocil();
+void Jari_Bocil(int *score);
 /* Deskripsi Game: */
 /* Aturan permainan game ini adalah:
     - Player akan bermain melawan computer. Player dan komputer bermain dengan kedua tangan mereka (asumsikan
