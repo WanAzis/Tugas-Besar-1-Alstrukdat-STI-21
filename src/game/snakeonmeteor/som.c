@@ -20,16 +20,16 @@ void SnakeonMeteor(int* Score){
     for(int i = 0; i<2; i++){
         TambahEkor(&Badan); //Penambahan 2 ekor awal
     }
+
     abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi makanan
     Mkn = MakePOINT(abs, ord);
-    //ComparePOINT(Mkn, Info(First(Badan))) || ComparePOINT(Mkn, Info(Next(First(Badan)))) || ComparePOINT(Mkn, Info(Last(Badan)))
     while (checkBadanUlar(Badan,Mkn)){
         abs = rand() % 5; ord = rand() % 5;
         Mkn = MakePOINT(abs, ord);
     } //Memastikan posisi makanan tidak sama dengan posisi tubuh snake
+
     abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi obs
     Obs = MakePOINT(abs, ord);
-    //ComparePOINT(Obs, Info(First(Badan))) || ComparePOINT(Obs, Info(Next(First(Badan)))) || ComparePOINT(Obs, Info(Last(Badan)))
     while (checkBadanUlar(Badan,Obs) || ComparePOINT(Obs, Mkn)){
         abs = rand() % 5; ord = rand() % 5;
         Obs = MakePOINT(abs, ord);
@@ -46,7 +46,7 @@ void SnakeonMeteor(int* Score){
     InsertAtMatriks(&Maps,OBS,Absis(Obs),Ordinat(Obs));
     InsertAtMatriks(&Maps,MAKANAN,Absis(Mkn),Ordinat(Mkn));
     printf("Maps awal\n");
-    PrintMatriks(Maps);
+    PrintPetaSOM(Maps);
 
     /* TAHAP PERMAINAN */
     GameOver = false; // Penanda game masih terus berlanjut
@@ -57,9 +57,6 @@ void SnakeonMeteor(int* Score){
         if (isLangkahValid(Maps,currentWord,Badan,&TypeGO)){
             printf("\nBerhasil bergerak!\n");
             ONETURNSOM(currentWord,&Badan,&Met,&Mkn, &TypeGO); 
-            // UpdateMapsSOM(&Maps,Badan,Mkn,Met,Obs);
-            // printf("Kondisi Map\n");
-            // PrintMatriks(Maps);
             Turn++;
         }
     } //GameOver, Permainan berakhir
@@ -76,7 +73,15 @@ void SnakeonMeteor(int* Score){
 }
 
 /* Menampilkan kondisi terkini permainan kedalam peta */
-void PrintPetaSOM(matriks Maps){}
+void PrintPetaSOM(matriks Maps){
+    printf("+-----+-----+-----+-----+-----+\n");
+    for(int i = 0; i<5; i++){
+        printf("|");
+        for (int j = 0; j<5; j++){
+            printf("  %c  |", Maps.A[i].arr[j]);
+        } printf("\n"); printf("+-----+-----+-----+-----+-----+\n");
+    }
+}
 
 /* Meng-update matriks Maps sesuai dengan kondisi terkini permainan mulai dari turn ke 2 */
 void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met, POINT Obs){
@@ -157,17 +162,17 @@ void ONETURNSOM(Word kata, List* Badan, POINT* Met, POINT* Mkn, int* type){
     int abs,ord;
     if (ComparePOINT(Info(First(*Badan)),*Mkn)){
         TambahEkor(Badan); //Menambah ekor ular sesuai aturan
-        // srand(time(NULL));
+        srand(time(NULL));
         abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi makanan
         ReplacePOINT(Mkn,abs,ord);
-        while (checkBadanUlar(*Badan,*Mkn) && ComparePOINT(*Mkn,Obs)){
+        while (checkBadanUlar(*Badan,*Mkn) || ComparePOINT(*Mkn,Obs)){
             abs = rand() % 5; ord = rand() % 5;
             ReplacePOINT(Mkn,abs,ord);
         } //Memastikan posisi makanan tidak sama dengan posisi tubuh snake dan Obs
     }
     abs = rand() % 5; ord = rand() % 5; // Pembuatan posisi Meteor
     ReplacePOINT(Met,abs,ord);
-    while (ComparePOINT(*Met, *Mkn) && ComparePOINT(*Met,Obs)){
+    while (ComparePOINT(*Met, *Mkn) || ComparePOINT(*Met,Obs)){
         abs = rand() % 5; ord = rand() % 5;
         ReplacePOINT(Met,abs,ord);
     } //Memastikan posisi meteor tidak sama dengan posisi Mkn
@@ -176,13 +181,13 @@ void ONETURNSOM(Word kata, List* Badan, POINT* Met, POINT* Mkn, int* type){
     if(ComparePOINT(Info(First(*Badan)),Obs)){
         UpdateMapsSOM(&Maps,*Badan,*Mkn,*Met,Obs);
         printf("Kondisi map\n");
-        PrintMatriks(Maps); printf("\n");
+        PrintPetaSOM(Maps); printf("\n");
         GameOver = true; *type=3; return;
     }
 
     UpdateMapsSOM(&Maps,*Badan,*Mkn,*Met,Obs);
     printf("Kondisi map\n");
-    PrintMatriks(Maps); printf("\n");
+    PrintPetaSOM(Maps); printf("\n");
 
     P = Searchlist(*Badan,*Met); //Mengecek apakah ada koordinat Met pada badan ular
     if(P!=NIL){
@@ -192,21 +197,20 @@ void ONETURNSOM(Word kata, List* Badan, POINT* Met, POINT* Mkn, int* type){
         printf("Anda terkena meteor!\nBerikut merupakan kondisi map terkini\n");
         DelP(Badan,*Met);
         UpdateMapsSOM(&Maps,*Badan,*Mkn,*Met,Obs);
-        PrintMatriks(Maps);
+        PrintPetaSOM(Maps);
     } else {Dealokasi(P);}
-
 }
 
 /* Prosedur untuk penambahan ekor pada ular */
 void TambahEkor(List *Badan){
     address P = Last(*Badan); POINT ekor;
-    if ((GetelmtMatriks(Maps, Absis(Info(P)), Ordinat(Info(P))-1)==FLAG) && ((Ordinat(Info(P))-1) >= 0)){
+    if (GetelmtMatriks(Maps, Absis(Info(P)), Ordinat(Info(P))-1)==FLAG && (Ordinat(Info(P))-1) >= 0){
         ekor = PlusDelta(Info(P),0,-1);
-    } else if ((GetelmtMatriks(Maps, Absis(Info(P))-1, Ordinat(Info(P)))==FLAG) && ((Absis(Info(P))-1) >= 0)){
+    } else if (GetelmtMatriks(Maps, Absis(Info(P))-1, Ordinat(Info(P)))==FLAG && (Absis(Info(P))-1) >= 0){
         ekor = PlusDelta(Info(P),-1,0);
-    } else if ((GetelmtMatriks(Maps, Absis(Info(P))+1, Ordinat(Info(P)))==FLAG) && ((Absis(Info(P))+1) <= 4)){
+    } else if (GetelmtMatriks(Maps, Absis(Info(P))+1, Ordinat(Info(P)))==FLAG && (Absis(Info(P))+1) <= 4){
         ekor = PlusDelta(Info(P),1,0);
-    } else if ((GetelmtMatriks(Maps, Absis(Info(P)), Ordinat(Info(P))+1)==FLAG) && ((Ordinat(Info(P))+1) <= 4)){
+    } else if (GetelmtMatriks(Maps, Absis(Info(P)), Ordinat(Info(P))+1)==FLAG && (Ordinat(Info(P))+1) <= 4){
         ekor = PlusDelta(Info(P),0,1);
     }
     address add = Alokasi(ekor);

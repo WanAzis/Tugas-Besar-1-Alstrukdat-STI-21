@@ -4,5 +4,6 @@
 
 int main(){
     int score;
-    RNG(&score);
+    SnakeonMeteor(&score);
+    // Hangman(&score);
 }

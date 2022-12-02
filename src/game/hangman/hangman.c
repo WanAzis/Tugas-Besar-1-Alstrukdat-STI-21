@@ -53,7 +53,8 @@ void Hangman(int* Score){
         printf("\nInput tidak valid! Silahkan input tebakan ulang!\n");
       }
       else {
-        if((currentWord.TabWord[0]>='A' && currentWord.TabWord[0]<='Z')){
+        if((currentWord.TabWord[0]>='A' && currentWord.TabWord[0]<='Z') || (currentWord.TabWord[0]>='a' && currentWord.TabWord[0]<='z')){
+          if(currentWord.TabWord[0]>='a' && currentWord.TabWord[0]<='z'){currentWord.TabWord[0]-=32;}
           if(!IsMemberset(SudahDitebak,currentWord.TabWord[0])){
             Insertset(&SudahDitebak,currentWord.TabWord[0]);
             found = CheckJawab(Jawaban, &Tebakan, currentWord);
