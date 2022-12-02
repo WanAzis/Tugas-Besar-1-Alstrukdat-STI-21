@@ -38,7 +38,7 @@ void Hangman(int* Score){
     printf(" SELAMAT BERMAIN DAN SEMOGA BERUNTUNG!! :)\n\n");
     printf("-------------------------------------------\n");
 
-    while (kesempatan>0){
+    while (kesempatan>0 && !IsEmpty(Answers)){
       if (WordCompare(Jawaban,Tebakan)){
         printf("\nSelamat kamu berhasil menebak "); PrintKata(Jawaban); printf("! Kamu mendapatkan %i point!\n", Tebakan.Length); score+=Tebakan.Length;
         CreateEmptyset(&SudahDitebak); generateKata(&Answers,&Jawaban);
@@ -78,7 +78,9 @@ void Hangman(int* Score){
         }
       }
     } *Score = score;
-    printf("GameOver! Kesempatan-mu sudah habis!\n");
+    if (kesempatan==0){
+      printf("GameOver! Kesempatan-mu sudah habis!\n");
+    } else {printf("GameOver! Selamat, kamu telah menghabiskan seluruh dictionary!\n");}
     } else if (MODE==1){
       /* Akses file konfigurasi jawaban */
       array Answers = Makearray();

@@ -30,12 +30,6 @@ void TulisPOINT (POINT P);
 boolean ComparePOINT(POINT P1, POINT P2);
 /* True jika kedua point berada pada absis dan ordinat yg sama */
 
-/* *** Kelompok operasi relasional terhadap POINT *** */
-boolean EQ (POINT P1, POINT P2);
-/* Mengirimkan true jika P1 = P2 : absis dan ordinatnya sama */
-boolean NEQ (POINT P1, POINT P2);
-/* Mengirimkan true jika P1 tidak sama dengan P2 */
-
 /* *** Kelompok menentukan di mana P berada *** */
 boolean IsOrigin (POINT P);
 /* Menghasilkan true jika P adalah titik origin */
