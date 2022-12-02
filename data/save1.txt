@@ -1,9 +1,10 @@
-6
+7
 RNG
 Diner DASH
 HANGMAN
 TOWER OF HANOI
 SNAKE ON METEOR
+Jari Bocil
 GAME ASAL
 3
 HANGMAN
@@ -21,4 +22,6 @@ Marcelline 30
 1
 Marshall 77
 0
+1
+Syasya 27
 ;

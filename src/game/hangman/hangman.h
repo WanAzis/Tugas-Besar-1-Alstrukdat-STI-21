@@ -6,8 +6,17 @@
 #include "../../ADT/Array/Array.h"
 #include "../../ADT/MesinKata/mesin_kata.h"
 
+extern int mode;
+extern array Answers;
+
 /* Fungsi utama game */
 void Hangman(int* Score);
+
+/* Prosedure memilih mode */
+void PilihMode(int* mode);
+
+/* Menyimpan dictionary kedalam file */
+void saveDictionary(array arr);
 
 /* Menyiapkan Word Tebakan */
 void MakeTebakan(Word Jawaban, Word *Tebakan);

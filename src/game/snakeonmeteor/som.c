@@ -49,6 +49,10 @@ void SnakeonMeteor(int* Score){
     PrintPetaSOM(Maps);
 
     /* TAHAP PERMAINAN */
+    printf("SELAMAT DATANG PLAYER DI GAME SNAKE ON METEOR!\n\n");
+    printf("MEN-GENERATE PETA, SNAKE, DAN MAKANAN!\n\n");
+    printf("BERHASIL DIGENERATE!\n\n");
+
     GameOver = false; // Penanda game masih terus berlanjut
     int Turn = 1; int TypeGO;
     while (!GameOver){

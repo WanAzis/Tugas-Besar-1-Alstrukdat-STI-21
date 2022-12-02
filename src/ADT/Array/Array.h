@@ -37,6 +37,9 @@ void Deallocatearray(array *arr);
  */
 boolean IsEmpty(array arr);
 
+/* Mengecek apakah kata sudah terdapat dalam array */
+boolean IsMemberarr(array arr, Word kata);
+
 /**
  * Fungsi untuk mendapatkan banyaknya elemen efektif array, 0 jika tabel kosong.
  * Prekondisi: array terdefinisi

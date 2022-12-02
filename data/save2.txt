@@ -1,15 +1,15 @@
 8
 RNG
 Diner DASH
-DINOSAUR IN EARTH
-RISEWOMAN
-EIFFEL TOWER
+HANGMAN
+TOWER OF HANOI
+SNAKE ON METEOR
 Jari Bocil
 Custom 1
 Custom 2
 5
 Diner DASH
-DINOSAUR IN EARTH
+TOWER OF HANOI
 Jari Bocil
 Custom 1
 Diner DASH
@@ -17,10 +17,10 @@ Diner DASH
 Azis 100
 Mumtaz 90
 5
-aku 2
-saya 5
-kita 4
-dia 4
+aku 25000
+saya 17000
+kita 15500
+dia 9000
 mereka 0
 4
 ghalib 20

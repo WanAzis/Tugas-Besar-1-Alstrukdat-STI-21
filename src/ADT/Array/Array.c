@@ -35,6 +35,17 @@ boolean IsEmpty(array arr)
     return arr.Neff==0;
 }
 
+/* Mengecek apakah kata sudah terdapat dalam array */
+boolean IsMemberarr(array arr, Word kata){
+    boolean found = false;
+    int i = 0;
+    while (i<arr.Neff && !found){
+        if (WordCompare(arr.A[i],kata)){
+            found = true;
+        } else {i++;}
+    } return found;
+}
+
 /**
  * Fungsi untuk mendapatkan banyaknya elemen efektif arr, 0 jika tabel kosong.
  * Prekondisi: arr terdefinisi
