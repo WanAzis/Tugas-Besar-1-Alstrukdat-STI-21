@@ -5,6 +5,8 @@
 #include "../../ADT/matriks/matriks.h"
 #include "../../ADT/point/point.h"
 #include "../../ADT/list/listdp.h"
+#include "../../ADT/MesinKata/mesin_kata.h"
+#include "time.h"
 
 #define MAKANAN 'o'
 #define OBS '#'

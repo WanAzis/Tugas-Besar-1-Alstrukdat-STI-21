@@ -13,7 +13,7 @@ void Diner_Dash(int* score){
   Food fd, val; int saldo = 0, idx, ID, serv=0;
   for (int i = 0; i < 3; i++){
     fd.id = i;
-    fd.durasi = rand() % (5 - 1 +1) + 1;
+    fd.durasi = rand() % (2 - 1 +1) + 1;
     fd.ketahanan = rand() % (5 - 2 +1) + 2;
     fd.harga = rand() % (50000 - 10000 +1) + 10000;
     Enqueue(&Order, fd);
@@ -128,8 +128,8 @@ void ONETURN(QueueDD *Order, QueueDD *Cook, QueueDD *Serve){
     }
   }
   fd.id=(*Order).buffer[IDX_TAIL(*Order)].id + 1;
-  fd.durasi = rand() % (5 - 1 +1) + 1;
-  fd.ketahanan = rand() % (6 - 2 +1) + 2;
+  fd.durasi = rand() % (4 - 1 +1) + 1;
+  fd.ketahanan = rand() % (5 - 2 +1) + 2;
   fd.harga = rand() % (50000 - 10000 +1) + 10000;  
   Enqueue(Order, fd);
 }

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "time.h"
+#include <stdlib.h>
 #include "som.h"
 
 matriks Maps;
@@ -39,7 +39,7 @@ void SnakeonMeteor(int* Score){
     P = First(Badan);
     InsertAtMatriks(&Maps,KEPALA,Absis(Info(P)),Ordinat(Info(P))); P = Next(P);
     int j = 0;
-    while(P!=NIL){
+    while(P!=NULL){
         InsertAtMatriks(&Maps,j+'1',Absis(Info(P)),Ordinat(Info(P)));
         P = Next(P); j++;
     } Dealokasi(P);
@@ -93,7 +93,7 @@ void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met, POINT Obs){
     address P = First(Badan);
     InsertAtMatriks(Maps,KEPALA,Absis(Info(P)),Ordinat(Info(P))); P = Next(P);
     int j = 0;
-    while(P!=NIL){
+    while(P!=NULL){
         InsertAtMatriks(Maps,j+'1',Absis(Info(P)),Ordinat(Info(P)));
         P = Next(P); j++;
     } Dealokasi(P);
@@ -194,7 +194,7 @@ void ONETURNSOM(Word kata, List* Badan, POINT* Met, POINT* Mkn, int* type){
     PrintPetaSOM(Maps); printf("\n");
 
     P = Searchlist(*Badan,*Met); //Mengecek apakah ada koordinat Met pada badan ular
-    if(P!=NIL){
+    if(P!=NULL){
         if(P==First(*Badan)){
             GameOver = true; *type=1; return;
         }
@@ -225,7 +225,7 @@ void TambahEkor(List *Badan){
 boolean checkBadanUlar(List Badan, POINT P){
     boolean found = false;
     address loc = First(Badan);
-    while (loc!=NIL && !found){
+    while (loc!=NULL && !found){
         if (ComparePOINT(Info(loc),P)){
             found = true;
         } else {
@@ -241,8 +241,8 @@ int HitungScore(List Badan, int type){
         P = Next(First(Badan));
     } else {P = First(Badan);}
 
-    if (P!=NIL){
-        while(P!=NIL){
+    if (P!=NULL){
+        while(P!=NULL){
             score++; P = Next(P);
         }
     } return score*2;

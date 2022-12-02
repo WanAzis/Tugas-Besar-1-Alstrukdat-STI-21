@@ -3,8 +3,8 @@
 
 #include "time.h"
 #include "../../procedure/fungsi_kecil.h"
-#include "../../ADT/mesinkata/mesin_kata.h"
-#include "../../ADT/queueDD/queueDD.h"
+#include "../../ADT/MesinKata/mesin_kata.h"
+#include "../../ADT/QueueDD/queueDD.h"
 
 extern QueueDD Order, Cook, Serve;
 

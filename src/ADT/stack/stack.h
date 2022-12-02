@@ -6,7 +6,7 @@
 #define stackt_H
 
 #include "../../boolean.h"
-#include "../mesinkata/mesin_kata.h"
+#include "../MesinKata/mesin_kata.h"
 
 typedef Word TypeStack;
 

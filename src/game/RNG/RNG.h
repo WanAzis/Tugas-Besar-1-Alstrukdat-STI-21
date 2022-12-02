@@ -2,7 +2,7 @@
 #define RNG_H
 
 #include "time.h"
-#include "../../ADT/mesinkata/mesin_kata.h"
+#include "../../ADT/MesinKata/mesin_kata.h"
 
 void RNG(int* score);
 /* Game random number generator */

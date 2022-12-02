@@ -1,7 +1,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "implementasiadt.c"
 #include "console.h"
 
 char fname[50];

@@ -17,14 +17,14 @@ void RNG(int* score){
   int tebak = 0;
   for (int i = 0; i<currentWord.Length; i++){
     tebak = (tebak * 10) + currentWord.TabWord[i] - '0';
-  }
+  } kesempatan--;
   while(tebak!=X && kesempatan>0){
     if (tebak<X){
       printf("X Lebih Besar\n");
     } else {
       printf("X Lebih Kecil\n");
     }
-    tebak = 0; kesempatan--;
+    tebak = 0;
     printf("\nKesempatan menebak : %i\n", kesempatan);
     printf("Tebakan: "); STARTWORD();
     for (int i = 0; i<currentWord.Length; i++){

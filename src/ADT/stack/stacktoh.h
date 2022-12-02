@@ -6,7 +6,7 @@
 #define stacktoh_H
 
 #include "../../boolean.h"
-#include "../mesinkata/mesin_kata.h"
+#include "../MesinKata/mesin_kata.h"
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
 /* Versi I : dengan menyimpan tabel dan alamat top secara eksplisit*/

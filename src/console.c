@@ -473,8 +473,7 @@ void RESETSCOREBOARD(arraymap* ScoreBoardGame){
     if(WordCompareString(currentWord,"Y")){
       for(int i = 0; i<(*ScoreBoardGame).Neff; i++){
         CreateEmptymap(&(*ScoreBoardGame).A[i]);
-        printf("\nScoreboard berhasil di-reset.\n");
-      }
+      } printf("\nScoreboard berhasil di-reset.\n");
     } else {printf("\nScoreboard gagal di-reset.\n");}
   }
   else if (nmr>0 && nmr<=ListGame.Neff) {

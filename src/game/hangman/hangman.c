@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include "hangman.h"
 
-int mode;
+int MODE;
 array Answers;
 
 /* Fungsi utama game */
 void Hangman(int* Score){
   /* Pemilihan Mode permainan */
-  PilihMode(&mode);
-  while (mode!=0){
-    if (mode==2){
+  PilihMode(&MODE);
+  while (MODE!=0){
+    if (MODE==2){
       /* Akses file konfigurasi jawaban */
       Answers = Makearray();
       STARTWORDFILE("../data/answerhm.txt");
@@ -79,7 +79,7 @@ void Hangman(int* Score){
       }
     } *Score = score;
     printf("GameOver! Kesempatan-mu sudah habis!\n");
-    } else if (mode==1){
+    } else if (MODE==1){
       /* Akses file konfigurasi jawaban */
       array Answers = Makearray();
       STARTWORDFILE("../data/answerhm.txt");
@@ -100,7 +100,7 @@ void Hangman(int* Score){
         printf("Kata berhasil dimasukkan kedalam dictionary!\n");
       } else {printf("Kota sudah terdapat dalam dictionary, silahkan masukkan kota lain!\n");}
     } else {printf("Masukkan mode yang benar!\n");}
-    PilihMode(&mode);
+    PilihMode(&MODE);
   }
 }
 

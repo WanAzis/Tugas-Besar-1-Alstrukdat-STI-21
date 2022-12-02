@@ -2,7 +2,7 @@
 #define set_H
 
 #include "../../boolean.h"
-#include "../mesinkata/mesin_kata.h"
+#include "../MesinKata/mesin_kata.h"
 
 /* MODUL Set
 Deklarasi set yang dengan implementasi array eksplisit-statik rata kiri

@@ -3,10 +3,11 @@
 
 #include "time.h"
 #include "../../boolean.h"
-#include "../../ADT/Array/Array.h"
+#include "../../ADT/Array/array.h"
 #include "../../ADT/MesinKata/mesin_kata.h"
+#include "../../ADT/set/set.h"
 
-extern int mode;
+extern int MODE;
 extern array Answers;
 
 /* Fungsi utama game */

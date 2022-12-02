@@ -1,7 +1,7 @@
 #ifndef TOWEROFHANOI_H
 #define TOWEROFHANOI_H
 
-#include "../../ADT/mesinkata/mesin_kata.h"
+#include "../../ADT/MesinKata/mesin_kata.h"
 #include "../../ADT/stack/stacktoh.h"
 
 void Tower_of_Hanoi(int *score);

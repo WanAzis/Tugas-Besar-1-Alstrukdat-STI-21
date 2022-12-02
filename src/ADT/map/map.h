@@ -2,7 +2,7 @@
 #define map_H
 
 #include "../../boolean.h"
-#include "../mesinkata/mesin_kata.h"
+#include "../MesinKata/mesin_kata.h"
 
 /* MODUL Map
 Deklarasi map yang dengan implementasi array eksplisit-statik rata kiri
