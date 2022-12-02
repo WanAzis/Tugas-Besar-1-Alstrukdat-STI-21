@@ -27,25 +27,13 @@ void TulisPOINT (POINT P)
 /* I.S. P terdefinisi */
 /* F.S. P tertulis di layar dengan format "(X,Y)" */
 {
-    printf("(%.2f,%.2f)", Absis(P), Ordinat(P));
+    printf("(%d,%d)", Absis(P), Ordinat(P));
 }
 
 boolean ComparePOINT(POINT P1, POINT P2){
     return Absis(P1)==Absis(P2) && Ordinat(P1)==Ordinat(P2);
 }
 /* True jika kedua point berada pada absis dan ordinat yg sama */
-
-boolean EQ (POINT P1, POINT P2)
-/* Mengirimkan true jika P1 = P2 : absis dan ordinatnya sama */
-{
-    return (Absis(P1) == Absis(P2)) && (Ordinat(P1) == Ordinat(P2));
-}
-
-boolean NEQ (POINT P1, POINT P2)
-/* Mengirimkan true jika P1 tidak sama dengan P2 */
-{
-    return !EQ(P1,P2);
-}
 
 boolean IsOrigin (POINT P)
 /* Menghasilkan true jika P adalah titik origin */
