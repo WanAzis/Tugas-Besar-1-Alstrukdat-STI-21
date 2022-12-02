@@ -8,7 +8,7 @@ array Answers;
 /* Fungsi utama game */
 void Hangman(int* Score){
   /* Pemilihan Mode permainan */
-  PilihMode(&MODE);
+  PilihMode(&MODE); int score = 0; *Score = score;
   while (MODE!=0){
     if (MODE==2){
       /* Akses file konfigurasi jawaban */
@@ -28,7 +28,7 @@ void Hangman(int* Score){
     srand(time(NULL));
     Set SudahDitebak; CreateEmptyset(&SudahDitebak); //List huruf yang sudah ditebak
     boolean found;
-    int kesempatan = 10, score=0;
+    int kesempatan = 10;
     Word Jawaban, Tebakan;
     generateKata(&Answers,&Jawaban); MakeTebakan(Jawaban, &Tebakan); 
 
