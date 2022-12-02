@@ -68,3 +68,16 @@ void CetakStack(Stack S){
     }
 }
 /* Mencetak stack S ke layar */
+
+void deleteHistory(Stack* S, Word kata){
+    Stack temp; CreateEmptystack(&temp);
+    Word cek;
+    while(!IsEmptystack(*S)){
+        Pop(S,&cek);
+        if (!WordCompare(kata,cek)){
+            Push(&temp,cek);
+        }
+    }
+    *S = Reversestack(&temp);
+}
+/* Menghapus catatan history game yang sudah dihapus */

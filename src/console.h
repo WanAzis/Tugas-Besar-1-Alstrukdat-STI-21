@@ -42,9 +42,6 @@ void LISTGAME(array ListGame);
 void DELETEGAME(array *ListGame);
 /* Menghapus sebuah game yang dimiliki oleh player */
 
-// void QUEUEGAME(IdxType X, array ListGame, Queue *QueueGame);
-// /* Mendaftarkan sebuah game yang dimiliki oleh player kedalam Queue Game untuk dimainkan */
-
 /*prosedur queuegame*/
 void QUEUEGAME(Queue *q, array ListGame);
 /*
@@ -58,9 +55,6 @@ Deskripsi: function akan dijalankan ketika menerima input dari user berupa "QUEU
 I.S. input sudah valid, list game + queue game (jika sudah ada) di tampilkan
 F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
-
-// void PLAYGAME(IdxType X, array ListGame);
-// /* Memainkan sebuah game yang dimiliki oleh player */
 
 /*prosedur playgame*/
 void PLAYGAME(Queue *q, arraymap *ScoreBoardGame, Stack *HistoryGame);
@@ -79,11 +73,8 @@ list game awal).
 F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 */
 
-// void SKIPGAME(IdxType X, Queue *QueueGame);
-// /* Melewatkan satu atau beberapa game dari Queue Game yang dimiliki player */
-
 /*prosedur skipGame*/
-void SKIPGAME(Queue *q, arraymap *ScoreBoardGame, Stack *HistoryGame, int ctr);
+void SKIPGAME(Queue *q, int ctr);
 /*
 Deskripsi: function akan dilakukan ketika queue game sudah ada dan user memberika input
            berupa "SKIP GAME n". Jika n>length queue, maka muncul pesan error, jika n valid,

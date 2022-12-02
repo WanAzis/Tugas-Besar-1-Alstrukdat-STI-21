@@ -8,7 +8,7 @@
 
 extern QueueDD Order, Cook, Serve;
 
-void Diner_Dash();
+void Diner_Dash(int* score);
 /* Game mengantar makanan */
 /* Adapun peraturan pada game ini adalah: 
     - Terdapat 2 command yang dapat dilakukan pada game, yaitu COOK dan SERVE.

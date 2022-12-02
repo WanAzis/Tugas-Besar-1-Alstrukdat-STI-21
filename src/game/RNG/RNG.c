@@ -5,30 +5,38 @@
 struct tm *Time;
 time_t Tval;
 
-void RNG(){
+void RNG(int* score){
   Tval = time(NULL);
   Time = localtime(&Tval);
   int X = (Time->tm_hour + Time->tm_min + Time->tm_sec)%100;
+  int kesempatan = 20;
   
   printf("Game RNG dimulai. Uji keberuntungan anda dengan menebak X. X bilangan 0 s.d 100\n");
+  printf("\nKesempatan menebak : %i\n", kesempatan);
   printf("Tebakan: "); STARTWORD();
   int tebak = 0;
   for (int i = 0; i<currentWord.Length; i++){
     tebak = (tebak * 10) + currentWord.TabWord[i] - '0';
   }
-  while(tebak!=X){
+  while(tebak!=X && kesempatan>0){
     if (tebak<X){
       printf("X Lebih Besar\n");
     } else {
       printf("X Lebih Kecil\n");
     }
-    tebak = 0;
+    tebak = 0; kesempatan--;
+    printf("\nKesempatan menebak : %i\n", kesempatan);
     printf("Tebakan: "); STARTWORD();
     for (int i = 0; i<currentWord.Length; i++){
       tebak = (tebak * 10) + currentWord.TabWord[i] - '0';
-    }
+    } if(tebak!=X){kesempatan--;}
   }
-  printf("Selamat, anda benar menebak X yaitu %i\n", X);
+  if(tebak==X){
+    printf("Selamat, anda benar menebak X yaitu %i\n", X);
+  } else {
+    printf("Yah sayang sekali, kesempatan-mu habis :(\n");
+  }
+  *score = kesempatan/2;
 }
 /* Game random number generator */
 /* Cara kerja dari game ini adalah player harus menebak

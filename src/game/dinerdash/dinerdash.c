@@ -5,7 +5,7 @@
 
 QueueDD Order, Cook, Serve;
 
-void Diner_Dash(){
+void Diner_Dash(int* score){
   srand(time(NULL));
   MakeQueue(&Order);
   MakeQueue(&Cook);
@@ -83,7 +83,7 @@ void Diner_Dash(){
     printf("Selamat, Anda memenangkan game Diner Dash!\n\n");
   } else {
     printf("Game over, antrian sudah melebihi 7\n\n");
-  }
+  } *score = saldo;
 }
 /* Game mengantar makanan */
 /* Adapun peraturan pada game ini adalah: 

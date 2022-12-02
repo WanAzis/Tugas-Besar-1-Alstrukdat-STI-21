@@ -26,7 +26,7 @@ void PrintPetaSOM(matriks Maps);
 void UpdateMapsSOM(matriks* Maps, List Badan, POINT Mkn, POINT Met, POINT Obs);
 
 /* Memvalidasi langkah ular dalam permainan */
-boolean isLangkahValid(matriks Maps, Word kata, List Badan);
+boolean isLangkahValid(matriks Maps, Word kata, List Badan, int* type);
 
 /* Prosedur satu TURN, TURN ditandakan dengan perubahan posisi tubuh snake dan penambahan ekor snake */
 void ONETURNSOM(Word kata, List* Badan, POINT* Met, POINT* Mkn, int* type);
@@ -38,6 +38,6 @@ void TambahEkor(List *Badan);
 boolean checkBadanUlar(List Badan, POINT P);
 
 /* Menghitung score pemain yang telah GameOver */
-int HitungScore(List Badan);
+int HitungScore(List Badan, int type);
 
 #endif

@@ -58,4 +58,7 @@ Stack Reversestack(Stack *S);
 void CetakStack(Stack S);
 /* Mencetak stack S ke layar */
 
+void deleteHistory(Stack* S, Word kata);
+/* Menghapus catatan history game yang sudah dihapus */
+
 #endif

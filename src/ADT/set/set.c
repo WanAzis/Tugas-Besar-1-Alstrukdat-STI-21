@@ -70,6 +70,8 @@ boolean IsMemberset(Set S, TypeSet Elmt){
 /* Mengembalikan true jika Elmt adalah member dari S */
 
 void PrintSet(Set S){
-    
+    for(int i = 0; i<S.Count; i++){
+        printf("%c",S.Elements[i]);
+    } printf("\n");
 }
 /* Menuliskan isi set S ke layar */

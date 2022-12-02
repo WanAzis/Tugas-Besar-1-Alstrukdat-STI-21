@@ -62,6 +62,11 @@ void STARTBNMO(){
     InsertLast(&ListGame, currentWord);
     ADVSENTENCE();
   }
+  /* Membuat scoreboard kosong untuk tiap game*/
+  Map m; CreateEmptymap(&m);
+  for (int i = 0; i<ListGame.Neff; i++){
+    InsertLastarrmap(&ScoreBoardGame,m);
+  }
 }
 /* Memulai mesin BNMO dengan mengakses file konfigurasi default */
 
@@ -142,7 +147,7 @@ void CHOOSEFITURE(int *fitur, char *file){
     for (int i = 0; i<currentWord.Length; i++){
       ctr = (ctr * 10) + currentWord.TabWord[i] - '0';
     }
-    SKIPGAME(&QueueGame, &ScoreBoardGame, &HistoryGame, ctr);
+    SKIPGAME(&QueueGame,ctr);
     } else {COMMANDLAIN();}
   } else if (WordCompareString(currentWord,"SCOREBOARD")){
     SCOREBOARD(ScoreBoardGame, ListGame);
@@ -186,7 +191,7 @@ void SAVE(char *file){
     WordToString(ListGame.A[i], ftulis);
     fprintf(fp, "%s\n", ftulis);
   }
-  fprintf(fp, "%d\n", Top(HistoryGame)+1); //HARUSNYA DI POP PRINT, TAPI TKT JADI PARAMETER OUTPUT SI STACK NYA, NANTI CEK AJA
+  fprintf(fp, "%d\n", Top(HistoryGame)+1);
   for (int i = Top(HistoryGame); i>=0; i--){
     WordToString(HistoryGame.T[i], ftulis);
     fprintf(fp, "%s\n", ftulis);
@@ -239,7 +244,7 @@ void LISTGAME(array ListGame){
 }
 /* Menampilkan daftar game terkini yang dimiliki oleh player */
 
-void DELETEGAME(array *ListGame){  //UBAH BATAS GAME DEFAULT //HAPUS SCOREBOARD DAN HISTORY GAME TSB
+void DELETEGAME(array *ListGame){
   LISTGAME(*ListGame); printf("\n");
   printf("Masukkan nomor game yang ingin dihapus : "); STARTWORD();
   int nmr = 0;
@@ -248,6 +253,8 @@ void DELETEGAME(array *ListGame){  //UBAH BATAS GAME DEFAULT //HAPUS SCOREBOARD 
   }
   if ((*ListGame).Neff>6 && nmr>6){
     if (nmr<=(*ListGame).Neff){
+      DeleteAtarrmap(&ScoreBoardGame,nmr-1);
+      deleteHistory(&HistoryGame,(*ListGame).A[nmr-1]);
       DeleteAt(ListGame, nmr-1);
       printf("Game berhasil dihapus!\n");
     }
@@ -297,11 +304,7 @@ F.S. memasukkan game ke-n yang diminta user (jika input valid)
 */
 
 /*prosedur playgame*/
-void PLAYGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame) {  //TAMBAHKAN GAME YG BARU DIBUAT
-                                   //MINTA NAMA PEMAIN DIAKHIR (NAMA GAK BOLEH SAMA WALAUPUN BEDA KAPITAL DOANG) 
-                                   //PUSH HISTORY PERMAINAN, INSERT SCORE PEMAIN
-                                   //TIAP GAME BIKIN PARAMETER OUTPUT SCORE
-  int score;
+void PLAYGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame) {  
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
@@ -310,10 +313,10 @@ void PLAYGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame) { 
     printf("Tidak ada game di dalam antrian untuk dimainkan, silahkan masukkkan game kedalam antrian terlebih dahulu!\n");
   }
   else /*kasus queue tidak kosong*/{
-    Word Game;
+    Word Game; int score;
     dequeue(QueueGame, &Game);
     int i = 0;
-    while (WordCompare(Game, ListGame.A[i])) {
+    while (!WordCompare(Game, ListGame.A[i])) {
       i++;
     }
     if (i>5) { /*kondisi kalau game yang dimainin itu game baru (diluar file config)*/
@@ -321,7 +324,7 @@ void PLAYGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame) { 
       WordToString(Game, stringGame);
       printf("Game %s sedang dimainkan!\n", stringGame); /*ceritanya game nya lagi main*/
       srand(time(NULL)); /*ceritanya lagi ngitung skor*/
-      int score = rand() % (100 - 1 +1) + 1;
+      score = rand() % (100 - 1 +1) + 1;
 
       /*Game over, print score, minta nama pemain*/
       printf("GAME OVER!\n");
@@ -332,21 +335,21 @@ void PLAYGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame) { 
     else { /*kondisi game nya udah ada di file config*/
       if (WordCompareString(Game, "RNG")) {
         printf("Loading...\n\n");
-        RNG(); /*KASI OUTPUT SCORE!*/
+        RNG(&score);
         EndGame(ScoreBoardGame, i, score);
         /*Push history game*/
         Push(HistoryGame, Game);
       }
       else if (WordCompareString(Game, "Diner DASH")) {
         printf("Loading...\n\n");
-        Diner_Dash(); /*KASI OUTPUT SCORE!*/
+        Diner_Dash(&score);
         EndGame(ScoreBoardGame, i, score);
         /*Push history game*/
         Push(HistoryGame, Game);        
       }
       else if (WordCompareString(Game, "HANGMAN")) {
         printf("Loading...\n\n");
-        Hangman(); /*KASI OUTPUT SCORE!*/
+        Hangman(&score);
         EndGame(ScoreBoardGame, i, score);
         /*Push history game*/
         Push(HistoryGame, Game);      
@@ -376,15 +379,14 @@ void PLAYGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame) { 
   }
 }
 
-/*fungsi penunjang PlayGame()*/
+/* Prosedur penunjang PlayGame() */
 void EndGame(arraymap *ScoreBoardGame, int Game, int score) {
   printf("SKOR AKHIR : %i\n", score);
-  label : printf("NAMA: "); STARTWORD(); printf("\n");
+  label : printf("MASUKKAN NAMA: "); STARTWORD(); printf("\n");
   boolean found = false; int j = 0;
   while (!found && j<ScoreBoardGame->A[Game].Count) {
-    if (WordCompare(currentWord, ScoreBoardGame->A[Game].Elements[j].Key)) {
+    if (WordCompareKapital(currentWord, ScoreBoardGame->A[Game].Elements[j].Key)) {
       found = true; /*kondisi kalau ketemu yang sama namanya*/
-      j++;
     }
     else {
       j++; /*kondisi kalau nama nya gaada yang sama*/
@@ -395,7 +397,7 @@ void EndGame(arraymap *ScoreBoardGame, int Game, int score) {
     goto label;
   }
   else { /*Nama yang di input tidak ada di ScoreBoard*/
-    Insertmap(ScoreBoardGame->A[Game].Elements, currentWord, score); 
+    Insertmap(&(*ScoreBoardGame).A[Game], currentWord, score); 
   }
 }
 
@@ -412,7 +414,7 @@ F.S. game dimainkan (memanggil game jika dia RNG/Dinner Dash)
 */
 
 /*prosedur skipGame*/
-void SKIPGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame,int ctr) {
+void SKIPGAME(Queue *QueueGame, int ctr) {
   printf("Berikut adalah daftar antrian game-mu: \n");
   for (int i = 0; i<=IDX_TAIL(*QueueGame); i++){
     printf("%i. ", i+1); PrintKata(QueueGame->buffer[i]); printf("\n");
@@ -420,7 +422,7 @@ void SKIPGAME(Queue *QueueGame, arraymap *ScoreBoardGame, Stack *HistoryGame,int
   if (ctr <= IDX_TAIL(*QueueGame) && ctr >= 0) {
     Word Game;
     for (int i=0; i<ctr;i++) {dequeue(QueueGame, &Game);}
-    PLAYGAME(QueueGame, ScoreBoardGame, HistoryGame);
+    PLAYGAME(QueueGame, &ScoreBoardGame, &HistoryGame);
   }
   else /*kasus kalau input salah*/ {
     CreateQueue(QueueGame);
@@ -440,28 +442,54 @@ F.S. game di skip, lalu dimainkan
 
 void SCOREBOARD(arraymap ScoreBoardGame, array ListGame){
   for(int i=0; i< ScoreBoardGame.Neff ; i++){
-    printf("**** SCOREBOARD GAME ") ; PrintKata(ListGame.A[i]); printf(" ****\n");
-    printf("|     Nama     |     Score     |\n");
-    printf("| ---------------------------- |\n");
+    printf("***** SCOREBOARD GAME ") ; PrintKata(ListGame.A[i]); printf(" *****\n");
+    printf("| Nama\t\t| Score\t\t|\n");
+    printf("| ----------------------------- |\n");
     for (int j = 0; j < ScoreBoardGame.A[i].Count; j++)
     {
-      printf("|     "); PrintKata(ScoreBoardGame.A[i].Elements[j].Key); printf("     |  %d  |\n", ScoreBoardGame.A[i].Elements[j].Value); 
+      printf("| "); PrintKata(ScoreBoardGame.A[i].Elements[j].Key); if(ScoreBoardGame.A[i].Elements[j].Key.Length<6){printf("\t");}
+      printf("\t| %d\t\t|\n", ScoreBoardGame.A[i].Elements[j].Value); 
     }
-    printf("| ---------------------------- |\n\n");
+    printf("| ----------------------------- |\n\n");
   }
 }
 /* Menampilkan ScoreBoard pemain ditiap game */
 
 
 void RESETSCOREBOARD(arraymap* ScoreBoardGame){
-  for(int i=0; i< ScoreBoardGame->Neff ; i++){
-    ScoreBoardGame->A[i].Count = 0;
+  printf("DAFTAR SCOREBOARD : \n");
+  printf("0.ALL\n");
+  for (int i = 0; i<ListGame.Neff; i++){
+    printf("%i. ", i+1); PrintKata(ListGame.A[i]); printf("\n");
   }
+  printf("\nMASUKKAN NOMOR SCOREBOARD YANG INGIN DIHAPUS: "); STARTWORD();
+  int nmr = 0;
+  for (int i = 0; i<currentWord.Length; i++){
+    nmr = (nmr * 10) + currentWord.TabWord[i] - '0';
+  }
+
+  if(nmr==0){
+    printf("\nAPAKAH KAMU YAKIN INGIN MELAKUKAN RESET SCOREBOARD ALL? (Y/N) "); STARTWORD();
+    if(WordCompareString(currentWord,"Y")){
+      for(int i = 0; i<(*ScoreBoardGame).Neff; i++){
+        CreateEmptymap(&(*ScoreBoardGame).A[i]);
+        printf("\nScoreboard berhasil di-reset.\n");
+      }
+    } else {printf("\nScoreboard gagal di-reset.\n");}
+  }
+  else if (nmr>0 && nmr<=ListGame.Neff) {
+    printf("\nAPAKAH KAMU YAKIN INGIN MELAKUKAN RESET SCOREBOARD "); PrintKata(ListGame.A[nmr-1]);
+    printf("? (Y/N) "); STARTWORD();
+    if(WordCompareString(currentWord,"Y")){
+      CreateEmptymap(&(*ScoreBoardGame).A[nmr-1]);
+      printf("\nScoreboard berhasil di-reset.\n");
+    } else {printf("\nScoreboard gagal di-reset.\n");}
+  } else {printf("\nANGKA YANG KAMU MASUKKAN TIDAK VALID!\n");}
 }
 /* ScoreBoard permainan direset sesuai keinginan player */
 
 void HISTORY(Stack HistoryGame, int n){
-  printf("Berikut adalah daftar Game yang telah dimainkan\n");
+  printf("\nBerikut adalah daftar Game yang telah dimainkan\n");
   Word simpan;
   if (n < Top(HistoryGame)+1) {
     for (int j = 0; j < n; j++) {
@@ -480,13 +508,14 @@ void HISTORY(Stack HistoryGame, int n){
 /* Menampilkan History permainan pemain */
 
 void RESETHISTORY(Stack* HistoryGame){
-  printf("APAKAH KAMU INGIN MELAKUKAN RESET HISTORY? [YA/TIDAK]\n");
+  printf("APAKAH KAMU INGIN MELAKUKAN RESET HISTORY? (Y/N)\n");
   STARTWORD();
-  if (WordCompareString(currentWord, "YA")) {
-    printf("History berhasil di-reset.\n");
+  if (WordCompareString(currentWord, "Y")) {
     CreateEmptystack(HistoryGame);
+    printf("History berhasil di-reset.\n");
   }
   else {
+    printf("History tidak jadi di-reset.\n");
     int T = Top(*HistoryGame)+1;
     HISTORY(*HistoryGame, T);
   }
@@ -511,19 +540,23 @@ void QUIT(){
 }
 /* Player keluar dari mesin BNMO */
 
-void HELP(){ //TAMBAHKAN INFORMASI FITUR BARU
+void HELP(){
   printf("FITUR-FITUR BNMO:\n");
-  printf("1. START \t-> merupakan menu awal untuk memulai BNMO dengan pilihan game default.\n");
-  printf("2. LOAD \t-> merupakan menu awal untuk membaca dan membuka file save yang berisikan history permainan dari player.\n");
-  printf("3. SAVE \t-> merupakan menu untuk menyimpan data setelah adanya perubahan dari player.\n");
-  printf("4. CREATE GAME \t-> merupakan menu untuk menambahkan game baru pada daftar game.\n");
-  printf("5. LIST GAME \t-> merupakan menu untuk menampilkan daftar game yang tersedia untuk player.\n");
-  printf("6. DELETE GAME \t-> merupakan menu untuk menghapus sebuah game dari daftar game, dengan syarat:\n");
-  printf("\t\t   game yang dihapus adalah game tambahan dan game yang terdapat pada queue saat itu tidak bisa dihapus.\n");
-  printf("7. QUEUE GAME \t-> merupakan menu untuk mendaftarkan game kedalam list queue game yang akan dimainkan oleh player.\n");
-  printf("8. PLAY GAME \t-> merupakan menu untuk memainkan game.\n");
-  printf("9. SKIP GAME \t-> merupakan menu untuk melewati game yang tidak ingin dimainkan, sebanyak yang diinginkan.\n");
-  printf("10. QUIT \t-> merupakan menu untuk keluar dari BNMO.\n");
+  printf("1.  START             -> merupakan menu awal untuk memulai BNMO dengan pilihan game default.\n");
+  printf("2.  LOAD              -> merupakan menu awal untuk membaca dan membuka file save yang berisikan history permainan dari player.\n");
+  printf("3.  SAVE              -> merupakan menu untuk menyimpan data setelah adanya perubahan dari player.\n");
+  printf("4.  CREATE GAME       -> merupakan menu untuk menambahkan game baru pada daftar game.\n");
+  printf("5.  LIST GAME         -> merupakan menu untuk menampilkan daftar game yang tersedia untuk player.\n");
+  printf("6.  DELETE GAME       -> merupakan menu untuk menghapus sebuah game dari daftar game, dengan syarat:\n");
+  printf("                         game yang dihapus adalah game tambahan dan game yang terdapat pada queue saat itu tidak bisa dihapus.\n");
+  printf("7.  QUEUE GAME        -> merupakan menu untuk mendaftarkan game kedalam list queue game yang akan dimainkan oleh player.\n");
+  printf("8.  PLAY GAME         -> merupakan menu untuk memainkan game.\n");
+  printf("9.  SKIP GAME         -> merupakan menu untuk melewati game yang tidak ingin dimainkan, sebanyak yang diinginkan.\n");
+  printf("10. HISTORY           -> merupakan menu untuk melihat game apa saja yang sudah dimainkan oleh player.\n");
+  printf("11. RESET HISTORY     -> merupakan menu untuk mengosongkan history game yang dimainkan player.\n");
+  printf("12. SCOREBOARD        -> merupakan menu untuk melihat nama dan score player untuks semua game.\n");
+  printf("13. RESET SCOREBOARD  -> merupakan menu untuk menghapus catatan score sebuah game sesuai input player.\n");
+  printf("14. QUIT              -> merupakan menu untuk keluar dari BNMO.\n");
 }
 /* Menampilkan menu fitur-fitur yang dimiliki oleh mesin BNMO serta penjelasannya */
 

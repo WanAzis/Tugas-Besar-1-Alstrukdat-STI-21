@@ -4,7 +4,7 @@
 #include "time.h"
 #include "../../ADT/mesinkata/mesin_kata.h"
 
-void RNG();
+void RNG(int* score);
 /* Game random number generator */
 /* Cara kerja dari game ini adalah player harus menebak
    sebuah angka acak X yang sudah disiapkan oleh sistem.
